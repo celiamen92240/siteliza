@@ -1,0 +1,17 @@
+{
+  "name": "Bébé d'Amour 💖 Liza & Clément",
+  "short_name": "Bébé Liza",
+  "description": "Suivi de grossesse et jeux en famille pour la petite fille de Liza et Clément",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff5f7",
+  "theme_color": "#fff5f7",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192 512x512 1024x1024",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

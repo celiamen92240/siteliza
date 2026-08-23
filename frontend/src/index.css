@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Fraunces', 'DM Serif Display', 'Playfair Display', serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom Glassmorphism & Glow styles - Raspberry, Lilac, Blueberry Milk & Lemon Cream */
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(242, 97, 156, 0.15);
+}
+
+.glass-card-pink {
+  background: linear-gradient(135deg, rgba(253, 242, 247, 0.94) 0%, rgba(249, 240, 253, 0.88) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(242, 97, 156, 0.35);
+}
+
+.glass-card-lilac {
+  background: linear-gradient(135deg, rgba(252, 248, 254, 0.95) 0%, rgba(231, 190, 248, 0.35) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(231, 190, 248, 0.6);
+}
+
+.glass-card-blueberry {
+  background: linear-gradient(135deg, rgba(244, 246, 251, 0.95) 0%, rgba(147, 171, 217, 0.3) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(147, 171, 217, 0.5);
+}
+
+.glass-card-lemon {
+  background: linear-gradient(135deg, rgba(255, 253, 240, 0.95) 0%, rgba(255, 224, 102, 0.35) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 224, 102, 0.6);
+}
+
+.glass-card-gold {
+  background: linear-gradient(135deg, rgba(253, 254, 245, 0.95) 0%, rgba(237, 233, 134, 0.35) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(237, 233, 134, 0.6);
+}
+
+.glow-pink {
+  box-shadow: 0 10px 30px -5px rgba(242, 97, 156, 0.35);
+}
+
+.glow-lilac {
+  box-shadow: 0 10px 30px -5px rgba(231, 190, 248, 0.4);
+}
+
+.glow-blueberry {
+  box-shadow: 0 10px 30px -5px rgba(147, 171, 217, 0.35);
+}
+
+.glow-lemon {
+  box-shadow: 0 10px 30px -5px rgba(237, 233, 134, 0.4);
+}
+
+.glow-subtle {
+  box-shadow: 0 8px 24px -4px rgba(242, 97, 156, 0.15);
+}
+
+/* Hide scrollbar for tabs / carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile Frame Container Styling */
+.mobile-app-shell {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: #fff9fc;
+  box-shadow: 0 25px 60px -15px rgba(242, 97, 156, 0.2), 0 0 0 1px rgba(231, 190, 248, 0.4);
+}
+
+@media (min-width: 768px) {
+  .mobile-app-shell {
+    min-height: 92vh;
+    margin: 4vh auto;
+    border-radius: 44px;
+    overflow: hidden;
+    border: 10px solid #2d2427;
+    box-shadow: 0 30px 90px rgba(190, 18, 60, 0.25), 0 0 0 2px rgba(255, 255, 255, 0.8);
+  }
+}
