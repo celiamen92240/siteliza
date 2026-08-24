@@ -134,909 +134,1816 @@
   "quizVotes": [
     {
       "questionId": 1,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 2,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 3,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 4,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 5,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 6,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 7,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 8,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 9,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 10,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 11,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 12,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 13,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 14,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 15,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 16,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 17,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 18,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 19,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 20,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 21,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 22,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 23,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 24,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 25,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 26,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 27,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 28,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 29,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 30,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 31,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 32,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 33,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 34,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 35,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 36,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 37,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 38,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 39,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 40,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 41,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 42,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 43,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 44,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 45,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 46,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 47,
+      "voter": "Célia",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 48,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 49,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 50,
+      "voter": "Célia",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 1,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 2,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 3,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 4,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 5,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 6,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 7,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 8,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 9,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 10,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 11,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 12,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 13,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 14,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 15,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 16,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 17,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 18,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 19,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 20,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 21,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 22,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 23,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 24,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 25,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 26,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 27,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 28,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 29,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 30,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 31,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 32,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 33,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 34,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 35,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 36,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 37,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 38,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 39,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 40,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 41,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 42,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 43,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 44,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 45,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 46,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 47,
+      "voter": "Maman",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 48,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 49,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 50,
+      "voter": "Maman",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 1,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 2,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 3,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 4,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 5,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 6,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 7,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 8,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 9,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 10,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 11,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 12,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 13,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 14,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 15,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 16,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 17,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 18,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 19,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 20,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 21,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 22,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 23,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 24,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 25,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 26,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 27,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 28,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 29,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 30,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 31,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 32,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 33,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 34,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 35,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 36,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 37,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 38,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 39,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 40,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 41,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 42,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 43,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 44,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 45,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 46,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 47,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 48,
+      "voter": "Matthieu",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 49,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 50,
+      "voter": "Matthieu",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 1,
+      "voter": "Liza",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 2,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:44:00.628Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 3,
       "voter": "Liza",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 4,
+      "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:05.578Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 5,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:11.940Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 6,
+      "voter": "Liza",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 7,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:19.221Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 8,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:44:23.873Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 9,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:44:32.550Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 10,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:40.523Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 11,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:47.952Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 12,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:44:55.915Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 13,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:00.347Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 14,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:04.156Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 15,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:09.094Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 16,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:12.353Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 17,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:17.980Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 18,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:22.036Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 19,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:26.860Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 20,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:30.817Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 21,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:34.312Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 22,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:40.849Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 23,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:44.986Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 24,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:45:48.436Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 25,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:51.484Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 26,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:54.984Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 27,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:45:59.641Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 28,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:46:02.432Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 29,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:15.640Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 30,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:46:24.829Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 31,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:27.638Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 32,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:46:36.139Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 33,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:38.936Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 34,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:44.956Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 35,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:48.791Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 36,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:46:58.870Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 37,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:47:04.240Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 38,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:08.070Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 39,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:47:12.323Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 40,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:47:17.472Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 41,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:20.620Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 42,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:24.697Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 43,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:29.497Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 44,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:34.141Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 45,
       "voter": "Liza",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:41.617Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 46,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:47:45.894Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 47,
       "voter": "Liza",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:47:56.718Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 48,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:01.416Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 49,
       "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:05.784Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 50,
       "voter": "Liza",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:08.618Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 1,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:48:37.863Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 2,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:43.903Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 3,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:49.889Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 4,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:48:53.378Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 5,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:00.096Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 6,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:49:04.109Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 7,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:49:08.767Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 8,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:13.430Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 9,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:49:26.613Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 10,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:32.902Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 11,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:37.828Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 12,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:40.019Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 13,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:49:45.329Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 14,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:49.748Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 15,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:49:53.596Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 16,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:03.908Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 17,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:10.313Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 18,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:50:14.115Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 19,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:50:20.573Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 20,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:27.433Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 21,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:30.488Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 22,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:33.615Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 23,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:36.485Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 24,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:50:42.699Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 25,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:48.817Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 26,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:50:52.506Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 27,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:50:57.009Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 28,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:50:59.354Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 29,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:04.252Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 30,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:51:09.791Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 31,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:12.932Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 32,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:18.119Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 33,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:22.299Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 34,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:25.921Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 35,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:51:31.365Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 36,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:35.050Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 37,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:38.767Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 38,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:43.462Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 39,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:48.048Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 40,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:51:57.933Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 41,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:52:02.242Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 42,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:52:07.020Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 43,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:12.991Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 44,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:16.886Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 45,
       "voter": "Léa",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:52:20.422Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 46,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:27.783Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 47,
       "voter": "Léa",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:52:35.406Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 48,
       "voter": "Léa",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:37.869Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 49,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:46.477Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 50,
       "voter": "Léa",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:52:49.836Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 1,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:56:18.482Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 2,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:56:24.585Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 3,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:56:37.437Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 4,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:56:42.884Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 5,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:56:53.166Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 6,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:56:59.352Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 7,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:57:04.737Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 8,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:57:14.242Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 9,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:57:18.707Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 10,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:58:08.702Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
+    },
+    {
+      "questionId": 11,
+      "voter": "Clément",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 12,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:58:24.733Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 13,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:58:30.669Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 14,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:58:34.852Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 15,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:58:41.914Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 16,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:58:46.839Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 17,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:58:54.479Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 18,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:58:59.633Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 19,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:59:08.681Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 20,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:59:21.377Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 21,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T20:59:28.711Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 22,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:59:33.204Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 23,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T20:59:40.340Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 24,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T20:59:46.101Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 25,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T20:59:54.961Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 26,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T21:00:00.061Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 27,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:09.822Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 28,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:14.979Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 29,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T21:00:23.014Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 30,
       "voter": "Clément",
       "choice": "Liza",
-      "timestamp": "2026-08-23T21:00:32.137Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 31,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:37.782Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 32,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:42.861Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 33,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:47.099Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 34,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:00:54.556Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 35,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:01:03.038Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 36,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:01:06.801Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 37,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:01:11.145Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 38,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:01:25.403Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 39,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:01:47.845Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 40,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:01:52.356Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 41,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:01:55.721Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 42,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:01.032Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 43,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:13.572Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 44,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:21.237Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 45,
       "voter": "Clément",
       "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:25.376Z"
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 46,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:33.696Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 47,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-23T21:02:41.211Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 48,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:02:53.977Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 49,
       "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-23T21:02:59.051Z"
-    },
-    {
-      "questionId": 2,
-      "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-24T20:00:00.000Z"
-    },
-    {
-      "questionId": 4,
-      "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-24T20:00:00.000Z"
-    },
-    {
-      "questionId": 6,
-      "voter": "Liza",
-      "choice": "Liza",
-      "timestamp": "2026-08-24T20:00:00.000Z"
-    },
-    {
-      "questionId": 11,
-      "voter": "Clément",
-      "choice": "Liza",
-      "timestamp": "2026-08-24T20:00:00.000Z"
+      "choice": "Clément",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     },
     {
       "questionId": 50,
       "voter": "Clément",
-      "choice": "Clément",
-      "timestamp": "2026-08-24T20:00:00.000Z"
+      "choice": "Liza",
+      "timestamp": "2026-08-24T18:00:00.000Z"
     }
   ],
   "quizCompletedVoters": [
     "liza",
     "léa",
-    "clément"
+    "lea",
+    "clément",
+    "clement",
+    "célia",
+    "celia",
+    "maman",
+    "matthieu",
+    "mathieu"
   ],
   "polls": [],
   "purchasesCategories": [],
