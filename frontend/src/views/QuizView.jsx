@@ -488,50 +488,6 @@ export default function QuizView() {
             </div>
           </div>
         ))}
-
-        {/* Votes détaillés par proche */}
-        {summary?.votersStats && summary.votersStats.length > 0 && (
-          <div className="bg-white rounded-3xl p-5 shadow-sm border border-rose-100 space-y-3">
-            <div className="flex items-center justify-between">
-              <h4 className="font-serif text-xs font-black text-slate-800 flex items-center gap-1.5">
-                <Users className="w-3.5 h-3.5 text-blush-500" />
-                <span>Votes enregistrés des proches ({summary.votersStats.length})</span>
-              </h4>
-            </div>
-
-            <div className="space-y-2.5">
-              {summary.votersStats.map((vs, idx) => {
-                const pObj = participants.find(p => p.name?.toLowerCase() === vs.name?.toLowerCase());
-                return (
-                  <div key={vs.name || idx} className="p-3 rounded-2xl bg-rose-50/40 border border-rose-100 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      {pObj?.photo ? (
-                        <img src={pObj.photo} alt={vs.name} className="w-8 h-8 rounded-full object-cover border-2 border-rose-300 shadow-2xs flex-shrink-0" />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-white border border-rose-200 flex items-center justify-center text-sm shadow-2xs flex-shrink-0">
-                          {pObj?.avatar || '🌸'}
-                        </div>
-                      )}
-                      <div className="min-w-0">
-                        <div className="font-bold text-xs text-slate-800 truncate">{vs.name}</div>
-                        <div className="text-[10px] text-slate-400 font-medium">{vs.totalVotes} questions votées</div>
-                      </div>
-                    </div>
-
-                    <div className="text-right flex-shrink-0">
-                      <div className="text-xs font-black text-blush-700">
-                        {vs.lizaPercent}% Liza <span className="text-slate-300">/</span> <span className="text-blueberry-700">{vs.clementPercent}% Clément</span>
-                      </div>
-                      <div className="text-[10px] font-bold text-slate-500">
-                        {vs.tendency}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Modal Nouveau Joueur */}
