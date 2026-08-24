@@ -256,7 +256,7 @@ export default function QuizView() {
 
           <div className="space-y-1.5 max-w-md mx-auto">
             <h3 className="text-base font-black text-slate-800">
-              Prêt(e) à voter pour ce duel ?
+              Prêt(e) à voter pour ce quiz ?
             </h3>
             <p className="text-xs text-slate-500 font-medium">
               Sélectionne ton profil ci-dessous pour enregistrer tes choix

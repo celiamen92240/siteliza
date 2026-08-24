@@ -299,17 +299,6 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
             </div>
           )}
         </div>
-
-        {/* Action Button "+ Nouveau" at the right end */}
-        <button
-          type="button"
-          onClick={() => setShowAddModal(true)}
-          className="bg-gradient-to-r from-blush-500 to-rose-500 hover:from-blush-600 hover:to-rose-600 text-white text-xs font-bold px-3 py-2 rounded-2xl flex items-center gap-1.5 shadow-2xs hover:shadow-sm active:scale-95 transition-all cursor-pointer flex-shrink-0 h-[44px]"
-          title="Ajouter un nouveau participant"
-        >
-          <UserPlus className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Nouveau</span>
-        </button>
       </div>
 
       {/* MODAL DE CRÉATION DE JOUEUR AVEC PHOTO */}
