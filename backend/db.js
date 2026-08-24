@@ -1435,9 +1435,10 @@ export const db = {
     // Global evolving leaderboard (sum of all daily points!)
     const playerMap = {};
     list.forEach(score => {
-      const p = score.playerName;
-      if (!playerMap[p]) {
-        playerMap[p] = {
+      const p = (score.playerName || 'Un proche').trim();
+      const normKey = p.toLowerCase();
+      if (!playerMap[normKey]) {
+        playerMap[normKey] = {
           playerName: p,
           totalPoints: 0,
           daysPlayed: 0,
@@ -1446,14 +1447,14 @@ export const db = {
           lastPlayedDate: score.date
         };
       }
-      playerMap[p].totalPoints += (score.points || 0);
-      playerMap[p].daysPlayed += 1;
-      if (score.timeSeconds < playerMap[p].bestTimeSeconds) {
-        playerMap[p].bestTimeSeconds = score.timeSeconds;
-        playerMap[p].bestTimeFormatted = score.timeFormatted;
+      playerMap[normKey].totalPoints += (score.points || 0);
+      playerMap[normKey].daysPlayed += 1;
+      if (score.timeSeconds < playerMap[normKey].bestTimeSeconds) {
+        playerMap[normKey].bestTimeSeconds = score.timeSeconds;
+        playerMap[normKey].bestTimeFormatted = score.timeFormatted;
       }
-      if (new Date(score.date) > new Date(playerMap[p].lastPlayedDate)) {
-        playerMap[p].lastPlayedDate = score.date;
+      if (new Date(score.date) > new Date(playerMap[normKey].lastPlayedDate)) {
+        playerMap[normKey].lastPlayedDate = score.date;
       }
     });
 
