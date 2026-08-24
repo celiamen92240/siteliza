@@ -303,27 +303,19 @@ export default function DailyGameView() {
                       </span>
                     </div>
 
-                    {/* Word Character Inputs */}
-                    <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                      {Array.from({ length: item.length }).map((_, charIdx) => {
-                        const char = currentVal[charIdx] || '';
-                        return (
-                          <input
-                            key={charIdx}
-                            type="text"
-                            maxLength={1}
-                            value={char}
-                            onChange={(e) => handleCharChange(item.id, charIdx, e.target.value, item.length)}
-                            onKeyDown={(e) => handleKeyDown(item.id, charIdx, e)}
-                            id={`cell-${item.id}-${charIdx}`}
-                            className={`w-8 h-9 text-center font-mono text-sm font-black uppercase rounded-lg border-2 transition-all outline-none ${
-                              char
-                                ? 'bg-white border-blush-500 text-blush-700 shadow-xs'
-                                : 'bg-white/80 border-slate-200 text-slate-800 focus:border-blush-400 focus:bg-white'
-                            }`}
-                          />
-                        );
-                      })}
+                    {/* Single Word Input Rectangle */}
+                    <div className="pt-1">
+                      <input
+                        type="text"
+                        placeholder={`Tapez votre mot (${item.length} lettres)...`}
+                        value={currentVal}
+                        onChange={(e) => handleWordInputChange(item.id, e.target.value)}
+                        className={`w-full px-3.5 py-2.5 rounded-xl border-2 font-black uppercase text-xs tracking-wider transition-all outline-none ${
+                          currentVal
+                            ? 'bg-white border-blush-500 text-blush-700 shadow-xs'
+                            : 'bg-white border-rose-200 text-slate-800 placeholder:text-slate-400 placeholder:normal-case placeholder:font-normal focus:border-blush-500 focus:bg-white'
+                        }`}
+                      />
                     </div>
                   </div>
                 );
