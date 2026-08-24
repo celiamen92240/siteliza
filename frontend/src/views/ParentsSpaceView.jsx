@@ -12,10 +12,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
   // Purchases State
   const [purchases, setPurchases] = useState([]);
   const [purchasesCategories, setPurchasesCategories] = useState([]);
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
+  const [inlinePurchases, setInlinePurchases] = useState({});
   const [purchasesStats, setPurchasesStats] = useState({ total: 0, checkedCount: 0, percent: 0 });
-  const [newPurchaseName, setNewPurchaseName] = useState('');
-  const [newPurchaseCategory, setNewPurchaseCategory] = useState('Indispensables 🌟');
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
 
@@ -194,16 +192,17 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
     }
   };
 
-  const addPurchaseItem = async (e) => {
+  const handleInlineAddPurchase = async (e, categoryName) => {
     e.preventDefault();
-    if (!newPurchaseName.trim()) return;
+    const text = (inlinePurchases[categoryName] || '').trim();
+    if (!text) return;
     try {
       const res = await fetch('/api/checklists/purchases', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: newPurchaseName.trim(),
-          category: newPurchaseCategory,
+          name: text,
+          category: categoryName,
           secretCode: currentPin
         })
       });
@@ -211,7 +210,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
       if (data.success) {
         setPurchases(data.items || []);
         setPurchasesStats(data.stats || purchasesStats);
-        setNewPurchaseName('');
+        setInlinePurchases(prev => ({ ...prev, [categoryName]: '' }));
       }
     } catch (err) {
       console.error(err);
@@ -230,7 +229,6 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
       const data = await res.json();
       if (data.success) {
         setPurchasesCategories(data.categories || []);
-        setNewPurchaseCategory(newCategoryName.trim());
         setNewCategoryName('');
         setShowAddCategoryModal(false);
       }
@@ -248,7 +246,6 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
       const data = await res.json();
       if (data.success) {
         setPurchasesCategories(data.categories || []);
-        if (selectedCategoryFilter === catName) setSelectedCategoryFilter('all');
       }
     } catch (err) {
       console.error(err);
@@ -535,191 +532,155 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
         </div>
       </div>
 
-      {/* SUB-TAB 1: LISTE DES ACHATS AVEC CATÉGORIES DYNAMIQUES */}
-      {activeSubTab === 'purchases' && (
-        <div className="space-y-4">
-          <div className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-[10px] font-extrabold uppercase text-slate-400">Progression des Achats</span>
-                <h3 className="font-serif text-lg font-bold text-slate-800">
-                  {purchasesStats.checkedCount} sur {purchasesStats.total} articles prêts
-                </h3>
+      {/* SUB-TAB 1: LISTE DES ACHATS AVEC JAUGE GLOBALE ET CATÉGORIES EMPILÉES */}
+      {activeSubTab === 'purchases' && (() => {
+        const totalItems = purchases.length;
+        const totalChecked = purchases.filter(i => i.checked).length;
+        const percent = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0;
+
+        return (
+          <div className="space-y-4">
+            {/* Jauge globale de progression en haut */}
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Progression des Achats</span>
+                  <h3 className="font-serif text-base font-bold text-slate-800">
+                    {totalChecked} sur {totalItems} articles achetés
+                  </h3>
+                </div>
+                <span className="text-base font-black text-blush-600 bg-rose-50 px-3 py-1 rounded-2xl border border-blush-200">
+                  {percent}%
+                </span>
               </div>
-              <span className="text-xl font-black text-blush-600 bg-rose-50 px-3 py-1 rounded-2xl border border-blush-200">
-                {purchasesStats.percent}%
-              </span>
+
+              <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 shadow-inner">
+                <div
+                  className="h-full bg-gradient-to-r from-blush-400 via-rose-500 to-purple-500 rounded-full transition-all duration-500"
+                  style={{ width: `${percent}%` }}
+                />
+              </div>
             </div>
 
-            <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 shadow-inner">
-              <div
-                className="h-full bg-gradient-to-r from-blush-400 via-rose-500 to-purple-500 rounded-full transition-all duration-500"
-                style={{ width: `${purchasesStats.percent}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Categories Filter Bar & Add Category Button */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-black text-slate-700">
-                Filtrer par Catégorie :
-              </span>
+            {/* Bouton Nouvelle Catégorie */}
+            <div className="flex justify-end px-1">
               <button
                 type="button"
                 onClick={() => setShowAddCategoryModal(true)}
-                className="text-[11px] font-bold text-blush-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-xl border border-rose-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
+                className="text-xs font-bold text-blush-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-2xl border border-rose-200 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
               >
-                <Plus className="w-3 h-3 stroke-[3px]" />
-                <span>+ Nouvelle Catégorie</span>
+                <Plus className="w-3.5 h-3.5 stroke-[3px]" />
+                <span>+ Nouvelle catégorie</span>
               </button>
             </div>
 
-            {/* Horizontal Category Chips */}
-            <div className="flex gap-1.5 overflow-x-auto pb-1.5 pt-0.5">
-              <button
-                type="button"
-                onClick={() => setSelectedCategoryFilter('all')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex-shrink-0 cursor-pointer ${
-                  selectedCategoryFilter === 'all'
-                    ? 'bg-blush-500 text-white shadow-xs font-extrabold'
-                    : 'bg-white text-slate-600 border border-rose-100 hover:bg-rose-50'
-                }`}
-              >
-                Tous ({purchases.length})
-              </button>
-
-              {purchasesCategories.map((cat) => {
-                const count = purchases.filter(p => p.category === cat).length;
-                const isSelected = selectedCategoryFilter === cat;
-
-                return (
-                  <div
-                    key={cat}
-                    className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-xs font-bold flex-shrink-0 transition-all ${
-                      isSelected
-                        ? 'bg-blush-500 text-white border-blush-600 shadow-xs font-extrabold'
-                        : 'bg-white text-slate-700 border-rose-100 hover:bg-rose-50'
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setSelectedCategoryFilter(cat)}
-                      className="cursor-pointer"
-                    >
-                      {cat} ({count})
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteCategory(cat)}
-                      className={`p-0.5 rounded-full hover:bg-black/10 transition-colors ${
-                        isSelected ? 'text-white/80 hover:text-white' : 'text-slate-300 hover:text-red-500'
-                      }`}
-                      title="Supprimer cette catégorie"
-                    >
-                      ✕
-                    </button>
+            {/* Modal d'ajout de catégorie */}
+            {showAddCategoryModal && (
+              <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-2xs flex items-center justify-center p-4">
+                <form onSubmit={handleAddCategory} className="bg-white rounded-3xl p-5 shadow-2xl border-2 border-blush-300 max-w-xs w-full space-y-3 animate-in zoom-in-95">
+                  <div className="flex justify-between items-center border-b border-rose-100 pb-2">
+                    <h4 className="font-serif text-sm font-bold text-slate-800">Ajouter une Catégorie</h4>
+                    <button type="button" onClick={() => setShowAddCategoryModal(false)} className="text-slate-400 cursor-pointer">✕</button>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Add Category Modal */}
-          {showAddCategoryModal && (
-            <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-2xs flex items-center justify-center p-4">
-              <form onSubmit={handleAddCategory} className="bg-white rounded-3xl p-5 shadow-2xl border-2 border-blush-300 max-w-xs w-full space-y-3 animate-in zoom-in-95">
-                <div className="flex justify-between items-center border-b border-rose-100 pb-2">
-                  <h4 className="font-serif text-sm font-bold text-slate-800">Ajouter une Catégorie</h4>
-                  <button type="button" onClick={() => setShowAddCategoryModal(false)} className="text-slate-400">✕</button>
-                </div>
-                <input
-                  type="text"
-                  required
-                  autoFocus
-                  placeholder="Ex: Décoration 🎨, Jouets 🧸..."
-                  value={newCategoryName}
-                  onChange={e => setNewCategoryName(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-rose-200 text-xs bg-rose-50/20 font-bold"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-2.5 rounded-xl text-xs shadow transition-colors cursor-pointer"
-                >
-                  Créer la catégorie ✨
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* Add Purchase Item Form */}
-          <form onSubmit={addPurchaseItem} className="bg-white rounded-2xl p-3 shadow-2xs border border-rose-100 flex gap-2">
-            <input
-              type="text"
-              required
-              value={newPurchaseName}
-              onChange={e => setNewPurchaseName(e.target.value)}
-              placeholder="Ajouter un article..."
-              className="flex-1 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
-            />
-            <select
-              value={newPurchaseCategory}
-              onChange={e => setNewPurchaseCategory(e.target.value)}
-              className="text-[11px] font-bold px-2 py-2 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-700 max-w-[130px]"
-            >
-              {purchasesCategories.map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-            <button
-              type="submit"
-              className="bg-blush-500 hover:bg-blush-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow flex items-center gap-1 flex-shrink-0 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Ajouter</span>
-            </button>
-          </form>
-
-          {/* Filtered Purchases List */}
-          <div className="space-y-2">
-            {purchases
-              .filter(item => selectedCategoryFilter === 'all' || item.category === selectedCategoryFilter)
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white p-3 rounded-2xl border border-rose-100 flex items-center justify-between shadow-2xs"
-                >
+                  <input
+                    type="text"
+                    required
+                    autoFocus
+                    placeholder="Ex: Chambre 🛏️, Soins 🛁, Déco 🎨..."
+                    value={newCategoryName}
+                    onChange={e => setNewCategoryName(e.target.value)}
+                    className="w-full box-border px-3 py-2.5 rounded-xl border border-rose-200 text-xs bg-rose-50/20 font-bold focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  />
                   <button
-                    type="button"
-                    onClick={() => togglePurchase(item.id)}
-                    className="flex items-center gap-2.5 text-left flex-1 cursor-pointer"
+                    type="submit"
+                    className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-2.5 rounded-xl text-xs shadow transition-colors cursor-pointer"
                   >
-                    <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                      item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
-                    }`}>
-                      {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
+                    Créer la catégorie ✨
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Sections des Catégories empilées */}
+            {purchasesCategories.map(cat => {
+              const catItems = purchases.filter(i => i.category === cat);
+              const catChecked = catItems.filter(i => i.checked).length;
+
+              return (
+                <div key={cat} className="bg-white rounded-3xl p-4 shadow-sm border border-blush-200 space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-blush-600">
+                        <ShoppingBag className="w-4 h-4" />
+                      </div>
+                      <h4 className="font-serif text-sm font-black text-slate-800">{cat}</h4>
                     </div>
-                    <span className={`text-xs ${item.checked ? 'line-through text-slate-400 font-medium' : 'text-slate-800 font-bold'}`}>
-                      {item.name}
-                    </span>
-                  </button>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold text-blush-800 bg-rose-50 px-2 py-0.5 rounded-full border border-blush-200">
+                        {catChecked}/{catItems.length} achetés
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCategory(cat)}
+                        className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                        title="Supprimer cette catégorie"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
 
-                  <span className="text-[9px] bg-rose-50 text-blush-700 font-bold px-2 py-0.5 rounded-full border border-rose-100 mr-2 max-w-[100px] truncate">
-                    {item.category}
-                  </span>
+                  <div className="space-y-1.5">
+                    {catItems.length === 0 ? (
+                      <p className="text-xs text-slate-400 text-center py-2">Aucun article dans cette catégorie pour le moment.</p>
+                    ) : (
+                      catItems.map(item => (
+                        <div key={item.id} className="p-2.5 rounded-2xl border border-rose-100 flex items-center justify-between hover:bg-rose-50/40">
+                          <button
+                            type="button"
+                            onClick={() => togglePurchase(item.id)}
+                            className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
+                          >
+                            <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
+                              item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
+                            }`}>
+                              {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
+                            </div>
+                            <span className={item.checked ? 'line-through text-slate-400 font-medium' : 'text-slate-800 font-bold'}>
+                              {item.name}
+                            </span>
+                          </button>
+                          <button type="button" onClick={() => deletePurchaseItem(item.id)} className="text-slate-300 hover:text-red-500 p-1 cursor-pointer">
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => deletePurchaseItem(item.id)}
-                    className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  {/* Inline Quick Add pour cette catégorie */}
+                  <form onSubmit={(e) => handleInlineAddPurchase(e, cat)} className="flex items-center gap-2 pt-1">
+                    <input
+                      type="text"
+                      placeholder={`Ajouter un article dans ${cat}...`}
+                      value={inlinePurchases[cat] || ''}
+                      onChange={e => setInlinePurchases({ ...inlinePurchases, [cat]: e.target.value })}
+                      className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                    />
+                    <button
+                      type="submit"
+                      className="w-8 h-8 rounded-xl bg-blush-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                      title="Ajouter"
+                    >
+                      <Plus className="w-4 h-4 stroke-[3px]" />
+                    </button>
+                  </form>
                 </div>
-              ))}
+              );
+            })}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* SUB-TAB 2: VALISE DE MATERNITÉ (AVEC JAUGE GLOBALE ET 3 SECTIONS ÉPURÉES) */}
       {activeSubTab === 'maternity' && (() => {
@@ -941,30 +902,41 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
         );
       })()}
 
-      {/* SUB-TAB 3: CALENDRIER DES RENDEZ-VOUS */}
-      {activeSubTab === 'appointments' && (
-        <div className="space-y-4">
-          <form onSubmit={addRdvItem} className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-3">
-            <h3 className="font-serif text-sm font-bold text-slate-800 flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-blush-500" />
-              <span>Ajouter un Rendez-Vous</span>
-            </h3>
+      {/* SUB-TAB 3: CALENDRIER DES RENDEZ-VOUS (PROCHAIN RDV, AUTRES RDV & HISTORIQUE) */}
+      {activeSubTab === 'appointments' && (() => {
+        const sortedRdvs = [...appointments].sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
+        const todayStr = new Date().toISOString().split('T')[0];
 
-            <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                Titre du rendez-vous *
-              </label>
-              <input
-                type="text"
-                required
-                value={newRdvTitle}
-                onChange={e => setNewRdvTitle(e.target.value)}
-                placeholder="Ex: Échographie T3, Consultation 8ème mois..."
-                className="w-full box-border min-w-0 text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
-              />
-            </div>
+        const uncompletedRdvs = sortedRdvs.filter(r => !r.completed);
+        const completedRdvs = sortedRdvs.filter(r => r.completed);
 
-            <div className="space-y-2">
+        // Prochain RDV = premier non terminé à venir
+        const nextRdv = uncompletedRdvs.find(r => r.date >= todayStr) || uncompletedRdvs[0] || null;
+        const otherUpcomingRdvs = uncompletedRdvs.filter(r => r.id !== nextRdv?.id);
+
+        return (
+          <div className="space-y-4">
+            {/* Formulaire d'Ajout d'un Rendez-Vous */}
+            <form onSubmit={addRdvItem} className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-3">
+              <h3 className="font-serif text-sm font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                <Calendar className="w-4 h-4 text-blush-500" />
+                <span>Ajouter un Rendez-Vous</span>
+              </h3>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                  Titre du rendez-vous *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newRdvTitle}
+                  onChange={e => setNewRdvTitle(e.target.value)}
+                  placeholder="Ex: Échographie T3, Consultation 8ème mois..."
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                />
+              </div>
+
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Date *</label>
                 <input
@@ -972,126 +944,230 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   required
                   value={newRdvDate}
                   onChange={e => setNewRdvDate(e.target.value)}
-                  className="w-full box-border min-w-0 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
                 />
               </div>
+
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Heure</label>
                 <input
                   type="time"
                   value={newRdvTime}
                   onChange={e => setNewRdvTime(e.target.value)}
-                  className="w-full box-border min-w-0 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">Lieu / Médecin</label>
-              <input
-                type="text"
-                value={newRdvLocation}
-                onChange={e => setNewRdvLocation(e.target.value)}
-                placeholder="Ex: Maternité, Cabinet Sage-femme..."
-                className="w-full box-border min-w-0 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
-              />
-            </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Lieu / Médecin</label>
+                <input
+                  type="text"
+                  value={newRdvLocation}
+                  onChange={e => setNewRdvLocation(e.target.value)}
+                  placeholder="Ex: Maternité, Cabinet Sage-femme..."
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                />
+              </div>
 
-            <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">Notes / Rappels</label>
-              <input
-                type="text"
-                value={newRdvNotes}
-                onChange={e => setNewRdvNotes(e.target.value)}
-                placeholder="Ex: Apporter les bilans sanguins..."
-                className="w-full box-border min-w-0 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
-              />
-            </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Notes / Rappels</label>
+                <input
+                  type="text"
+                  value={newRdvNotes}
+                  onChange={e => setNewRdvNotes(e.target.value)}
+                  placeholder="Ex: Apporter les bilans sanguins..."
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-2.5 rounded-xl shadow text-xs transition-colors cursor-pointer"
-            >
-              Enregistrer dans le calendrier
-            </button>
-          </form>
-
-          <div className="space-y-3">
-            <h4 className="font-serif text-sm font-bold text-slate-800 flex items-center justify-between">
-              <span>Calendrier des Rendez-Vous</span>
-              <span className="text-[10px] font-semibold text-slate-400">{appointments.length} dates</span>
-            </h4>
-
-            {appointments.map((rdv) => (
-              <div
-                key={rdv.id}
-                className={`bg-white rounded-3xl p-4 shadow-sm border transition-all relative ${
-                  rdv.completed ? 'border-slate-200 bg-slate-50/70' : 'border-rose-100 hover:border-blush-200'
-                }`}
+              <button
+                type="submit"
+                className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-2.5 rounded-xl shadow text-xs transition-colors cursor-pointer"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <button
-                      type="button"
-                      onClick={() => toggleRdv(rdv.id)}
-                      className="mt-0.5 cursor-pointer"
-                    >
-                      {rdv.completed ? (
-                        <CheckCircle2 className="w-5 h-5 text-blush-500 fill-blush-100" />
-                      ) : (
-                        <Circle className="w-5 h-5 text-slate-300 hover:text-blush-400" />
-                      )}
-                    </button>
+                Enregistrer dans le calendrier
+              </button>
+            </form>
 
-                    <div className="space-y-1">
-                      <h5 className={`text-xs font-bold ${
-                        rdv.completed ? 'line-through text-slate-400' : 'text-slate-800'
-                      }`}>
-                        {rdv.title}
-                      </h5>
-
-                      <div className="flex items-center gap-3 text-[11px] font-semibold text-blush-600">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          <span>{new Date(rdv.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-                        </span>
-                        {rdv.time && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>{rdv.time}</span>
-                          </span>
-                        )}
-                      </div>
-
-                      {rdv.location && (
-                        <p className="text-[10px] text-slate-500 flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-slate-400" />
-                          <span>{rdv.location}</span>
-                        </p>
-                      )}
-
-                      {rdv.notes && (
-                        <p className="text-[10px] text-slate-500 italic bg-rose-50/50 rounded-lg p-1.5 mt-1 border border-rose-100/60">
-                          « {rdv.notes} »
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
+            {/* 🌟 1. SECTION : PROCHAIN RENDEZ-VOUS (HERO CARD) */}
+            {nextRdv && (
+              <div className="bg-gradient-to-br from-rose-50 via-white to-purple-50 rounded-3xl p-5 shadow-sm border-2 border-blush-300 space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-blush-700 bg-rose-100 px-2.5 py-1 rounded-full border border-blush-200 flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-blush-600" />
+                    <span>Prochain Rendez-Vous</span>
+                  </span>
                   <button
                     type="button"
-                    onClick={() => deleteRdvItem(rdv.id)}
+                    onClick={() => deleteRdvItem(nextRdv.id)}
                     className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
                     title="Supprimer ce rendez-vous"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
+
+                <div className="flex items-start gap-3">
+                  <button
+                    type="button"
+                    onClick={() => toggleRdv(nextRdv.id)}
+                    className="mt-1 cursor-pointer flex-shrink-0"
+                  >
+                    <Circle className="w-6 h-6 text-blush-400 hover:text-blush-600" />
+                  </button>
+
+                  <div className="space-y-1.5 flex-1">
+                    <h4 className="font-serif text-base font-extrabold text-slate-800 leading-tight">
+                      {nextRdv.title}
+                    </h4>
+
+                    <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold text-blush-600">
+                      <span className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-rose-100 shadow-2xs">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{new Date(nextRdv.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+                      </span>
+                      {nextRdv.time && (
+                        <span className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-rose-100 shadow-2xs">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>{nextRdv.time}</span>
+                        </span>
+                      )}
+                    </div>
+
+                    {nextRdv.location && (
+                      <p className="text-xs text-slate-600 flex items-center gap-1 font-medium">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{nextRdv.location}</span>
+                      </p>
+                    )}
+
+                    {nextRdv.notes && (
+                      <p className="text-xs text-slate-600 italic bg-white/80 rounded-xl p-2 border border-rose-100/70">
+                        « {nextRdv.notes} »
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
-            ))}
+            )}
+
+            {/* 📅 2. SECTION : AUTRES RENDEZ-VOUS À VENIR */}
+            {otherUpcomingRdvs.length > 0 && (
+              <div className="space-y-2.5">
+                <h4 className="font-serif text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between px-1">
+                  <span>Autres Rendez-Vous à Venir</span>
+                  <span className="text-[10px] font-semibold text-slate-400">{otherUpcomingRdvs.length}</span>
+                </h4>
+
+                {otherUpcomingRdvs.map((rdv) => (
+                  <div
+                    key={rdv.id}
+                    className="bg-white rounded-3xl p-4 shadow-2xs border border-rose-100 hover:border-blush-200 transition-all flex items-start justify-between"
+                  >
+                    <div className="flex items-start gap-3 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => toggleRdv(rdv.id)}
+                        className="mt-0.5 cursor-pointer flex-shrink-0"
+                      >
+                        <Circle className="w-5 h-5 text-slate-300 hover:text-blush-400" />
+                      </button>
+
+                      <div className="space-y-1 flex-1">
+                        <h5 className="text-xs font-bold text-slate-800">
+                          {rdv.title}
+                        </h5>
+
+                        <div className="flex items-center gap-3 text-[11px] font-semibold text-blush-600">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            <span>{new Date(rdv.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                          </span>
+                          {rdv.time && (
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              <span>{rdv.time}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {rdv.location && (
+                          <p className="text-[10px] text-slate-500 flex items-center gap-1">
+                            <MapPin className="w-3 h-3 text-slate-400" />
+                            <span>{rdv.location}</span>
+                          </p>
+                        )}
+
+                        {rdv.notes && (
+                          <p className="text-[10px] text-slate-500 italic bg-rose-50/40 rounded-lg p-1.5 border border-rose-100/50">
+                            « {rdv.notes} »
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => deleteRdvItem(rdv.id)}
+                      className="text-slate-300 hover:text-red-500 p-1 cursor-pointer flex-shrink-0"
+                      title="Supprimer ce rendez-vous"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 🕰️ 3. SECTION : HISTORIQUE DES RENDEZ-VOUS PASSÉS */}
+            {completedRdvs.length > 0 && (
+              <div className="space-y-2.5 pt-2">
+                <h4 className="font-serif text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between px-1">
+                  <span>Historique des Rendez-Vous Passés</span>
+                  <span className="text-[10px] font-semibold text-slate-400">{completedRdvs.length}</span>
+                </h4>
+
+                {completedRdvs.map((rdv) => (
+                  <div
+                    key={rdv.id}
+                    className="bg-slate-50/70 rounded-3xl p-3.5 border border-slate-200 transition-all flex items-start justify-between opacity-80"
+                  >
+                    <div className="flex items-start gap-3 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => toggleRdv(rdv.id)}
+                        className="mt-0.5 cursor-pointer flex-shrink-0"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 fill-emerald-100" />
+                      </button>
+
+                      <div className="space-y-0.5 flex-1">
+                        <h5 className="text-xs font-bold line-through text-slate-400">
+                          {rdv.title}
+                        </h5>
+
+                        <div className="flex items-center gap-2 text-[10px] font-medium text-slate-400">
+                          <span>{new Date(rdv.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          {rdv.time && <span>• {rdv.time}</span>}
+                          {rdv.location && <span>• {rdv.location}</span>}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => deleteRdvItem(rdv.id)}
+                      className="text-slate-300 hover:text-red-500 p-1 cursor-pointer flex-shrink-0"
+                      title="Supprimer de l'historique"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* SUB-TAB 4: MODE NAISSANCE & CLASSEMENT */}
       {activeSubTab === 'birth' && (
