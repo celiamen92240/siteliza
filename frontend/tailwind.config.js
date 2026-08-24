@@ -109,9 +109,10 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'Outfit', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Calistoga', 'Fraunces', 'DM Serif Display', 'serif'],
+        display: ['Calistoga', 'Fraunces', 'serif'],
         handwriting: ['Caveat', 'Playpen Sans', 'cursive'],
-        serif: ['Playfair Display', 'Georgia', 'serif'],
       },
       animation: {
         'bounce-subtle': 'bounceSubtle 2s infinite',
