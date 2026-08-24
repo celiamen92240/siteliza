@@ -21,7 +21,6 @@ const defaultState = {
     parentPin: "0812"
   },
   participants: [
-    { id: "part-1", name: "Maman", role: "Mamie", avatar: "👵", photo: null },
     { id: "part-2", name: "Liza", role: "Maman", avatar: "🌸", photo: null },
     { id: "part-3", name: "Clément", role: "Papa", avatar: "🌿", photo: null },
     { id: "part-4", name: "Célia", role: "Famille", avatar: "🎀", photo: null },
@@ -30,21 +29,6 @@ const defaultState = {
     { id: "part-7", name: "Léo", role: "Famille", avatar: "🧸", photo: null }
   ],
   predictions: [
-    {
-      id: "p-init-1",
-      author: "Maman",
-      avatar: "👵",
-      photo: null,
-      date: "2026-12-05",
-      time: "06:30",
-      weightG: 3420,
-      sizeCm: 50.0,
-      nameGuess: "Victoire",
-      hairColor: "Bruns",
-      eyeColor: "Noisette",
-      comment: "Elle aura le doux regard de sa maman !",
-      createdAt: new Date().toISOString()
-    },
     {
       id: "p-init-2",
       author: "Célia",
@@ -196,18 +180,6 @@ const defaultState = {
       totalWords: 12,
       points: 801,
       createdAt: "2026-08-23T21:07:38.744Z"
-    },
-    {
-      id: "score-1787518287220",
-      playerName: "Maman",
-      date: "2026-08-23",
-      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
-      timeSeconds: 176.7,
-      timeFormatted: "02:56.7",
-      correctCount: 7,
-      totalWords: 12,
-      points: 515,
-      createdAt: "2026-08-23T20:51:27.220Z"
     }
   ],
   justePrixScores: [],
@@ -425,9 +397,19 @@ export const db = {
   addParticipant(participant) {
     const data = readDb();
     if (!data.participants) data.participants = defaultState.participants;
+    const trimmedName = (participant.name || '').trim();
+    if (!trimmedName) {
+      throw new Error("Le prénom ne peut pas être vide.");
+    }
+    const alreadyExists = data.participants.some(
+      p => (p.name || '').trim().toLowerCase() === trimmedName.toLowerCase()
+    );
+    if (alreadyExists) {
+      throw new Error(`Le pseudo "${trimmedName}" existe déjà. Veuillez choisir un autre prénom ou ajouter une initiale.`);
+    }
     const newParticipant = {
       id: "part-" + Date.now(),
-      name: participant.name,
+      name: trimmedName,
       role: participant.role || "Proche",
       avatar: participant.avatar || "🌸",
       photo: participant.photo || null
@@ -459,7 +441,17 @@ export const db = {
     // 1. Retirer de la liste des participants
     data.participants = (data.participants || []).filter(p => p.id !== id && (p.name || '').toLowerCase() !== cleanId);
 
-    // 2. Décomptabiliser et purger les votes du Quiz
+    // 2. Supprimer les pronostics / prédictions
+    if (Array.isArray(data.predictions)) {
+      data.predictions = data.predictions.filter(p => (p.author || '').trim().toLowerCase() !== targetName && (p.name || '').trim().toLowerCase() !== targetName);
+    }
+
+    // 3. Supprimer les messages du livre d'or
+    if (Array.isArray(data.messages)) {
+      data.messages = data.messages.filter(m => (m.author || '').trim().toLowerCase() !== targetName);
+    }
+
+    // 4. Décomptabiliser et purger les votes du Quiz
     if (Array.isArray(data.quizVotes)) {
       data.quizVotes = data.quizVotes.filter(v => (v.voter || '').trim().toLowerCase() !== targetName);
     }
@@ -467,7 +459,7 @@ export const db = {
       data.quizCompletedVoters = data.quizCompletedVoters.filter(v => (v || '').trim().toLowerCase() !== targetName);
     }
 
-    // 3. Décomptabiliser les votes des Sondages & Hésitations
+    // 5. Décomptabiliser les votes des Sondages & Hésitations
     if (Array.isArray(data.polls)) {
       data.polls.forEach(poll => {
         if (Array.isArray(poll.options)) {
@@ -481,12 +473,12 @@ export const db = {
       });
     }
 
-    // 4. Supprimer les scores des Mots Fléchés
+    // 6. Supprimer les scores des Mots Fléchés
     if (Array.isArray(data.dailyGameScores)) {
       data.dailyGameScores = data.dailyGameScores.filter(s => (s.playerName || '').trim().toLowerCase() !== targetName);
     }
 
-    // 5. Supprimer les scores du Juste Prix
+    // 7. Supprimer les scores du Juste Prix
     if (Array.isArray(data.justePrixScores)) {
       data.justePrixScores = data.justePrixScores.filter(s => (s.playerName || '').trim().toLowerCase() !== targetName);
     }

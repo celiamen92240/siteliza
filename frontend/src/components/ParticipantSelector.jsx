@@ -107,9 +107,12 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
         setCustomRole('');
         setNewPhoto(null);
         confetti({ particleCount: 30, spread: 50 });
+      } else {
+        alert(data.error || "Ce pseudo existe déjà. Veuillez en choisir un autre.");
       }
     } catch (err) {
       console.error("Error adding participant", err);
+      alert("Erreur lors de l'enregistrement du participant.");
     }
   };
 

@@ -100,7 +100,7 @@ app.post('/api/participants', (req, res) => {
     });
     res.json({ success: true, participants });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(400).json({ success: false, error: err.message });
   }
 });
 
