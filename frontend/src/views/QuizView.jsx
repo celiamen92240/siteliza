@@ -93,8 +93,21 @@ export default function QuizView() {
     setVoterName(name);
     setVoterPhoto(photoOrAvatar);
     localStorage.setItem('quiz_voter', name);
-    const saved = JSON.parse(localStorage.getItem(`quiz_votes_${name}`) || '{}');
-    setMyVotes(saved);
+    
+    // Si le serveur indique que ce joueur n'a pas complété le quiz, nettoyer les vieux résidus de test
+    const cleanName = (name || '').trim().toLowerCase();
+    const isVotedOnServer = (summary?.votedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName) ||
+                            (summary?.completedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName);
+    
+    if (!isVotedOnServer) {
+      localStorage.removeItem(`quiz_completed_${cleanName}`);
+      localStorage.removeItem(`quiz_voted_${cleanName}`);
+      localStorage.removeItem(`quiz_votes_${name}`);
+      setMyVotes({});
+    } else {
+      const saved = JSON.parse(localStorage.getItem(`quiz_votes_${name}`) || '{}');
+      setMyVotes(saved);
+    }
   };
 
   const handleCreatePlayer = async (e) => {
@@ -141,12 +154,9 @@ export default function QuizView() {
     ...(summary?.completedVoters || [])
   ].filter(Boolean)));
 
+  // SE BASE UNIQUEMENT SUR LA BASE DE DONNÉES OFFICIELLE DU SERVEUR
   const hasAlreadyVoted = Boolean(
-    voterName && (
-      allVotedNames.some(v => (v || '').trim().toLowerCase() === voterName.trim().toLowerCase()) ||
-      localStorage.getItem(`quiz_completed_${voterName.trim().toLowerCase()}`) === 'true' ||
-      localStorage.getItem(`quiz_voted_${voterName.trim().toLowerCase()}`) === 'true'
-    )
+    voterName && allVotedNames.some(v => (v || '').trim().toLowerCase() === voterName.trim().toLowerCase())
   );
 
   const handleVote = async (questionId, choice) => {
