@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock } from 'lucide-react';
+import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy } from 'lucide-react';
 import { fruitsData } from '../data/fruitsData';
 import { getTodayDailyFact } from '../data/dailyFacts';
 
-export default function HomeView({ setTab, onTabChange }) {
+export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
   const [dailyFact, setDailyFact] = useState(() => getTodayDailyFact());
   const [loadingFact, setLoadingFact] = useState(false);
 
@@ -87,83 +87,159 @@ export default function HomeView({ setTab, onTabChange }) {
 
   return (
     <div className="px-5 space-y-5 pb-6">
-      {/* 1. COMPTE À REBOURS DU JOUR J (CLIQUABLE VERS LES PRONOS) */}
-      <div
-        onClick={() => navigate('predictions')}
-        className="bg-gradient-to-br from-[#F2619C] via-[#f06ea5] to-[#E7BEF8] rounded-3xl p-5 shadow-lg border-2 border-[#F2619C]/30 relative overflow-hidden space-y-4 cursor-pointer hover:shadow-xl active:scale-[0.99] transition-all group text-white"
-        title="Cliquer pour faire tes pronostics"
-      >
-        {/* Soft Decorative Glow */}
-        <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-2xl pointer-events-none"></div>
+      {/* 1. ANNONCE OFFICIELLE DE NAISSANCE AVEC PHOTO (SI BÉBÉ EST NÉ) OU COMPTE À REBOURS */}
+      {isBorn && actualBirth ? (
+        <div className="bg-gradient-to-br from-[#F2619C] via-[#f06ea5] to-[#E7BEF8] rounded-3xl p-5 sm:p-6 shadow-xl border-2 border-[#F2619C]/40 relative overflow-hidden space-y-4 text-white animate-in zoom-in-95">
+          {/* Soft Decorative Glow */}
+          <div className="absolute -right-8 -bottom-8 w-40 h-40 bg-white/25 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div className="flex items-center justify-between relative z-10">
-          <div className="space-y-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-3 py-1 rounded-full border border-white/60 flex items-center gap-1.5 w-fit shadow-xs">
-              <span>Jour J • 08 Décembre 2026</span>
-              <ArrowRight className="w-3 h-3 text-[#812348] group-hover:translate-x-0.5 transition-transform" />
+          {/* Badge & Title */}
+          <div className="text-center space-y-1.5 relative z-10">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-3.5 py-1 rounded-full border border-white/70 shadow-xs">
+              <Sparkles className="w-3 h-3 text-[#812348]" />
+              <span>C'est officiel • Bébé est arrivé !</span>
+              <Sparkles className="w-3 h-3 text-[#812348]" />
             </span>
-            <h2 className="font-serif text-2xl font-black text-white tracking-tight drop-shadow-xs">
-              Compte à Rebours Naissance
+            <h2 className="font-serif text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-sm">
+              Bienvenue {actualBirth.name || 'notre petite princesse'} ! 💖
             </h2>
             <p className="text-xs text-white/90 font-medium">
-              Semaine {currentWeek} de grossesse • 6ème mois ✨
+              Le plus beau des trésors est arrivé parmi nous ✨
             </p>
           </div>
 
-          <div className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-md border-2 border-white flex flex-col items-center justify-center text-center">
-            <span className="text-2xl leading-none">👶</span>
-            <span className="text-[9px] font-extrabold text-[#F2619C] mt-1 leading-tight">Princesse</span>
+          {/* Photo de Bébé */}
+          {actualBirth.photo && (
+            <div className="relative z-10 mx-auto max-w-xs rounded-2xl overflow-hidden shadow-2xl border-4 border-white ring-4 ring-white/30 bg-white/10">
+              <img
+                src={actualBirth.photo}
+                alt={actualBirth.name || 'Bébé'}
+                className="w-full max-h-72 object-cover rounded-xl"
+              />
+            </div>
+          )}
+
+          {/* 4 Cartouches des détails réels de naissance */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 relative z-10">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block text-[10px] uppercase font-black text-slate-400">Date</span>
+              <span className="block font-serif text-sm font-black text-[#F2619C] mt-0.5">
+                {actualBirth.date ? new Date(actualBirth.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '08 Déc.'}
+              </span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block text-[10px] uppercase font-black text-slate-400">Heure</span>
+              <span className="block font-serif text-sm font-black text-[#93ABD9] mt-0.5">
+                {actualBirth.time || '14:20'}
+              </span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block text-[10px] uppercase font-black text-slate-400">Poids</span>
+              <span className="block font-serif text-sm font-black text-[#F2619C] mt-0.5">
+                {actualBirth.weightG ? (actualBirth.weightG > 100 ? `${(actualBirth.weightG / 1000).toFixed(3).replace('.', ',')} kg` : `${actualBirth.weightG} kg`) : '3,350 kg'}
+              </span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block text-[10px] uppercase font-black text-slate-400">Taille</span>
+              <span className="block font-serif text-sm font-black text-[#93ABD9] mt-0.5">
+                {actualBirth.sizeCm || 49.5} cm
+              </span>
+            </div>
+          </div>
+
+          {/* Bouton Podium Pronos */}
+          <button
+            type="button"
+            onClick={() => navigate('predictions')}
+            className="w-full bg-white hover:bg-white/95 text-[#F2619C] font-black py-3 rounded-2xl shadow-lg border border-white flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.98] text-xs relative z-10"
+          >
+            <Trophy className="w-4 h-4 text-[#F2619C]" />
+            <span>Découvrir le podium & les gagnants des pronos</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#F2619C]" />
+          </button>
+        </div>
+      ) : (
+        /* COMPTE À REBOURS DU JOUR J (GROSSESSE EN COURS) */
+        <div
+          onClick={() => navigate('predictions')}
+          className="bg-gradient-to-br from-[#F2619C] via-[#f06ea5] to-[#E7BEF8] rounded-3xl p-5 shadow-lg border-2 border-[#F2619C]/30 relative overflow-hidden space-y-4 cursor-pointer hover:shadow-xl active:scale-[0.99] transition-all group text-white"
+          title="Cliquer pour faire tes pronostics"
+        >
+          {/* Soft Decorative Glow */}
+          <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div className="flex items-center justify-between relative z-10">
+            <div className="space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-3 py-1 rounded-full border border-white/60 flex items-center gap-1.5 w-fit shadow-xs">
+                <span>Jour J • 08 Décembre 2026</span>
+                <ArrowRight className="w-3 h-3 text-[#812348] group-hover:translate-x-0.5 transition-transform" />
+              </span>
+              <h2 className="font-serif text-2xl font-black text-white tracking-tight drop-shadow-xs">
+                Compte à Rebours Naissance
+              </h2>
+              <p className="text-xs text-white/90 font-medium">
+                Semaine {currentWeek} de grossesse • 6ème mois ✨
+              </p>
+            </div>
+
+            <div className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-md border-2 border-white flex flex-col items-center justify-center text-center">
+              <span className="text-2xl leading-none">👶</span>
+              <span className="text-[9px] font-extrabold text-[#F2619C] mt-1 leading-tight">Princesse</span>
+            </div>
+          </div>
+
+          {/* 4 CARTOUCHES DE TEMPS RÉEL */}
+          <div className="grid grid-cols-4 gap-2 pt-1 relative z-10">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none">
+                {timeLeft.days}
+              </span>
+              <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Jours</span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
+                {String(timeLeft.hours).padStart(2, '0')}
+              </span>
+              <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Heures</span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
+                {String(timeLeft.minutes).padStart(2, '0')}
+              </span>
+              <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Min</span>
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+              <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none animate-pulse">
+                {String(timeLeft.seconds).padStart(2, '0')}
+              </span>
+              <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Sec</span>
+            </div>
+          </div>
+
+          {/* Pregnancy Progress Bar */}
+          <div className="space-y-1.5 pt-1 relative z-10">
+            <div className="flex justify-between text-[11px] font-extrabold text-white">
+              <span>Début</span>
+              <span className="bg-[#FFE066] text-[#78350f] px-2 py-0.5 rounded-full text-[10px] shadow-2xs font-black">
+                {Math.round((currentWeek / 40) * 100)}% parcouru
+              </span>
+              <span>08/12</span>
+            </div>
+            <div className="w-full h-3 bg-black/15 rounded-full overflow-hidden p-0.5 shadow-inner backdrop-blur-xs">
+              <div
+                className="h-full bg-gradient-to-r from-[#FFE066] to-[#93ABD9] rounded-full transition-all duration-700 shadow-sm"
+                style={{ width: `${(currentWeek / 40) * 100}%` }}
+              ></div>
+            </div>
           </div>
         </div>
-
-        {/* 4 CARTOUCHES DE TEMPS RÉEL */}
-        <div className="grid grid-cols-4 gap-2 pt-1 relative z-10">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-            <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none">
-              {timeLeft.days}
-            </span>
-            <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Jours</span>
-          </div>
-
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-            <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
-              {String(timeLeft.hours).padStart(2, '0')}
-            </span>
-            <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Heures</span>
-          </div>
-
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-            <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
-              {String(timeLeft.minutes).padStart(2, '0')}
-            </span>
-            <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Min</span>
-          </div>
-
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-            <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none animate-pulse">
-              {String(timeLeft.seconds).padStart(2, '0')}
-            </span>
-            <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Sec</span>
-          </div>
-        </div>
-
-        {/* Pregnancy Progress Bar */}
-        <div className="space-y-1.5 pt-1 relative z-10">
-          <div className="flex justify-between text-[11px] font-extrabold text-white">
-            <span>Début</span>
-            <span className="bg-[#FFE066] text-[#78350f] px-2 py-0.5 rounded-full text-[10px] shadow-2xs font-black">
-              {Math.round((currentWeek / 40) * 100)}% parcouru
-            </span>
-            <span>08/12</span>
-          </div>
-          <div className="w-full h-3 bg-black/15 rounded-full overflow-hidden p-0.5 shadow-inner backdrop-blur-xs">
-            <div
-              className="h-full bg-gradient-to-r from-[#FFE066] to-[#93ABD9] rounded-full transition-all duration-700 shadow-sm"
-              style={{ width: `${(currentWeek / 40) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* 2. ÉVOLUTION DU BÉBÉ (DESIGN COMPACT, ÉPURÉ & PEP'S) */}
       <div className="bg-gradient-to-br from-[#FFE066]/30 via-white to-[#E7BEF8]/35 rounded-3xl p-5 shadow-md border-2 border-[#E7BEF8] space-y-3.5 relative overflow-hidden">

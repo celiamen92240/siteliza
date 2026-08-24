@@ -179,7 +179,7 @@ app.delete('/api/quiz/votes/:voter', (req, res) => {
 // Admin: Set Birth Details
 app.post('/api/birth-result', (req, res) => {
   try {
-    const { date, time, weightG, sizeCm, name, hairColor, eyeColor, secretCode } = req.body;
+    const { date, time, weightG, sizeCm, name, hairColor, eyeColor, photo, secretCode } = req.body;
     // Simple protection code or direct validation
     if (!date || !weightG || !sizeCm) {
       return res.status(400).json({ success: false, error: "Informations de naissance incomplètes." });
@@ -191,7 +191,8 @@ app.post('/api/birth-result', (req, res) => {
       sizeCm: Number(sizeCm),
       name: name || "Bébé",
       hairColor: hairColor || "Châtains",
-      eyeColor: eyeColor || "Marrons"
+      eyeColor: eyeColor || "Marrons",
+      photo: photo || null
     });
     const updated = db.getPredictions();
     res.json({ success: true, actualBirth: result, leaderboard: updated.predictions });

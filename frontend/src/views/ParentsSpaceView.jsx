@@ -50,9 +50,60 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
     weightG: actualBirth?.weightG || 3350,
     sizeCm: actualBirth?.sizeCm || 49.5,
     hairColor: actualBirth?.hairColor || 'Châtains',
-    eyeColor: actualBirth?.eyeColor || 'Marrons'
+    eyeColor: actualBirth?.eyeColor || 'Marrons',
+    photo: actualBirth?.photo || ''
   });
   const [birthSavedMsg, setBirthSavedMsg] = useState('');
+
+  useEffect(() => {
+    if (actualBirth) {
+      setBirthForm({
+        name: actualBirth.name || '',
+        date: actualBirth.date || '2026-12-08',
+        time: actualBirth.time || '14:20',
+        weightG: actualBirth.weightG || 3350,
+        sizeCm: actualBirth.sizeCm || 49.5,
+        hairColor: actualBirth.hairColor || 'Châtains',
+        eyeColor: actualBirth.eyeColor || 'Marrons',
+        photo: actualBirth.photo || ''
+      });
+    }
+  }, [actualBirth]);
+
+  const handleBirthPhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 1200;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        setBirthForm(prev => ({ ...prev, photo: compressedBase64 }));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Fetch Checklists & Appointments
   const fetchPurchases = () => {
@@ -1274,6 +1325,74 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   className="w-full box-border min-w-0 text-xs font-medium px-2.5 py-2 rounded-xl border border-rose-200"
                 />
               </div>
+            </div>
+
+            {/* Photo de Bébé */}
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-slate-700">
+                Photo de bébé (affichée sur l'écran d'accueil) 📸✨
+              </label>
+
+              {birthForm.photo ? (
+                <div className="relative rounded-2xl overflow-hidden border-2 border-blush-200 bg-rose-50/20 group">
+                  <img
+                    src={birthForm.photo}
+                    alt="Bébé officiel"
+                    className="w-full h-48 object-cover rounded-xl"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <label className="bg-white/90 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-xl cursor-pointer hover:bg-white shadow">
+                      Changer la photo
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleBirthPhotoUpload}
+                        className="hidden"
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setBirthForm(prev => ({ ...prev, photo: '' }))}
+                      className="bg-red-500 text-white text-xs font-bold p-2 rounded-xl hover:bg-red-600 shadow cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="absolute bottom-2 right-2 flex gap-1.5">
+                    <label className="bg-white/90 backdrop-blur-xs text-slate-800 text-[10px] font-bold px-2.5 py-1 rounded-lg cursor-pointer shadow border border-slate-200">
+                      Changer
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleBirthPhotoUpload}
+                        className="hidden"
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setBirthForm(prev => ({ ...prev, photo: '' }))}
+                      className="bg-red-500 text-white p-1 rounded-lg shadow cursor-pointer"
+                      title="Supprimer la photo"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label className="w-full border-2 border-dashed border-rose-200 hover:border-blush-400 bg-rose-50/20 hover:bg-rose-50/40 rounded-2xl p-4 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all">
+                  <div className="w-10 h-10 rounded-full bg-rose-100/70 text-blush-600 flex items-center justify-center shadow-2xs">
+                    <Camera className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700">Ajouter la photo de bébé</span>
+                  <span className="text-[10px] text-slate-400">Prendre une photo ou choisir dans la galerie</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleBirthPhotoUpload}
+                    className="hidden"
+                  />
+                </label>
+              )}
             </div>
 
             <button

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Sparkles, Trophy, RotateCcw, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Sparkles, Trophy, RotateCcw, Check, Camera, Trash2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function AdminBirthModal({ isOpen, onClose, isBorn, actualBirth, onBirthSaved, onResetBirth }) {
@@ -10,9 +10,60 @@ export default function AdminBirthModal({ isOpen, onClose, isBorn, actualBirth, 
     weightG: actualBirth?.weightG || 3350,
     sizeCm: actualBirth?.sizeCm || 49.5,
     hairColor: actualBirth?.hairColor || 'Châtains',
-    eyeColor: actualBirth?.eyeColor || 'Marrons'
+    eyeColor: actualBirth?.eyeColor || 'Marrons',
+    photo: actualBirth?.photo || ''
   });
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (actualBirth) {
+      setFormData({
+        name: actualBirth.name || '',
+        date: actualBirth.date || '2026-12-08',
+        time: actualBirth.time || '14:20',
+        weightG: actualBirth.weightG || 3350,
+        sizeCm: actualBirth.sizeCm || 49.5,
+        hairColor: actualBirth.hairColor || 'Châtains',
+        eyeColor: actualBirth.eyeColor || 'Marrons',
+        photo: actualBirth.photo || ''
+      });
+    }
+  }, [actualBirth]);
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 1200;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        setFormData(prev => ({ ...prev, photo: compressedBase64 }));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
 
   if (!isOpen) return null;
 
@@ -145,14 +196,39 @@ export default function AdminBirthModal({ isOpen, onClose, isBorn, actualBirth, 
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={saving}
-            className="w-full bg-gradient-to-r from-amber-500 to-rose-500 text-white font-extrabold py-3 rounded-xl shadow-md text-xs hover:opacity-95 transition-opacity flex items-center justify-center gap-2"
-          >
-            <Trophy className="w-4 h-4" />
-            <span>{saving ? 'Calcul des scores...' : 'Enregistrer & Calculer les Vainqueurs 🏆'}</span>
-          </button>
+            {/* Photo de Bébé */}
+            <div className="space-y-1">
+              <label className="block text-[11px] font-bold text-slate-700">
+                Photo de bébé 📸
+              </label>
+              {formData.photo ? (
+                <div className="relative rounded-2xl overflow-hidden border-2 border-rose-200">
+                  <img src={formData.photo} alt="Bébé" className="w-full h-36 object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, photo: '' }))}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-lg shadow"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <label className="w-full border-2 border-dashed border-rose-200 hover:border-blush-400 bg-rose-50/20 rounded-xl p-3 flex flex-col items-center justify-center gap-1 cursor-pointer">
+                  <Camera className="w-4 h-4 text-rose-500" />
+                  <span className="text-[11px] font-bold text-slate-700">Ajouter la photo</span>
+                  <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                </label>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={saving}
+              className="w-full bg-gradient-to-r from-amber-500 to-rose-500 text-white font-extrabold py-3 rounded-xl shadow-md text-xs hover:opacity-95 transition-opacity flex items-center justify-center gap-2"
+            >
+              <Trophy className="w-4 h-4" />
+              <span>{saving ? 'Calcul des scores...' : 'Enregistrer & Calculer les Vainqueurs 🏆'}</span>
+            </button>
         </form>
 
         {isBorn && (
