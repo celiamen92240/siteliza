@@ -24,8 +24,10 @@ const defaultState = {
     { id: "part-2", name: "Liza", role: "Maman", avatar: "🌸", photo: null },
     { id: "part-3", name: "Clément", role: "Papa", avatar: "🌿", photo: null },
     { id: "part-4", name: "Célia", role: "Famille", avatar: "🎀", photo: null },
-    { id: "part-5", name: "Enzo", role: "Famille", avatar: "🌟", photo: null },
+    { id: "part-maman", name: "Maman", role: "Mamie", avatar: "🌸", photo: null },
+    { id: "part-mathieu", name: "Mathieu", role: "Famille", avatar: "😎", photo: null },
     { id: "part-6", name: "Léa", role: "Famille", avatar: "💖", photo: null },
+    { id: "part-5", name: "Enzo", role: "Famille", avatar: "🌟", photo: null },
     { id: "part-7", name: "Léo", role: "Famille", avatar: "🧸", photo: null }
   ],
   predictions: [
@@ -62,7 +64,7 @@ const defaultState = {
   ],
   actualBirth: null,
   quizVotes: [],
-  quizCompletedVoters: ["léa", "clément", "liza"],
+  quizCompletedVoters: ["léa", "lea", "clément", "clement", "liza", "célia", "celia", "mathieu", "maman"],
   polls: [],
   purchasesCategories: [],
   purchasesList: [],
@@ -146,28 +148,64 @@ const defaultState = {
   ],
   dailyGameScores: [
     {
-      id: "score-lea-today",
-      playerName: "Léa",
-      date: "2026-08-24",
-      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
-      timeSeconds: 68.0,
-      timeFormatted: "01:08.0",
-      correctCount: 12,
-      totalWords: 12,
-      points: 1455,
-      createdAt: "2026-08-24T15:40:00.000Z"
-    },
-    {
       id: "score-celia-today",
       playerName: "Célia",
       date: "2026-08-24",
       theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
-      timeSeconds: 45.0,
+      timeSeconds: 45,
       timeFormatted: "00:45.0",
-      correctCount: 12,
+      correctCount: 10,
       totalWords: 12,
-      points: 1013,
+      points: 893,
       createdAt: "2026-08-24T15:20:00.000Z"
+    },
+    {
+      id: "score-mathieu-today",
+      playerName: "Mathieu",
+      date: "2026-08-24",
+      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
+      timeSeconds: 95,
+      timeFormatted: "01:35.0",
+      correctCount: 9,
+      totalWords: 12,
+      points: 757,
+      createdAt: "2026-08-24T17:45:00.000Z"
+    },
+    {
+      id: "score-lea-today",
+      playerName: "Léa",
+      date: "2026-08-24",
+      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
+      timeSeconds: 68,
+      timeFormatted: "01:08.0",
+      correctCount: 8,
+      totalWords: 12,
+      points: 738,
+      createdAt: "2026-08-24T15:40:00.000Z"
+    },
+    {
+      id: "score-maman-today",
+      playerName: "Maman",
+      date: "2026-08-24",
+      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
+      timeSeconds: 176.7,
+      timeFormatted: "02:56.7",
+      correctCount: 7,
+      totalWords: 12,
+      points: 515,
+      createdAt: "2026-08-24T17:05:00.000Z"
+    },
+    {
+      id: "score-1787518674957",
+      playerName: "Léa",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 81.4,
+      timeFormatted: "01:21.4",
+      correctCount: 9,
+      totalWords: 12,
+      points: 778,
+      createdAt: "2026-08-23T20:57:54.957Z"
     },
     {
       id: "score-1787519258744",
@@ -180,6 +218,18 @@ const defaultState = {
       totalWords: 12,
       points: 801,
       createdAt: "2026-08-23T21:07:38.744Z"
+    },
+    {
+      id: "score-1787518287220",
+      playerName: "Maman",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 176.7,
+      timeFormatted: "02:56.7",
+      correctCount: 7,
+      totalWords: 12,
+      points: 515,
+      createdAt: "2026-08-23T20:51:27.220Z"
     }
   ],
   justePrixScores: [],
