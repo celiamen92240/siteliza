@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock } from 'lucide-react';
 import { fruitsData } from '../data/fruitsData';
+import { getTodayDailyFact } from '../data/dailyFacts';
 
 export default function HomeView({ setTab, onTabChange }) {
-  const [dailyFact, setDailyFact] = useState(null);
-  const [loadingFact, setLoadingFact] = useState(true);
+  const [dailyFact, setDailyFact] = useState(() => getTodayDailyFact());
+  const [loadingFact, setLoadingFact] = useState(false);
 
   // Calcul automatique de la semaine de grossesse en temps réel (terme 08/12/2026)
   const getAutoPregnancyWeek = () => {
@@ -78,18 +79,8 @@ export default function HomeView({ setTab, onTabChange }) {
   }, []);
 
   useEffect(() => {
-    fetch('/api/daily-fact')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setDailyFact(data.fact);
-        }
-        setLoadingFact(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoadingFact(false);
-      });
+    // Met à jour la citation du jour
+    setDailyFact(getTodayDailyFact());
   }, []);
 
   const fruitInfo = fruitsData.find(f => f.week === currentWeek) || fruitsData.find(f => f.week === 26) || fruitsData[0];
