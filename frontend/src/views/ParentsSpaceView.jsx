@@ -616,19 +616,14 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                       </div>
                       <h4 className="font-serif text-sm font-black text-slate-800">{cat}</h4>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-blush-800 bg-rose-50 px-2 py-0.5 rounded-full border border-blush-200">
-                        {catChecked}/{catItems.length} achetés
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteCategory(cat)}
-                        className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
-                        title="Supprimer cette catégorie"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteCategory(cat)}
+                      className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                      title="Supprimer cette catégorie"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
                   </div>
 
                   <div className="space-y-1.5">
@@ -718,33 +713,30 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </div>
             </div>
 
-            {/* Section 1 : Pour Bébé (Pastel Vanille / Citron Crème Doux) */}
-            <div className="bg-[#FFFDF0] rounded-3xl p-4.5 shadow-xs border-2 border-[#FEF08A] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#FEF08A]/60 pb-2">
+            {/* Section 1 : Pour Bébé (Pastel Vert Doux) */}
+            <div className="bg-[#F2FDF6] rounded-3xl p-4.5 shadow-xs border-2 border-[#BBF7D0] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#BBF7D0]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-700">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-100/80 flex items-center justify-center text-[#166534]">
                     <Baby className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-amber-950">Pour Bébé</h4>
+                  <h4 className="font-serif text-sm font-black text-[#166534]">Pour Bébé</h4>
                 </div>
-                <span className="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200">
-                  {babyItems.filter(i => i.checked).length}/{babyItems.length} prêts
-                </span>
               </div>
 
               <div className="space-y-1.5">
                 {babyItems.length === 0 ? (
-                  <p className="text-xs text-amber-700/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
+                  <p className="text-xs text-[#166534]/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
                 ) : (
                   babyItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-amber-200/60 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-[#BBF7D0]/70 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-amber-500 border-amber-600 text-white' : 'border-slate-300 bg-white'
+                          item.checked ? 'bg-[#166534] border-[#166534] text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
@@ -767,11 +759,11 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   placeholder="Ajouter un article pour bébé..."
                   value={inlineNewBaby}
                   onChange={e => setInlineNewBaby(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className="flex-1 px-3 py-2 rounded-xl border border-[#BBF7D0] text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                  className="w-8 h-8 rounded-xl bg-[#166534] text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
                   title="Ajouter"
                 >
                   <Plus className="w-4 h-4 stroke-[3px]" />
@@ -788,9 +780,6 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   </div>
                   <h4 className="font-serif text-sm font-black text-rose-950">Pour Liza</h4>
                 </div>
-                <span className="text-[10px] font-bold text-rose-800 bg-rose-100/80 px-2.5 py-0.5 rounded-full border border-rose-200">
-                  {lizaItems.filter(i => i.checked).length}/{lizaItems.length} prêts
-                </span>
               </div>
 
               <div className="space-y-1.5">
@@ -849,9 +838,6 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   </div>
                   <h4 className="font-serif text-sm font-black text-blue-950">Pour Clément</h4>
                 </div>
-                <span className="text-[10px] font-bold text-blue-800 bg-blue-100/80 px-2.5 py-0.5 rounded-full border border-blue-200">
-                  {clementItems.filter(i => i.checked).length}/{clementItems.length} prêts
-                </span>
               </div>
 
               <div className="space-y-1.5">
