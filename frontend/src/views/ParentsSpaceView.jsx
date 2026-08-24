@@ -922,7 +922,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                 <span>Ajouter un Rendez-Vous</span>
               </h3>
 
-              <div>
+              <div className="w-full overflow-hidden">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">
                   Titre du rendez-vous *
                 </label>
@@ -932,55 +932,55 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvTitle}
                   onChange={e => setNewRdvTitle(e.target.value)}
                   placeholder="Ex: Échographie T3, Consultation 8ème mois..."
-                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
+                  className="w-full block px-3 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '40px', boxSizing: 'border-box' }}
                 />
               </div>
 
-              <div>
+              <div className="w-full overflow-hidden">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Date *</label>
                 <input
                   type="date"
                   required
                   value={newRdvDate}
                   onChange={e => setNewRdvDate(e.target.value)}
-                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
+                  className="w-full block px-3 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '40px', boxSizing: 'border-box' }}
                 />
               </div>
 
-              <div>
+              <div className="w-full overflow-hidden">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Heure</label>
                 <input
                   type="time"
                   value={newRdvTime}
                   onChange={e => setNewRdvTime(e.target.value)}
-                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
+                  className="w-full block px-3 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '40px', boxSizing: 'border-box' }}
                 />
               </div>
 
-              <div>
+              <div className="w-full overflow-hidden">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Lieu</label>
                 <input
                   type="text"
                   value={newRdvLocation}
                   onChange={e => setNewRdvLocation(e.target.value)}
                   placeholder="Ex: Maternité, Cabinet médical..."
-                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
+                  className="w-full block px-3 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '40px', boxSizing: 'border-box' }}
                 />
               </div>
 
-              <div>
+              <div className="w-full overflow-hidden">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Notes / Rappels</label>
                 <input
                   type="text"
                   value={newRdvNotes}
                   onChange={e => setNewRdvNotes(e.target.value)}
                   placeholder="Ex: Apporter les bilans sanguins..."
-                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
+                  className="w-full block px-3 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '40px', boxSizing: 'border-box' }}
                 />
               </div>
 
