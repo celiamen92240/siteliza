@@ -205,26 +205,9 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
               </p>
             </div>
 
-            {/* Photo modifiable avec icône appareil photo */}
-            <div className="relative" onClick={e => e.stopPropagation()}>
-              <label className="cursor-pointer block group/photo" title="Changer la photo du compte à rebours">
-                <div className="w-16 h-16 rounded-2xl bg-white p-0.5 shadow-md border-2 border-white overflow-hidden">
-                  {headerPhoto ? (
-                    <img src={headerPhoto} alt="Photo" className="w-full h-full object-cover rounded-xl" />
-                  ) : (
-                    <img src="/logo.jpg" alt="Photo" className="w-full h-full object-cover rounded-xl" />
-                  )}
-                </div>
-                <div className="absolute -bottom-1 -right-1 bg-[#F2619C] text-white p-1 rounded-full shadow-md border border-white flex items-center justify-center group-hover/photo:scale-110 transition-transform">
-                  <Camera className="w-3 h-3 stroke-[2.5px]" />
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  className="hidden"
-                />
-              </label>
+            <div className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-md border-2 border-white flex flex-col items-center justify-center text-center">
+              <span className="text-2xl leading-none">👶</span>
+              <span className="text-[9px] font-extrabold text-[#F2619C] mt-1 leading-tight">Princesse</span>
             </div>
           </div>
 
