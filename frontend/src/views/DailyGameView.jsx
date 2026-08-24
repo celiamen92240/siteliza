@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, ArrowLeft, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck, Rocket } from 'lucide-react';
+import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, ArrowLeft, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck, Rocket, ChevronDown } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
@@ -8,6 +8,8 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
   const [todayScores, setTodayScores] = useState([]);
   const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
   const [leaderboardTab, setLeaderboardTab] = useState('today'); // 'today' or 'global'
+  const [showAllToday, setShowAllToday] = useState(false);
+  const [showAllGlobal, setShowAllGlobal] = useState(false);
   
   const [playerName, setPlayerName] = useState(localStorage.getItem('crosswords_player') || 'Célia');
   const [playerPhoto, setPlayerPhoto] = useState(null);
@@ -522,7 +524,7 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
               </div>
             ) : (
               <div className="space-y-2">
-                {todayScores.map((s, idx) => (
+                {(showAllToday ? todayScores : todayScores.slice(0, 4)).map((s, idx) => (
                   <div
                     key={s.id || idx}
                     className={`flex items-center justify-between p-3 rounded-2xl border text-xs font-bold ${
@@ -530,12 +532,14 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
                         ? 'bg-amber-50/70 border-amber-200 text-amber-900 shadow-2xs'
                         : idx === 1
                         ? 'bg-slate-50 border-slate-200 text-slate-800'
-                        : 'bg-rose-50/30 border-rose-100 text-slate-700'
+                        : idx === 2
+                        ? 'bg-rose-50/40 border-rose-200 text-slate-700'
+                        : 'bg-white border-slate-100 text-slate-700'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
                       <span className={`w-7 h-7 rounded-xl shadow-2xs flex items-center justify-center text-xs font-black ${
-                        idx === 0 ? 'bg-[#FFE066] text-[#78350f] border border-white' : idx === 1 ? 'bg-slate-200 text-slate-700' : idx === 2 ? 'bg-amber-200/80 text-amber-800' : 'bg-white text-slate-400'
+                        idx === 0 ? 'bg-[#FFE066] text-[#78350f] border border-white' : idx === 1 ? 'bg-slate-200 text-slate-700' : idx === 2 ? 'bg-amber-200/80 text-amber-800' : 'bg-slate-100 text-slate-500'
                       }`}>
                         #{idx + 1}
                       </span>
@@ -558,6 +562,17 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
                     </div>
                   </div>
                 ))}
+
+                {todayScores.length > 4 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllToday(!showAllToday)}
+                    className="w-full py-2.5 text-center text-xs font-bold text-blush-600 bg-rose-50/70 hover:bg-rose-100/70 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs mt-1"
+                  >
+                    <span>{showAllToday ? "Voir moins" : `Voir tous les joueurs (${todayScores.length})`}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAllToday ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -581,7 +596,7 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
               </div>
             ) : (
               <div className="space-y-2">
-                {globalLeaderboard.map((item, idx) => (
+                {(showAllGlobal ? globalLeaderboard : globalLeaderboard.slice(0, 3)).map((item, idx) => (
                   <div
                     key={item.playerName || idx}
                     className={`flex items-center justify-between p-3 rounded-2xl border text-xs font-bold ${
@@ -589,12 +604,14 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
                         ? 'bg-amber-50/70 border-amber-200 text-amber-900 shadow-2xs ring-1 ring-amber-300'
                         : idx === 1
                         ? 'bg-slate-50 border-slate-200 text-slate-800'
-                        : 'bg-rose-50/30 border-rose-100 text-slate-700'
+                        : idx === 2
+                        ? 'bg-rose-50/40 border-rose-200 text-slate-700'
+                        : 'bg-white border-slate-100 text-slate-700'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
                       <span className={`w-7 h-7 rounded-xl shadow-2xs flex items-center justify-center text-xs font-black ${
-                        idx === 0 ? 'bg-[#FFE066] text-[#78350f] border border-white' : idx === 1 ? 'bg-slate-200 text-slate-700' : idx === 2 ? 'bg-amber-200/80 text-amber-800' : 'bg-white text-slate-400'
+                        idx === 0 ? 'bg-[#FFE066] text-[#78350f] border border-white' : idx === 1 ? 'bg-slate-200 text-slate-700' : idx === 2 ? 'bg-amber-200/80 text-amber-800' : 'bg-slate-100 text-slate-500'
                       }`}>
                         #{idx + 1}
                       </span>
@@ -613,6 +630,17 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
                     </div>
                   </div>
                 ))}
+
+                {globalLeaderboard.length > 3 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllGlobal(!showAllGlobal)}
+                    className="w-full py-2.5 text-center text-xs font-bold text-blush-600 bg-rose-50/70 hover:bg-rose-100/70 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs mt-1"
+                  >
+                    <span>{showAllGlobal ? "Voir moins" : `Voir tous les joueurs (${globalLeaderboard.length})`}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAllGlobal ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
               </div>
             )}
           </div>
