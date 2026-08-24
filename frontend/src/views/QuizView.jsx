@@ -160,7 +160,7 @@ export default function QuizView() {
   );
 
   const handleVote = async (questionId, choice) => {
-    if (isVoting || hasAlreadyVoted) return;
+    if (isVoting) return;
 
     setIsVoting(true);
     const voter = voterName.trim() || 'Un proche';
@@ -384,22 +384,13 @@ export default function QuizView() {
 
               return (
                 <div className="space-y-4">
-                  {hasAlreadyVoted && (
-                    <div className="bg-blue-50 rounded-xl p-2.5 border border-blue-200 text-center text-[11px] font-bold text-blue-800 flex items-center justify-center gap-1.5 animate-in fade-in">
-                      <Lock className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
-                      <span>Mode consultation : Le vote de {voterName} a déjà été définitivement validé.</span>
-                    </div>
-                  )}
-
                   <div className="grid grid-cols-2 gap-3.5">
                     <button
                       key={`btn-liza-${qId}`}
                       type="button"
-                      disabled={isVoting || hasAlreadyVoted}
+                      disabled={isVoting}
                       onClick={() => handleVote(qId, 'Liza')}
-                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all ${
-                        hasAlreadyVoted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
-                      } ${
+                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
                         userChoice === 'Liza'
                           ? 'bg-gradient-to-r from-blush-400 to-blush-500 text-white shadow-lg ring-4 ring-rose-200 scale-102 font-extrabold'
                           : 'bg-rose-50/70 hover:bg-rose-100/70 text-blush-700 border-2 border-rose-200/80 shadow-xs'
@@ -416,11 +407,9 @@ export default function QuizView() {
                     <button
                       key={`btn-clement-${qId}`}
                       type="button"
-                      disabled={isVoting || hasAlreadyVoted}
+                      disabled={isVoting}
                       onClick={() => handleVote(qId, 'Clément')}
-                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all ${
-                        hasAlreadyVoted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
-                      } ${
+                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
                         userChoice === 'Clément'
                           ? 'bg-gradient-to-r from-blueberry-400 to-blueberry-500 text-white shadow-lg ring-4 ring-blue-200 scale-102 font-extrabold'
                           : 'bg-blue-50/70 hover:bg-blue-100/70 text-blueberry-700 border-2 border-blue-200/80 shadow-xs'
