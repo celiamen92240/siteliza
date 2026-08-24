@@ -481,8 +481,8 @@ export default function QuizView() {
                 ))}
               </div>
 
-              {/* Bouton pour relancer le quizz */}
-              <div className="pt-2">
+              {/* Bouton pour relancer le quizz - Très visible & Contrasté */}
+              <div className="pt-3 pb-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -491,10 +491,10 @@ export default function QuizView() {
                     setIsFinished(false);
                     setCurrentIndex(0);
                   }}
-                  className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-3.5 rounded-2xl shadow-md text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-gradient-to-r from-[#F2619C] via-[#e54b87] to-[#812348] hover:opacity-95 text-white font-black py-4 px-4 rounded-2xl shadow-lg border-2 border-white/40 text-sm tracking-wide transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <Users className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-4 h-4 text-white" />
+                  <Users className="w-4 h-4 text-white" />
                   <span>Faire voter un autre proche</span>
                 </button>
               </div>
