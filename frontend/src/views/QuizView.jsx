@@ -293,7 +293,7 @@ export default function QuizView() {
               onClick={() => handleStartQuiz(false)}
               className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-black py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
-              <span>Lancer le Duel</span>
+              <span>Lancer le Quiz</span>
               <Sparkles className="w-4 h-4" />
             </button>
           )}
