@@ -715,33 +715,33 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </div>
             </div>
 
-            {/* Section 1 : Pour Bébé */}
-            <div className="bg-white rounded-3xl p-4 shadow-sm border border-blush-200 space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            {/* Section 1 : Pour Bébé (Pastel Vanille / Citron Crème Doux) */}
+            <div className="bg-[#FFFDF0] rounded-3xl p-4.5 shadow-xs border-2 border-[#FEF08A] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#FEF08A]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-blush-600">
+                  <div className="w-8 h-8 rounded-xl bg-amber-100/70 flex items-center justify-center text-amber-700">
                     <Baby className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-slate-800">Pour Bébé</h4>
+                  <h4 className="font-serif text-sm font-black text-amber-950">Pour Bébé</h4>
                 </div>
-                <span className="text-[10px] font-bold text-blush-800 bg-rose-50 px-2 py-0.5 rounded-full border border-blush-200">
+                <span className="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200">
                   {babyItems.filter(i => i.checked).length}/{babyItems.length} prêts
                 </span>
               </div>
 
               <div className="space-y-1.5">
                 {babyItems.length === 0 ? (
-                  <p className="text-xs text-slate-400 text-center py-2">Aucun article pour bébé pour le moment.</p>
+                  <p className="text-xs text-amber-700/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
                 ) : (
                   babyItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl border border-rose-100 flex items-center justify-between hover:bg-rose-50/40">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-amber-200/60 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
+                          item.checked ? 'bg-amber-500 border-amber-600 text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
@@ -764,11 +764,11 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   placeholder="Ajouter un article pour bébé..."
                   value={inlineNewBaby}
                   onChange={e => setInlineNewBaby(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-xl bg-blush-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                  className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
                   title="Ajouter"
                 >
                   <Plus className="w-4 h-4 stroke-[3px]" />
@@ -776,33 +776,33 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </form>
             </div>
 
-            {/* Section 2 : Pour Liza */}
-            <div className="bg-white rounded-3xl p-4 shadow-sm border border-blush-200 space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            {/* Section 2 : Pour Liza (Pastel Rose Poudré Doux) */}
+            <div className="bg-[#FFF5F7] rounded-3xl p-4.5 shadow-xs border-2 border-[#FECDD3] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#FECDD3]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-blush-600">
+                  <div className="w-8 h-8 rounded-xl bg-rose-100/70 flex items-center justify-center text-rose-700">
                     <ShoppingBag className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-slate-800">Pour Liza</h4>
+                  <h4 className="font-serif text-sm font-black text-rose-950">Pour Liza</h4>
                 </div>
-                <span className="text-[10px] font-bold text-blush-800 bg-rose-50 px-2 py-0.5 rounded-full border border-blush-200">
+                <span className="text-[10px] font-bold text-rose-800 bg-rose-100/80 px-2.5 py-0.5 rounded-full border border-rose-200">
                   {lizaItems.filter(i => i.checked).length}/{lizaItems.length} prêts
                 </span>
               </div>
 
               <div className="space-y-1.5">
                 {lizaItems.length === 0 ? (
-                  <p className="text-xs text-slate-400 text-center py-2">Aucun article pour Liza pour le moment.</p>
+                  <p className="text-xs text-rose-700/60 text-center py-2">Aucun article pour Liza pour le moment.</p>
                 ) : (
                   lizaItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl border border-rose-100 flex items-center justify-between hover:bg-rose-50/40">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-rose-200/60 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
+                          item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
@@ -825,7 +825,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   placeholder="Ajouter un article pour Liza..."
                   value={inlineNewLiza}
                   onChange={e => setInlineNewLiza(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
                 />
                 <button
                   type="submit"
@@ -837,33 +837,33 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </form>
             </div>
 
-            {/* Section 3 : Pour Clément */}
-            <div className="bg-white rounded-3xl p-4 shadow-sm border border-blush-200 space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            {/* Section 3 : Pour Clément (Pastel Lilas / Ciel Doux) */}
+            <div className="bg-[#F5F8FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#BFDBFE] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#BFDBFE]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+                  <div className="w-8 h-8 rounded-xl bg-blue-100/70 flex items-center justify-center text-blue-700">
                     <Luggage className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-slate-800">Pour Clément</h4>
+                  <h4 className="font-serif text-sm font-black text-blue-950">Pour Clément</h4>
                 </div>
-                <span className="text-[10px] font-bold text-purple-800 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                <span className="text-[10px] font-bold text-blue-800 bg-blue-100/80 px-2.5 py-0.5 rounded-full border border-blue-200">
                   {clementItems.filter(i => i.checked).length}/{clementItems.length} prêts
                 </span>
               </div>
 
               <div className="space-y-1.5">
                 {clementItems.length === 0 ? (
-                  <p className="text-xs text-slate-400 text-center py-2">Aucun article pour Clément pour le moment.</p>
+                  <p className="text-xs text-blue-700/60 text-center py-2">Aucun article pour Clément pour le moment.</p>
                 ) : (
                   clementItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl border border-rose-100 flex items-center justify-between hover:bg-rose-50/40">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-blue-200/60 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
+                          item.checked ? 'bg-blue-500 border-blue-600 text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
@@ -886,11 +886,11 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   placeholder="Ajouter un article pour Clément..."
                   value={inlineNewClement}
                   onChange={e => setInlineNewClement(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="flex-1 px-3 py-2 rounded-xl border border-blue-200 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-xl bg-blush-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                  className="w-8 h-8 rounded-xl bg-blue-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
                   title="Ajouter"
                 >
                   <Plus className="w-4 h-4 stroke-[3px]" />
