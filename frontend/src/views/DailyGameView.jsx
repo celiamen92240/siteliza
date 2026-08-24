@@ -395,7 +395,7 @@ export default function DailyGameView() {
                 <span>Détail de tes réponses & Corrigé :</span>
               </p>
 
-              <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+              <div className="space-y-2">
                 {resultDetails.answers.map((ans, idx) => (
                   <div
                     key={ans.id || idx}
