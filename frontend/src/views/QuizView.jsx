@@ -260,40 +260,19 @@ export default function QuizView() {
             />
           </div>
 
-          {/* Message si ce joueur a déjà complété le quiz */}
+          {/* Bouton d'action épuré */}
           {hasAlreadyVoted ? (
-            <div className="bg-blue-50/90 rounded-2xl p-5 border-2 border-blue-200 text-center space-y-3 shadow-xs animate-in fade-in">
-              <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto shadow-2xs">
-                <Lock className="w-5 h-5 stroke-[2.5]" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="text-sm font-black text-blue-900">
-                  {voterName} a déjà répondu à ce Quiz !
-                </h4>
-                <p className="text-xs text-blue-700 font-medium">
-                  Chaque proche ne peut voter qu'une seule fois. Vos choix ont été définitivement enregistrés.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setHasStarted(true);
-                    setActiveTab('results');
-                  }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 px-3 rounded-xl text-xs shadow-xs cursor-pointer transition-all"
-                >
-                  Voir les résultats
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleStartQuiz(true)}
-                  className="bg-white text-blue-800 border-2 border-blue-300 font-bold py-2.5 px-3 rounded-xl text-xs hover:bg-blue-50 cursor-pointer transition-all"
-                >
-                  Revoir mes choix 👀
-                </button>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setHasStarted(true);
+                setActiveTab('results');
+              }}
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            >
+              <span>Voir les résultats du Duel</span>
+              <BarChart3 className="w-4 h-4" />
+            </button>
           ) : (
             <button
               type="button"
