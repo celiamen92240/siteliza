@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Heart, Sparkles, Trophy, MessageSquareText,
-  CalendarHeart, ArrowRight, Lightbulb, ChevronRight, Lock, Mail, Sprout, Camera, MailOpen, Puzzle
+  CalendarHeart, ArrowRight, Lightbulb, ChevronRight, Lock, Mail, Sprout, Camera, MailOpen, Puzzle, ShieldCheck
 } from 'lucide-react';
 import BabyVectorLogo from '../components/BabyVectorLogo';
 import { fruitsData } from '../data/fruitsData';
