@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Camera, Check, User, Sparkles, ChevronDown, UserPlus, X } from 'lucide-react';
+import { Plus, Camera, Check, User, Sparkles, ChevronDown, UserPlus, X, Trash2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { compressImage } from '../utils/imageCompressor';
 
@@ -109,9 +109,24 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
     }
   };
 
-  const currentSelectedParticipant = participants.find(
-    p => p.name?.toLowerCase() === selectedName?.toLowerCase()
-  );
+  const handleDeleteParticipant = async (e, p) => {
+    e.stopPropagation();
+    if (!window.confirm(`Supprimer le profil de joueur « ${p.name} » ?`)) return;
+    try {
+      const res = await fetch(`/api/participants/${encodeURIComponent(p.id || p.name)}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (data.success) {
+        setParticipants(data.participants || []);
+        if (selectedName?.toLowerCase() === p.name?.toLowerCase() && onSelect) {
+          onSelect('', null);
+        }
+      }
+    } catch (err) {
+      console.error("Error deleting participant", err);
+    }
+  };
 
   return (
     <div className="space-y-1.5" ref={dropdownRef}>
@@ -184,20 +199,22 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
                 participants.map((p) => {
                   const isSelected = p.name?.toLowerCase() === selectedName?.toLowerCase();
                   return (
-                    <button
+                    <div
                       key={p.id || p.name}
-                      type="button"
-                      onClick={() => {
-                        if (onSelect) onSelect(p.name, p.photo || p.avatar);
-                        setIsOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all cursor-pointer ${
+                      className={`w-full flex items-center justify-between p-2 rounded-xl transition-all ${
                         isSelected
                           ? 'bg-rose-50 text-blush-700 font-bold border border-rose-200 shadow-2xs'
                           : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onSelect) onSelect(p.name, p.photo || p.avatar);
+                          setIsOpen(false);
+                        }}
+                        className="flex items-center gap-2.5 min-w-0 flex-1 text-left cursor-pointer"
+                      >
                         <div className="w-7 h-7 rounded-full bg-white border border-blush-200 overflow-hidden flex items-center justify-center flex-shrink-0 shadow-2xs">
                           {p.photo ? (
                             <img src={p.photo} alt={p.name} className="w-full h-full object-cover" />
@@ -213,12 +230,22 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
                             </span>
                           )}
                         </div>
-                      </div>
+                      </button>
 
-                      {isSelected && (
-                        <Check className="w-3.5 h-3.5 text-blush-600 stroke-[3px] flex-shrink-0 mr-1" />
-                      )}
-                    </button>
+                      <div className="flex items-center gap-1.5 flex-shrink-0 ml-1.5">
+                        {isSelected && (
+                          <Check className="w-3.5 h-3.5 text-blush-600 stroke-[3px]" />
+                        )}
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteParticipant(e, p)}
+                          className="p-1 text-slate-300 hover:text-red-500 rounded-md hover:bg-red-50 cursor-pointer transition-colors"
+                          title={`Supprimer ${p.name}`}
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
                   );
                 })
               )}

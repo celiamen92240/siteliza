@@ -473,7 +473,8 @@ export const db = {
 
   deleteParticipant(id) {
     const data = readDb();
-    data.participants = (data.participants || []).filter(p => p.id !== id);
+    const cleanId = (id || '').trim().toLowerCase();
+    data.participants = (data.participants || []).filter(p => p.id !== id && (p.name || '').toLowerCase() !== cleanId);
     writeDb(data);
     return data.participants;
   },
@@ -974,11 +975,12 @@ export const db = {
 
   deletePurchaseCategory(categoryName) {
     const data = readDb();
-    if (!Array.isArray(data.purchasesCategories)) data.purchasesCategories = defaultState.purchasesCategories;
-    data.purchasesCategories = data.purchasesCategories.filter(c => c !== categoryName);
+    if (!Array.isArray(data.purchasesCategories)) data.purchasesCategories = [];
+    const catClean = (categoryName || '').trim().toLowerCase();
+    data.purchasesCategories = data.purchasesCategories.filter(c => c.trim().toLowerCase() !== catClean);
     // Nettoyer définitivement les articles rattachés à cette catégorie pour empêcher tout retour
     if (Array.isArray(data.purchasesList)) {
-      data.purchasesList = data.purchasesList.filter(i => i.category !== categoryName);
+      data.purchasesList = data.purchasesList.filter(i => (i.category || '').trim().toLowerCase() !== catClean);
     }
     writeDb(data);
     return this.getPurchases();

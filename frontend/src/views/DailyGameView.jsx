@@ -80,7 +80,7 @@ export default function DailyGameView() {
   );
 
   const handleStartGame = () => {
-    if (!playerName.trim() || todayPlayerScore) return;
+    if (!playerName.trim()) return;
     setIsPlaying(true);
     setIsSubmitted(false);
     setResultDetails(null);
