@@ -549,9 +549,20 @@ export const db = {
   addQuizVote(vote) {
     const data = readDb();
     if (!data.quizVotes) data.quizVotes = [];
+    if (!data.quizCompletedVoters) data.quizCompletedVoters = [];
+
+    const voterClean = (vote.voter || '').trim().toLowerCase();
     
+    // Si la personne a déjà validé l'intégralité du quiz, on bloque toute modification
+    if (data.quizCompletedVoters.includes(voterClean)) {
+      return {
+        alreadyCompleted: true,
+        ...this.getQuizAggregates()
+      };
+    }
+
     const existingIndex = data.quizVotes.findIndex(
-      v => v.questionId === vote.questionId && v.voter.toLowerCase() === (vote.voter || '').toLowerCase()
+      v => v.questionId === vote.questionId && (v.voter || '').trim().toLowerCase() === voterClean
     );
 
     if (existingIndex >= 0) {
@@ -560,13 +571,31 @@ export const db = {
       data.quizVotes.push({ ...vote, timestamp: new Date().toISOString() });
     }
 
+    // Vérifier si toutes les questions ont été répondues pour ce votant
+    const voterVotesCount = data.quizVotes.filter(v => (v.voter || '').trim().toLowerCase() === voterClean).length;
+    if (voterVotesCount >= quizQuestions.length && !data.quizCompletedVoters.includes(voterClean)) {
+      data.quizCompletedVoters.push(voterClean);
+    }
+
     writeDb(data);
+    return this.getQuizAggregates();
+  },
+
+  finishQuiz(voter) {
+    const data = readDb();
+    if (!data.quizCompletedVoters) data.quizCompletedVoters = [];
+    const voterClean = (voter || '').trim().toLowerCase();
+    if (voterClean && !data.quizCompletedVoters.includes(voterClean)) {
+      data.quizCompletedVoters.push(voterClean);
+      writeDb(data);
+    }
     return this.getQuizAggregates();
   },
 
   getQuizAggregates() {
     const data = readDb();
     const votes = data.quizVotes || [];
+    const completedVoters = data.quizCompletedVoters || [];
 
     const stats = {};
     quizQuestions.forEach(q => {
@@ -649,6 +678,7 @@ export const db = {
       summary: {
         totalVotes: totalAllVotes,
         uniqueVotersCount,
+        completedVoters,
         lizaScore: totalLiza,
         clementScore: totalClement,
         lizaGlobalPercent: totalAllVotes > 0 ? Math.round((totalLiza / totalAllVotes) * 100) : 50,

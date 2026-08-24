@@ -246,6 +246,16 @@ app.post('/api/quiz/vote', (req, res) => {
   }
 });
 
+app.post('/api/quiz/finish', (req, res) => {
+  try {
+    const { voter } = req.body;
+    const updated = db.finishQuiz(voter);
+    res.json({ success: true, ...updated });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Mots Croisés & Fléchés Quotidiens (Points & Podium Évolutif)
 app.get('/api/crosswords/daily', (req, res) => {
   try {
