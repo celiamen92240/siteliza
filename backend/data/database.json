@@ -1207,28 +1207,28 @@
   ],
   "dailyGameScores": [
     {
-      "id": "score-lea-today",
-      "playerName": "Léa",
-      "date": "2026-08-24",
-      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
-      "timeSeconds": 68,
-      "timeFormatted": "01:08.0",
-      "correctCount": 12,
-      "totalWords": 12,
-      "points": 1455,
-      "createdAt": "2026-08-24T15:40:00.000Z"
-    },
-    {
       "id": "score-celia-today",
       "playerName": "Célia",
       "date": "2026-08-24",
       "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
       "timeSeconds": 45,
       "timeFormatted": "00:45.0",
-      "correctCount": 12,
+      "correctCount": 10,
       "totalWords": 12,
-      "points": 1013,
+      "points": 893,
       "createdAt": "2026-08-24T15:20:00.000Z"
+    },
+    {
+      "id": "score-lea-today",
+      "playerName": "Léa",
+      "date": "2026-08-24",
+      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
+      "timeSeconds": 68,
+      "timeFormatted": "01:08.0",
+      "correctCount": 8,
+      "totalWords": 12,
+      "points": 738,
+      "createdAt": "2026-08-24T15:40:00.000Z"
     },
     {
       "id": "score-maman-today",
