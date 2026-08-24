@@ -248,7 +248,7 @@ export default function QuizView() {
       </div>
 
       {/* Vue 1: Écran de présentation avant de commencer */}
-      {!hasStarted && (
+      {!hasStarted ? (
         <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border-2 border-pink-100 shadow-lg text-center space-y-5 relative overflow-hidden">
           <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-pink-400 to-purple-400 flex items-center justify-center text-4xl shadow-md border-4 border-white animate-bounce">
             ⚖️
