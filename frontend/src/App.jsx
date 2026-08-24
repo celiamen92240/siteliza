@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Sparkles, Heart } from 'lucide-react';
 import MobileShell from './components/MobileShell';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
@@ -90,12 +91,14 @@ export default function App() {
       </div>
 
       {/* Footer Signature */}
-      <footer className="text-center py-5 pb-24 space-y-0.5">
-        <p className="font-handwriting text-base font-bold text-blush-600 tracking-wide">
-          ✨ Fait par la meilleure des tatas, Célia 💖
+      <footer className="text-center py-5 pb-24 space-y-1">
+        <p className="font-serif text-xs font-black text-[#812348] tracking-wide flex items-center justify-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-[#F2619C] fill-[#FFE066]" />
+          <span>Fait par la meilleure des tatas, Célia</span>
+          <Heart className="w-3.5 h-3.5 text-[#F2619C] fill-[#F2619C]" />
         </p>
         <p className="text-[10px] text-slate-400 font-medium">
-          Avec tout mon amour pour Liza, Clément & notre petite princesse
+          En attendant le plus beau des jours J
         </p>
       </footer>
 
