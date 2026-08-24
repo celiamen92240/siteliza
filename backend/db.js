@@ -78,82 +78,9 @@ const defaultState = {
   ],
   actualBirth: null,
   quizVotes: [],
-  polls: [
-    {
-      id: "poll-1",
-      title: "Thème & Décoration de la chambre de bébé",
-      category: "Décoration 🎨",
-      description: "On hésite entre deux univers très doux pour les murs et le mobile au-dessus du berceau !",
-      options: [
-        { id: "opt-1", label: "🌸 Fleurs Bohème & Nuances Poudrées", votes: 0, emoji: "🌸" },
-        { id: "opt-2", label: "🌙 Nuages Célestes & Étoiles Dorées", votes: 0, emoji: "✨" },
-        { id: "opt-3", label: "🦌 Animaux de la Forêt Féerique", votes: 0, emoji: "🦌" }
-      ],
-      voters: []
-    },
-    {
-      id: "poll-2",
-      title: "Couleur de la poussette tout-terrain",
-      category: "Achats & Équipement 🛒",
-      description: "Aidez-nous à choisir la teinte idéale pour les futures balades !",
-      options: [
-        { id: "opt-1", label: "Chic Rose Nude / Terracotta", votes: 0, emoji: "🎀" },
-        { id: "opt-2", label: "Gris Perle & Châssis Or Rose", votes: 0, emoji: "✨" },
-        { id: "opt-3", label: "Noir Intense & Cuir Cognac", votes: 0, emoji: "🖤" }
-      ],
-      voters: []
-    },
-    {
-      id: "poll-3",
-      title: "La tenue de sortie de maternité pour bébé",
-      category: "Mode Bébé 👗",
-      description: "Quelle petite merveille pour son tout premier jour dehors ?",
-      options: [
-        { id: "opt-1", label: "Ensemble tricot rose poudré avec petit béguin", votes: 0, emoji: "🧶" },
-        { id: "opt-2", label: "Dors-bien en velours blanc avec col claudine", votes: 0, emoji: "🤍" }
-      ],
-      voters: []
-    }
-  ],
-  purchasesCategories: [
-    "Indispensables 🌟",
-    "Chambre & Nuit 🛏️",
-    "Poussette & Sorties 🚗",
-    "Bain & Soins 🛁",
-    "Repas & Allaitement 🍼",
-    "Vêtements (0-3 mois) 👗"
-  ],
-  purchasesList: [
-    { id: "p1", category: "Chambre & Nuit 🛏️", name: "Lit bébé / Berceau cododo", checked: true, note: "Commandé en bois naturel" },
-    { id: "p2", category: "Chambre & Nuit 🛏️", name: "Matelas respirant haute densité", checked: true, note: "" },
-    { id: "p3", category: "Chambre & Nuit 🛏️", name: "3 Gigoteuses 0-6 mois TOG adapté", checked: false, note: "" },
-    { id: "p4", category: "Chambre & Nuit 🛏️", name: "Table & Matelas à langer", checked: true, note: "" },
-    { id: "p5", category: "Chambre & Nuit 🛏️", name: "Veilleuse douce & Mobile musical", checked: false, note: "" },
-    { id: "p6", category: "Chambre & Nuit 🛏️", name: "Babyphone vidéo connecté", checked: true, note: "" },
-    { id: "p7", category: "Chambre & Nuit 🛏️", name: "Commode avec tiroirs de rangement", checked: true, note: "" },
-
-    { id: "p8", category: "Poussette & Sorties 🚗", name: "Poussette Trio (Nacelle + Cosy + Hamac)", checked: true, note: "Coloris Rose Nude" },
-    { id: "p9", category: "Poussette & Sorties 🚗", name: "Base Isofix pour siège auto dans la voiture", checked: true, note: "" },
-    { id: "p10", category: "Poussette & Sorties 🚗", name: "Sac à langer tout équipé avec matelas de voyage", checked: true, note: "" },
-    { id: "p11", category: "Poussette & Sorties 🚗", name: "Nid d'ange chaud pour le cosy", checked: false, note: "" },
-
-    { id: "p12", category: "Bain & Soins 🛁", name: "Baignoire ergonomique & thermomètre de bain", checked: true, note: "" },
-    { id: "p13", category: "Bain & Soins 🛁", name: "Cape de bain toute douce (x3)", checked: false, note: "" },
-    { id: "p14", category: "Bain & Soins 🛁", name: "Trousse de soin (coupe-ongles, brosse douce, mouche-bébé)", checked: false, note: "" },
-    { id: "p15", category: "Bain & Soins 🛁", name: "Liniment oléo-calcaire & cotons bio", checked: false, note: "" },
-    { id: "p16", category: "Bain & Soins 🛁", name: "Thermomètre médical sans contact", checked: true, note: "" },
-
-    { id: "p17", category: "Repas & Allaitement 🍼", name: "Biberons anti-colique en verre & tétines (x4)", checked: false, note: "" },
-    { id: "p18", category: "Repas & Allaitement 🍼", name: "Coussin d'allaitement grand confort", checked: true, note: "" },
-    { id: "p19", category: "Repas & Allaitement 🍼", name: "Bavoirs & langes en mousseline de coton (x8)", checked: false, note: "" },
-    { id: "p20", category: "Repas & Allaitement 🍼", name: "Goupillon & égouttoir à biberons", checked: false, note: "" },
-
-    { id: "p21", category: "Vêtements (0-3 mois) 👗", name: "8 Bodys croisés cache-cœur (manches longues)", checked: true, note: "" },
-    { id: "p22", category: "Vêtements (0-3 mois) 👗", name: "6 Pyjamas dors-bien velours ouverture devant", checked: false, note: "" },
-    { id: "p23", category: "Vêtements (0-3 mois) 👗", name: "3 Bonnets naissance en coton", checked: true, note: "" },
-    { id: "p24", category: "Vêtements (0-3 mois) 👗", name: "Chaussons & paires de chaussettes (x6)", checked: false, note: "" },
-    { id: "p25", category: "Vêtements (0-3 mois) 👗", name: "2 Petits gilets en maille", checked: false, note: "" }
-  ],
+  polls: [],
+  purchasesCategories: [],
+  purchasesList: [],
   maternityBag: [
     { id: "mb1", category: "Salle de Naissance (Bébé)", name: "1 Body croisé taille naissance/1 mois", checked: true },
     { id: "mb2", category: "Salle de Naissance (Bébé)", name: "1 Pyjama chaud ouverture devant", checked: true },

@@ -1018,83 +1018,8 @@
       "timestamp": "2026-08-23T21:02:59.051Z"
     }
   ],
-  "polls": [
-    {
-      "id": "poll-1",
-      "title": "Thème & Décoration de la chambre de bébé",
-      "category": "Décoration 🎨",
-      "description": "On hésite entre deux univers très doux pour les murs et le mobile au-dessus du berceau !",
-      "options": [
-        {
-          "id": "opt-1",
-          "label": "🌸 Fleurs Bohème & Nuances Poudrées",
-          "votes": 0,
-          "emoji": "🌸"
-        },
-        {
-          "id": "opt-2",
-          "label": "🌙 Nuages Célestes & Étoiles Dorées",
-          "votes": 0,
-          "emoji": "✨"
-        },
-        {
-          "id": "opt-3",
-          "label": "🦌 Animaux de la Forêt Féerique",
-          "votes": 0,
-          "emoji": "🦌"
-        }
-      ],
-      "voters": []
-    },
-    {
-      "id": "poll-2",
-      "title": "Couleur de la poussette tout-terrain",
-      "category": "Achats & Équipement 🛒",
-      "description": "Aidez-nous à choisir la teinte idéale pour les futures balades !",
-      "options": [
-        {
-          "id": "opt-1",
-          "label": "Chic Rose Nude / Terracotta",
-          "votes": 0,
-          "emoji": "🎀"
-        },
-        {
-          "id": "opt-2",
-          "label": "Gris Perle & Châssis Or Rose",
-          "votes": 0,
-          "emoji": "✨"
-        },
-        {
-          "id": "opt-3",
-          "label": "Noir Intense & Cuir Cognac",
-          "votes": 0,
-          "emoji": "🖤"
-        }
-      ],
-      "voters": []
-    },
-    {
-      "id": "poll-3",
-      "title": "La tenue de sortie de maternité pour bébé",
-      "category": "Mode Bébé 👗",
-      "description": "Quelle petite merveille pour son tout premier jour dehors ?",
-      "options": [
-        {
-          "id": "opt-1",
-          "label": "Ensemble tricot rose poudré avec petit béguin",
-          "votes": 0,
-          "emoji": "🧶"
-        },
-        {
-          "id": "opt-2",
-          "label": "Dors-bien en velours blanc avec col claudine",
-          "votes": 0,
-          "emoji": "🤍"
-        }
-      ],
-      "voters": []
-    }
-  ],
+  "polls": [],
+  "purchasesCategories": [],
   "purchasesList": [],
   "maternityBag": [
     {

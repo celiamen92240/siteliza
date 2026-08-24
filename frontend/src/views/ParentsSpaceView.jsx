@@ -656,7 +656,16 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             )}
 
             {/* Sections des Catégories empilées */}
-            {purchasesCategories.map(cat => {
+            {purchasesCategories.length === 0 ? (
+              <div className="bg-white rounded-3xl p-7 text-center space-y-2.5 border-2 border-dashed border-blush-200 shadow-2xs">
+                <span className="text-3xl block">🛍️</span>
+                <h4 className="font-serif text-sm font-bold text-slate-800">Aucune catégorie d'achats pour le moment</h4>
+                <p className="text-xs text-slate-400 font-medium max-w-xs mx-auto">
+                  Cliquez sur « + Nouvelle catégorie » pour créer vos premières rubriques personnalisées (ex : Chambre, Poussette, Vêtements...).
+                </p>
+              </div>
+            ) : (
+              purchasesCategories.map(cat => {
               const catItems = purchases.filter(i => i.category === cat);
               const catChecked = catItems.filter(i => i.checked).length;
 
@@ -727,7 +736,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   </form>
                 </div>
               );
-            })}
+            }))}
           </div>
         );
       })()}
