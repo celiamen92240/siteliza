@@ -36,7 +36,7 @@ export default function MobileShell({ children }) {
         </div>
 
         {/* Dynamic content scroll area */}
-        <main className="flex-1 pb-24 overflow-y-auto">
+        <main className="flex-1 pb-32 overflow-y-auto">
           {children}
         </main>
       </div>
