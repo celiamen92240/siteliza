@@ -808,7 +808,36 @@ export const db = {
   // SONDAGES & HÉSITATIONS
   getPolls() {
     const data = readDb();
-    return data.polls || [];
+    const list = data.polls || [];
+    return list.map(poll => {
+      const options = (poll.options || []).map(opt => {
+        const voters = Array.isArray(opt.voters) ? opt.voters : [];
+        return {
+          ...opt,
+          voters,
+          votes: typeof opt.votes === 'number' ? opt.votes : voters.length
+        };
+      });
+
+      // Tous les votants uniques du sondage
+      const allVoters = new Set();
+      options.forEach(o => o.voters.forEach(v => allVoters.add(v)));
+      const totalParticipants = allVoters.size;
+      const totalVotes = options.reduce((sum, o) => sum + o.votes, 0);
+
+      const optionsWithPercent = options.map(opt => ({
+        ...opt,
+        percent: totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0
+      }));
+
+      return {
+        ...poll,
+        multiple: !!poll.multiple,
+        options: optionsWithPercent,
+        totalParticipants,
+        totalVotes
+      };
+    });
   },
 
   votePoll(pollId, optionId, voter) {
@@ -816,16 +845,43 @@ export const db = {
     const poll = (data.polls || []).find(p => p.id === pollId);
     if (!poll) return null;
 
-    if (!poll.voters) poll.voters = [];
-    const option = poll.options.find(o => o.id === optionId);
-    if (option) {
-      option.votes = (option.votes || 0) + 1;
-      if (voter && !poll.voters.includes(voter)) {
-        poll.voters.push(voter);
+    const voterClean = (voter || '').trim();
+    if (!voterClean) return this.getPolls();
+
+    const isMultiple = !!poll.multiple;
+
+    poll.options.forEach(opt => {
+      if (!Array.isArray(opt.voters)) {
+        opt.voters = [];
       }
-      writeDb(data);
+    });
+
+    const targetOption = poll.options.find(o => o.id === optionId);
+    if (!targetOption) return this.getPolls();
+
+    const alreadyVotedTarget = targetOption.voters.includes(voterClean);
+
+    if (alreadyVotedTarget) {
+      // Toggle off : retirer le vote
+      targetOption.voters = targetOption.voters.filter(v => v !== voterClean);
+    } else {
+      // Si choix unique, retirer des autres options d'abord
+      if (!isMultiple) {
+        poll.options.forEach(opt => {
+          opt.voters = opt.voters.filter(v => v !== voterClean);
+        });
+      }
+      // Ajouter le vote sur l'option cible
+      targetOption.voters.push(voterClean);
     }
-    return data.polls;
+
+    // Mettre a jour les totaux
+    poll.options.forEach(opt => {
+      opt.votes = opt.voters.length;
+    });
+
+    writeDb(data);
+    return this.getPolls();
   },
 
   addPoll(newPollData) {
@@ -836,24 +892,26 @@ export const db = {
       title: newPollData.title,
       category: newPollData.category || "Hésitation 💡",
       description: newPollData.description || "",
+      multiple: !!newPollData.multiple,
       options: newPollData.options.map((opt, i) => ({
         id: `opt-${Date.now()}-${i}`,
         label: opt.label,
         emoji: opt.emoji || "🌸",
-        votes: 0
+        votes: 0,
+        voters: []
       })),
       voters: []
     };
     data.polls.unshift(newPoll);
     writeDb(data);
-    return data.polls;
+    return this.getPolls();
   },
 
   deletePoll(pollId) {
     const data = readDb();
     data.polls = (data.polls || []).filter(p => p.id !== pollId);
     writeDb(data);
-    return data.polls;
+    return this.getPolls();
   },
 
   // LISTE D'ACHATS & CATÉGORIES
@@ -1298,11 +1356,14 @@ export const db = {
     const dayOfYear = Math.floor((currentDay - startOfYear) / (1000 * 60 * 60 * 24));
     
     const gridIndex = Math.abs(dayOfYear) % bank.length;
+    const tomorrowGridIndex = Math.abs(dayOfYear + 1) % bank.length;
     const grid = bank[gridIndex];
+    const tomorrowGrid = bank[tomorrowGridIndex];
 
     return {
       date: actualDateStr,
       dayNumber: dayOfYear + 1,
+      tomorrowTheme: tomorrowGrid?.theme || "",
       ...grid
     };
   },

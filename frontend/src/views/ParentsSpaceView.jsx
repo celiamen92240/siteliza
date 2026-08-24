@@ -682,16 +682,16 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                       <p className="text-[11px] text-slate-400 text-center py-1.5">Aucun article dans cette catégorie.</p>
                     ) : (
                       catItems.map(item => (
-                        <div key={item.id} className="py-2 px-2.5 rounded-xl border border-rose-100/70 flex items-center justify-between hover:bg-rose-50/30 transition-colors">
+                        <div key={item.id} className="py-2.5 px-3 rounded-2xl bg-white/90 border border-rose-100/80 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                           <button
                             type="button"
                             onClick={() => togglePurchase(item.id)}
-                            className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
+                            className="flex items-center gap-2.5 text-xs text-left cursor-pointer flex-1"
                           >
-                            <div className={`w-4.5 h-4.5 rounded-md border flex items-center justify-center ${
-                              item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300 bg-white'
+                            <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${
+                              item.checked ? 'bg-blush-500 border-blush-600 text-white shadow-xs' : 'border-slate-300 bg-white hover:border-blush-400'
                             }`}>
-                              {item.checked && <CheckCircle2 className="w-3 h-3" />}
+                              {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                             </div>
                             <span className={item.checked ? 'line-through text-slate-400 font-medium' : 'text-slate-800 font-bold'}>
                               {item.name}

@@ -85,9 +85,9 @@ export default function Header({ onAdminClick, isBorn }) {
             <h1 className="font-serif text-xl font-black text-slate-800 tracking-tight leading-none">
               Liza & Clément
             </h1>
-            <p className="text-[11px] font-bold text-[#F2619C] flex items-center gap-1 mt-0.5">
-              <Heart className="w-3 h-3 fill-[#F2619C] text-[#F2619C]" />
-              <span>En attendant notre petite fille</span>
+            <p className="text-[11px] font-bold text-[#F2619C] flex items-center gap-1.5 mt-0.5">
+              <span>En attendant notre petite princesse</span>
+              <Heart className="w-3.5 h-3.5 stroke-[1.8px] text-[#F2619C]" fill="none" />
             </p>
           </div>
         </div>

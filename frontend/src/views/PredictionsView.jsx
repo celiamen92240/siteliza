@@ -113,9 +113,6 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
       <div className="glass-card-pink rounded-3xl p-5 border border-blush-200/90 shadow-md relative overflow-hidden">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
-              Jeu Familial
-            </span>
             <h2 className="font-serif text-xl font-extrabold text-slate-800 flex items-center gap-2">
               <span>Le Grand Pronostic</span>
             </h2>
