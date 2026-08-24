@@ -138,7 +138,6 @@ export default function PollsView({ voterName }) {
               Vote sur leurs dilemmes : déco de chambre, achats, tenues et prénoms !
             </p>
           </div>
-          <span className="text-3xl">✨</span>
         </div>
       </div>
 
