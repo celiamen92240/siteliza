@@ -96,10 +96,9 @@ export default function QuizView() {
     
     // Si le serveur indique que ce joueur n'a pas complété le quiz, nettoyer les vieux résidus de test
     const cleanName = (name || '').trim().toLowerCase();
-    const isVotedOnServer = (summary?.votedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName) ||
-                            (summary?.completedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName);
+    const isCompletedOnServer = (summary?.completedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName);
     
-    if (!isVotedOnServer) {
+    if (!isCompletedOnServer) {
       localStorage.removeItem(`quiz_completed_${cleanName}`);
       localStorage.removeItem(`quiz_voted_${cleanName}`);
       localStorage.removeItem(`quiz_votes_${name}`);
@@ -130,6 +129,8 @@ export default function QuizView() {
         setShowAddModal(false);
         setNewName('');
         confetti({ particleCount: 30, spread: 50 });
+      } else {
+        alert(data.error || "Ce pseudo existe déjà.");
       }
     } catch (err) {
       console.error(err);
@@ -141,7 +142,7 @@ export default function QuizView() {
       if (participants.length > 0) {
         handleSelectVoter(participants[0].name, participants[0].avatar);
       } else {
-        handleSelectVoter('Maman', '🌸');
+        handleSelectVoter('Liza', '🌸');
       }
     }
     setHasStarted(true);
@@ -149,14 +150,13 @@ export default function QuizView() {
     setActiveTab(readOnlyMode ? 'play' : 'play');
   };
 
-  const allVotedNames = Array.from(new Set([
-    ...(summary?.votedVoters || []),
+  const completedVotersList = Array.from(new Set([
     ...(summary?.completedVoters || [])
   ].filter(Boolean)));
 
-  // SE BASE UNIQUEMENT SUR LA BASE DE DONNÉES OFFICIELLE DU SERVEUR
+  // SE BASE UNIQUEMENT SUR LA LISTE DES PERSONNES AYANT TERMINÉ TOUT LE QUIZ
   const hasAlreadyVoted = Boolean(
-    voterName && allVotedNames.some(v => (v || '').trim().toLowerCase() === voterName.trim().toLowerCase())
+    voterName && completedVotersList.some(v => (v || '').trim().toLowerCase() === voterName.trim().toLowerCase())
   );
 
   const handleVote = async (questionId, choice) => {
@@ -228,30 +228,34 @@ export default function QuizView() {
       {/* Header Banner - Titre unique sans onglets */}
       <div className="bg-gradient-to-br from-[#FFE066]/35 via-white to-[#E7BEF8]/40 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-2">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-2.5 py-0.5 rounded-full border border-white/80 flex items-center gap-1.5 shadow-2xs">
-              <Users className="w-3 h-3 text-[#78350f]" />
-              <span>{(summary?.uniqueVotersCount || 0) <= 1 ? `${summary?.uniqueVotersCount || 0} participant` : `${summary?.uniqueVotersCount || 0} participants`}</span>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black tracking-widest text-[#d6417f] uppercase bg-pink-100/70 px-3 py-1 rounded-full border border-pink-200">
+              Duel des Futurs Parents
             </span>
+            <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-spin" />
+              <span className="text-[10px] font-black text-slate-700">50 Défis</span>
+            </div>
           </div>
-
-          <h2 className="font-serif text-2xl font-black text-[#812348] tracking-tight leading-tight pt-0.5">
-            Qui de Liza ou de Clément ?
+          <h2 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+            <span>Le Grand Quiz Liza vs Clément</span>
+            <span className="text-lg">👶⚖️</span>
           </h2>
-          <p className="text-xs text-[#812348]/80 font-medium">
-            Votez et découvrez qui remportera les 5 grands titres de super parents !
+          <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            À qui ressemblera le plus la petite ? Vote pour chaque trait et découvre les pronostics de tous les proches !
           </p>
         </div>
       </div>
 
-      {/* ======================================================== */}
-      {/* 1. SECTION VOTE AU QUIZ (SÉLECTION JOUEUR OU QUESTIONS) */}
-      {/* ======================================================== */}
-      {!hasStarted ? (
-        /* ÉCRAN 0 : SÉLECTION DU JOUEUR */
-        <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-[#E7BEF8] text-center space-y-4 animate-in zoom-in-95">
-          <div className="space-y-1">
-            <h3 className="font-serif text-base font-black text-slate-800">
+      {/* Vue 1: Écran de présentation avant de commencer */}
+      {!hasStarted && (
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border-2 border-pink-100 shadow-lg text-center space-y-5 relative overflow-hidden">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-pink-400 to-purple-400 flex items-center justify-center text-4xl shadow-md border-4 border-white animate-bounce">
+            ⚖️
+          </div>
+
+          <div className="space-y-1.5 max-w-md mx-auto">
+            <h3 className="text-base font-black text-slate-800">
               Prêt(e) à voter pour ce duel ?
             </h3>
             <p className="text-xs text-slate-500 font-medium">
@@ -264,7 +268,7 @@ export default function QuizView() {
             <ParticipantSelector
               selectedName={voterName}
               onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
-              highlightBlueNames={allVotedNames}
+              highlightBlueNames={completedVotersList}
               highlightLabel="A déjà voté"
               label="Qui participe au quiz ?"
             />

@@ -607,10 +607,7 @@ export const db = {
     const data = readDb();
     const votes = data.quizVotes || [];
     const uniqueVoters = Array.from(new Set(votes.map(v => (v.voter || '').trim().toLowerCase()).filter(Boolean)));
-    const completedVoters = Array.from(new Set([
-      ...(data.quizCompletedVoters || []),
-      ...uniqueVoters
-    ].filter(Boolean)));
+    const completedVoters = Array.from(new Set((data.quizCompletedVoters || []).map(v => (v || '').trim().toLowerCase()).filter(Boolean)));
 
     const stats = {};
     quizQuestions.forEach(q => {
