@@ -521,13 +521,21 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const distPath = path.join(__dirname, '../frontend/dist');
 
-app.use(express.static(distPath));
+// Serve frontend static build files (HTML is never cached so new builds show instantly)
+app.use(express.static(path.join(__dirname, '../frontend/dist'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
   }
 });
 
