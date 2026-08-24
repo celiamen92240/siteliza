@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy } from 'lucide-react';
+import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy, Mail } from 'lucide-react';
 import { fruitsData } from '../data/fruitsData';
 import { getTodayDailyFact } from '../data/dailyFacts';
 
@@ -288,7 +288,9 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
       {/* 3. LE SAVIEZ-VOUS DU JOUR (JAUNE SOLEIL CHAUD ET DOUX) */}
       <div className="bg-gradient-to-br from-[#FFE066]/45 via-[#FFE066]/25 to-white rounded-3xl p-4 shadow-md border-2 border-[#FFE066] space-y-2 relative overflow-hidden">
         <div className="flex items-center gap-2">
-          <span className="text-lg p-1 bg-white rounded-lg shadow-2xs">💡</span>
+          <div className="w-7 h-7 rounded-xl bg-white text-amber-500 flex items-center justify-center shadow-2xs border border-[#FFE066]">
+            <Lightbulb className="w-4 h-4 text-amber-500 fill-amber-300" />
+          </div>
           <h3 className="font-serif text-xs font-black text-[#78350f]">
             Le saviez-vous ? • Astuce du Jour
           </h3>
@@ -325,7 +327,9 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
             className="bg-gradient-to-br from-[#F2619C] to-[#de3881] text-white p-4 rounded-3xl shadow-md border border-[#F2619C]/50 hover:shadow-lg active:scale-95 text-left transition-all group flex flex-col justify-between h-30 cursor-pointer"
           >
             <div className="flex justify-between items-start">
-              <span className="text-3xl p-1 bg-white/20 rounded-2xl">🎯</span>
+              <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center shadow-xs border border-white/30">
+                <Target className="w-5 h-5 text-white" />
+              </div>
               <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
@@ -379,7 +383,9 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
             className="bg-gradient-to-br from-[#FFE066] to-[#FED049] text-[#78350f] p-4 rounded-3xl shadow-md border-2 border-white hover:shadow-lg active:scale-95 text-left transition-all group flex flex-col justify-between h-30 cursor-pointer"
           >
             <div className="flex justify-between items-start">
-              <span className="text-3xl p-1 bg-white/40 rounded-2xl">💡</span>
+              <div className="w-10 h-10 rounded-2xl bg-white/35 backdrop-blur-xs flex items-center justify-center shadow-xs border border-white/50">
+                <Lightbulb className="w-5 h-5 text-[#78350f] fill-[#FFE066]" />
+              </div>
               <ArrowRight className="w-4 h-4 text-[#78350f]/80 group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
@@ -396,7 +402,10 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           className="w-full bg-white p-4 rounded-3xl shadow-md border-2 border-[#E7BEF8] hover:border-[#F2619C] active:scale-[0.99] flex items-center justify-between group transition-all cursor-pointer"
         >
           <div className="flex items-center gap-3">
-            <span className="text-3xl p-1 bg-[#fdf2f7] rounded-2xl">💌</span>
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-100 border border-pink-200 flex items-center justify-center shadow-2xs relative flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#F2619C] stroke-[2.2px]" />
+              <Heart className="w-2.5 h-2.5 text-pink-500 fill-pink-500 absolute top-1.5 right-1.5 drop-shadow-2xs" />
+            </div>
             <div className="text-left">
               <p className="font-serif font-black text-sm text-slate-800">Capsule d'Amour & Mots Doux</p>
               <p className="text-[10px] text-slate-400">Laissez un message pour la petite puce</p>

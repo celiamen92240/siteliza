@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HeartHandshake, Send, Heart, Sparkles, Trash2, CheckCircle2 } from 'lucide-react';
+import { HeartHandshake, Send, Heart, Sparkles, Trash2, CheckCircle2, Mail } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
@@ -85,7 +85,7 @@ export default function GuestbookView() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
-              Capsule d'Amour 💌
+              Capsule d'Amour
             </span>
             <h2 className="font-serif text-xl font-extrabold text-slate-800">
               Livre d'or & Mots Doux
@@ -94,7 +94,10 @@ export default function GuestbookView() {
               Laisse un mot d'amour et de tendresse pour Liza, Clément et leur petite fille !
             </p>
           </div>
-          <span className="text-3xl">💌</span>
+          <div className="w-12 h-12 rounded-2xl bg-white/90 border border-pink-200 flex items-center justify-center shadow-2xs relative flex-shrink-0">
+            <Mail className="w-6 h-6 text-[#F2619C] stroke-[2.2px]" />
+            <Heart className="w-3 h-3 text-pink-500 fill-pink-500 absolute top-1.5 right-1.5 drop-shadow-2xs animate-pulse" />
+          </div>
         </div>
       </div>
 
@@ -167,8 +170,11 @@ export default function GuestbookView() {
         </div>
 
         {messages.length === 0 ? (
-          <div className="text-center py-8 bg-white rounded-3xl border border-rose-100 p-6 space-y-2">
-            <span className="text-3xl">💌</span>
+          <div className="text-center py-8 bg-white rounded-3xl border border-rose-100 p-6 space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-pink-200 flex items-center justify-center shadow-2xs relative mx-auto">
+              <Mail className="w-6 h-6 text-[#F2619C] stroke-[2.2px]" />
+              <Heart className="w-3 h-3 text-pink-500 fill-pink-500 absolute top-1.5 right-1.5 drop-shadow-2xs" />
+            </div>
             <p className="text-xs font-bold text-slate-700">La capsule d'amour est encore vide</p>
             <p className="text-[11px] text-slate-400">Sois le premier à laisser un mot doux à la petite merveille !</p>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HelpCircle, PlusCircle, CheckCircle2, Vote, Sparkles, Lock, X, Trash2 } from 'lucide-react';
+import { HelpCircle, PlusCircle, CheckCircle2, Vote, Sparkles, Lock, X, Trash2, Lightbulb } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function PollsView({ voterName }) {
@@ -131,8 +131,11 @@ export default function PollsView({ voterName }) {
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
               Sondages & Idées • Aidez les Parents !
             </span>
-            <h2 className="font-serif text-xl font-extrabold text-slate-800">
-              💡 Hésitations de Liza & Clément
+            <h2 className="font-serif text-xl font-extrabold text-slate-800 flex items-center gap-2">
+              <span>Hésitations de Liza & Clément</span>
+              <div className="w-7 h-7 rounded-xl bg-white text-amber-500 flex items-center justify-center shadow-2xs border border-amber-200">
+                <Lightbulb className="w-4 h-4 text-amber-500 fill-amber-300" />
+              </div>
             </h2>
             <p className="text-xs text-rose-500 font-medium">
               Vote sur leurs dilemmes : déco de chambre, achats, tenues et prénoms !
@@ -255,7 +258,9 @@ export default function PollsView({ voterName }) {
             </button>
 
             <div className="text-center space-y-1">
-              <span className="text-3xl">💡</span>
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-500 flex items-center justify-center mx-auto shadow-2xs">
+                <Lightbulb className="w-6 h-6 fill-amber-300" />
+              </div>
               <h3 className="font-serif text-lg font-black text-slate-800">
                 Nouveau Dilemme des Parents
               </h3>
