@@ -237,13 +237,19 @@ export default function QuizView() {
 
       {/* Vue 1: Écran de sélection sobre et élégant */}
       {!hasStarted ? (
-        <div className="bg-white rounded-3xl p-5 shadow-sm border-2 border-[#E7BEF8] space-y-4">
+        <div className="bg-white rounded-3xl p-5 shadow-sm border-2 border-[#E7BEF8] space-y-3.5 relative z-20">
+          <div className="space-y-0.5 text-center">
+            <h3 className="font-serif text-base font-black text-slate-800">
+              Prêt(e) à voter ?
+            </h3>
+          </div>
+
           <ParticipantSelector
             selectedName={voterName}
             onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
             highlightBlueNames={completedVotersList}
             highlightLabel="A déjà voté"
-            label="Qui participe au quiz ?"
+            label="Qui participe à ce quizz ?"
           />
 
           {/* Bouton d'action */}

@@ -212,7 +212,7 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
 
           {/* Floating Dropdown Menu */}
           {isOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1.5 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border-2 border-blush-200 p-1.5 space-y-1 max-h-56 overflow-y-auto animate-in fade-in zoom-in-95">
+            <div className="absolute top-full left-0 right-0 mt-1.5 z-50 bg-white/98 backdrop-blur-md rounded-2xl shadow-2xl border-2 border-blush-200 p-1.5 space-y-1 max-h-72 overflow-y-auto animate-in fade-in zoom-in-95">
               {participants.length === 0 ? (
                 <div className="text-center py-3 text-xs text-slate-400 font-medium">
                   Aucun joueur pour le moment
