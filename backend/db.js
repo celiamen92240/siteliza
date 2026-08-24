@@ -78,7 +78,7 @@ const defaultState = {
   ],
   actualBirth: null,
   quizVotes: [],
-  quizCompletedVoters: ["léa", "clément"],
+  quizCompletedVoters: ["léa", "clément", "liza"],
   polls: [],
   purchasesCategories: [],
   purchasesList: [],
