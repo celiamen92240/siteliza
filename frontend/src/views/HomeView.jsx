@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy, Mail, MailOpen, Puzzle, MessageSquareText, ShieldCheck, ChevronRight, Sprout, CalendarHeart, Camera } from 'lucide-react';
+import {
+  Heart, Sparkles, Trophy, MessageSquareText,
+  CalendarHeart, ArrowRight, Lightbulb, ChevronRight, Lock, Mail, Sprout, Camera, MailOpen
+} from 'lucide-react';
+import BabyVectorLogo from '../components/BabyVectorLogo';
 import { fruitsData } from '../data/fruitsData';
 import { getTodayDailyFact } from '../data/dailyFacts';
 import { compressImage } from '../utils/imageCompressor';
@@ -205,11 +209,10 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
               </p>
             </div>
 
-            <div className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-md border-2 border-white flex flex-col items-center justify-center text-center">
-              <span className="text-2xl leading-none">👶</span>
-              <span className="text-[9px] font-extrabold text-[#F2619C] mt-1 leading-tight">Princesse</span>
-            </div>
+          <div className="flex items-center justify-center relative">
+            <BabyVectorLogo gender="girl" size={62} className="drop-shadow-md hover:scale-110 transition-transform" />
           </div>
+        </div>
 
           {/* 4 CARTOUCHES DE TEMPS RÉEL */}
           <div className="grid grid-cols-4 gap-2 pt-1 relative z-10">
