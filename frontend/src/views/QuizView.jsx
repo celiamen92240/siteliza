@@ -1,7 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { HelpCircle, Sparkles, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight, Trophy, User, ArrowRight, UserCheck, BarChart3, Flame, Award, Heart } from 'lucide-react';
+import { HelpCircle, Sparkles, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight, Trophy, User, ArrowRight, UserCheck, BarChart3, Flame, Award, Heart, ShoppingBag, Smile, Compass, Moon, Users, UserPlus } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
+
+const getCategoryIcon = (categoryName, iconClass = "w-4 h-4") => {
+  const cat = (categoryName || '').toLowerCase();
+  if (cat.includes('câlin') || cat.includes('calin') || cat.includes('amour') || cat.includes('tendre')) {
+    return <Heart className={`${iconClass} text-pink-500`} />;
+  }
+  if (cat.includes('dépensier') || cat.includes('depensier') || cat.includes('achat') || cat.includes('shopping')) {
+    return <ShoppingBag className={`${iconClass} text-amber-500`} />;
+  }
+  if (cat.includes('joueur') || cat.includes('complice') || cat.includes('fou') || cat.includes('rire')) {
+    return <Smile className={`${iconClass} text-purple-500`} />;
+  }
+  if (cat.includes('aventurier') || cat.includes('sportif') || cat.includes('sport')) {
+    return <Compass className={`${iconClass} text-blue-500`} />;
+  }
+  if (cat.includes('nocturne') || cat.includes('patient') || cat.includes('nuit')) {
+    return <Moon className={`${iconClass} text-indigo-500`} />;
+  }
+  return <Sparkles className={`${iconClass} text-rose-500`} />;
+};
+
+const getCategoryBg = (categoryName) => {
+  const cat = (categoryName || '').toLowerCase();
+  if (cat.includes('câlin') || cat.includes('calin')) return "bg-pink-50 border-pink-200";
+  if (cat.includes('dépensier') || cat.includes('depensier')) return "bg-amber-50 border-amber-200";
+  if (cat.includes('joueur') || cat.includes('complice')) return "bg-purple-50 border-purple-200";
+  if (cat.includes('aventurier') || cat.includes('sportif')) return "bg-blue-50 border-blue-200";
+  if (cat.includes('nocturne') || cat.includes('patient')) return "bg-indigo-50 border-indigo-200";
+  return "bg-rose-50 border-rose-200";
+};
 
 export default function QuizView() {
   const [activeTab, setActiveTab] = useState('play'); // 'play' or 'results'
@@ -280,8 +310,9 @@ export default function QuizView() {
 
                 {/* Category Badge & Question Counter */}
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-blush-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-100">
-                    {currentQ.categoryIcon} {currentQ.category}
+                  <span className="text-xs font-extrabold text-blush-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-100 flex items-center gap-1.5 shadow-2xs">
+                    {getCategoryIcon(currentQ.category, "w-3.5 h-3.5")}
+                    <span>{currentQ.category}</span>
                   </span>
 
                   <span className="text-xs font-extrabold text-slate-400">
@@ -394,49 +425,39 @@ export default function QuizView() {
             </div>
           ) : (
             <>
-              {/* LES 5 CATÉGORIES DÉTAILLÉES (PALMARÈS) */}
+              {/* LES 5 CATÉGORIES DÉTAILLÉES (PALMARÈS SANS TEXTE DE COURONNE) */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
                   <h3 className="font-serif text-sm font-black text-slate-800 flex items-center gap-1.5">
                     <Award className="w-4 h-4 text-blush-500" />
                     <span>Palmarès des Parents (Qui est le plus...) :</span>
                   </h3>
-                  <span className="text-[10px] text-slate-400 font-bold">5 titres en jeu</span>
+                  <span className="text-[10px] text-slate-400 font-bold">5 thématiques</span>
                 </div>
 
                 {(summary.byCategory && summary.byCategory.length > 0 ? summary.byCategory : [
-                  { category: "Le plus câlin", categoryIcon: "🥰", lizaPercent: 75, clementPercent: 25, winner: "Liza", questionsCount: 10 },
-                  { category: "Le plus dépensier", categoryIcon: "🛍️", lizaPercent: 80, clementPercent: 20, winner: "Liza", questionsCount: 10 },
-                  { category: "Le plus joueur & complice", categoryIcon: "🤪", lizaPercent: 50, clementPercent: 50, winner: "Égalité", questionsCount: 10 },
-                  { category: "Le plus aventurier & sportif", categoryIcon: "⚽", lizaPercent: 40, clementPercent: 60, winner: "Clément", questionsCount: 10 },
-                  { category: "Le plus nocturne & patient", categoryIcon: "🌙", lizaPercent: 45, clementPercent: 55, winner: "Clément", questionsCount: 10 }
+                  { category: "Le plus câlin", lizaPercent: 75, clementPercent: 25, questionsCount: 10 },
+                  { category: "Le plus dépensier", lizaPercent: 80, clementPercent: 20, questionsCount: 10 },
+                  { category: "Le plus joueur & complice", lizaPercent: 50, clementPercent: 50, questionsCount: 10 },
+                  { category: "Le plus aventurier & sportif", lizaPercent: 40, clementPercent: 60, questionsCount: 10 },
+                  { category: "Le plus nocturne & patient", lizaPercent: 45, clementPercent: 55, questionsCount: 10 }
                 ]).map((cat, i) => (
                   <div
                     key={cat.category || i}
-                    className="bg-white rounded-3xl p-4 shadow-sm border border-lilac-200/70 space-y-2.5"
+                    className="bg-white rounded-3xl p-4 shadow-sm border border-rose-100 space-y-3"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl">{cat.categoryIcon || "👑"}</span>
-                        <div>
-                          <h4 className="font-serif text-xs font-black text-slate-800 leading-tight">
-                            « {cat.category} »
-                          </h4>
-                          <span className="text-[10px] text-slate-400 font-medium">
-                            {cat.questionsCount || 10} questions votées
-                          </span>
-                        </div>
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-9 h-9 rounded-2xl flex items-center justify-center border shadow-2xs flex-shrink-0 ${getCategoryBg(cat.category)}`}>
+                        {getCategoryIcon(cat.category, "w-4 h-4")}
                       </div>
-
-                      <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
-                        cat.winner === 'Liza'
-                          ? 'bg-blush-50 text-blush-800 border-blush-200'
-                          : cat.winner === 'Clément'
-                          ? 'bg-blueberry-50 text-blueberry-800 border-blueberry-200'
-                          : 'bg-slate-50 text-slate-700 border-slate-200'
-                      }`}>
-                        👑 {cat.winner === 'Liza' ? 'Liza remporte' : cat.winner === 'Clément' ? 'Clément remporte' : '50/50 Égalité'}
-                      </span>
+                      <div>
+                        <h4 className="font-serif text-xs font-black text-slate-800 leading-tight">
+                          « {cat.category} »
+                        </h4>
+                        <span className="text-[10px] text-slate-400 font-medium">
+                          {cat.questionsCount || 10} questions votées
+                        </span>
+                      </div>
                     </div>
 
                     {/* Category Gauge */}
@@ -445,7 +466,7 @@ export default function QuizView() {
                         <span className="text-blush-700">Liza : {cat.lizaPercent}%</span>
                         <span className="text-blueberry-700">{cat.clementPercent}% : Clément</span>
                       </div>
-                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex">
+                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
                         <div
                           className="h-full bg-gradient-to-r from-blush-400 to-blush-500"
                           style={{ width: `${cat.lizaPercent}%` }}
@@ -473,7 +494,8 @@ export default function QuizView() {
                   className="w-full bg-blush-500 hover:bg-blush-600 text-white font-bold py-3.5 rounded-2xl shadow-md text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Faire voter un autre proche 👥</span>
+                  <Users className="w-3.5 h-3.5" />
+                  <span>Faire voter un autre proche</span>
                 </button>
               </div>
             </>
@@ -485,8 +507,10 @@ export default function QuizView() {
       {showAddModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-xs w-full p-5 shadow-2xl border border-rose-200 space-y-3.5 animate-in zoom-in-95">
-            <div className="text-center space-y-0.5">
-              <span className="text-3xl">👤</span>
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 text-blush-600 flex items-center justify-center mx-auto shadow-2xs">
+                <UserPlus className="w-6 h-6" />
+              </div>
               <h3 className="font-serif text-base font-bold text-slate-800">
                 Nouveau Joueur
               </h3>
