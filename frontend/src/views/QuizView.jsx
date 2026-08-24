@@ -190,16 +190,12 @@ export default function QuizView() {
 
   return (
     <div className="px-5 space-y-5 pb-8">
-      {/* Header Banner - Design Épuré */}
-      <div className="bg-gradient-to-br from-[#FFE066]/35 via-white to-[#E7BEF8]/40 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-4">
+      {/* Header Banner - Titre unique sans onglets */}
+      <div className="bg-gradient-to-br from-[#FFE066]/35 via-white to-[#E7BEF8]/40 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-2">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-2.5 py-0.5 rounded-full border border-white/80 flex items-center gap-1 shadow-2xs">
               <span>Duel des Parents • 50 Questions</span>
-            </span>
-            
-            <span className="text-[10px] font-bold text-slate-600 bg-white/70 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-[#E7BEF8]/60 flex items-center shadow-2xs">
-              {(summary.uniqueVotersCount || 0) === 1 ? '1 participant' : `${summary.uniqueVotersCount || 0} participants`}
             </span>
           </div>
 
@@ -210,298 +206,255 @@ export default function QuizView() {
             Votez et découvrez qui remportera les 5 grands titres de super parents !
           </p>
         </div>
-
-        {/* Segmented Control Pinterest Style : Sans fond blanc agressif */}
-        <div className="bg-[#E7BEF8]/30 backdrop-blur-md p-1.5 rounded-2xl border border-[#E7BEF8]/60 shadow-2xs flex gap-1.5">
-          <button
-            type="button"
-            onClick={() => { setActiveTab('play'); }}
-            className={`flex-1 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-center text-xs font-black tracking-wide flex items-center justify-center gap-1.5 ${
-              activeTab === 'play'
-                ? 'bg-[#F2619C] text-white shadow-md scale-[1.02]'
-                : 'text-[#812348] hover:bg-white/40'
-            }`}
-          >
-            <span>Répondre au Quiz</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => { setActiveTab('results'); fetchQuizData(); }}
-            className={`flex-1 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-center text-xs font-black tracking-wide flex items-center justify-center gap-1.5 ${
-              activeTab === 'results'
-                ? 'bg-[#812348] text-white shadow-md scale-[1.02]'
-                : 'text-[#812348] hover:bg-white/40'
-            }`}
-          >
-            <Trophy className="w-3.5 h-3.5" />
-            <span>Tendances & Résultats</span>
-          </button>
-        </div>
       </div>
 
       {/* ======================================================== */}
-      {/* 1. ONGLET JOUER AU QUIZ (SÉLECTION JOUEUR OU QUESTIONS) */}
+      {/* 1. SECTION VOTE AU QUIZ (SÉLECTION JOUEUR OU QUESTIONS) */}
       {/* ======================================================== */}
-      {activeTab === 'play' && (
-        <>
-          {!hasStarted ? (
-            /* ÉCRAN 0 : SÉLECTION DU JOUEUR SANS DOUBLON DE TITRE */
-            <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-[#E7BEF8] text-center space-y-4 animate-in zoom-in-95">
-              <div className="space-y-1">
-                <h3 className="font-serif text-base font-black text-slate-800">
-                  Prêt(e) à voter pour ce duel ?
-                </h3>
-                <p className="text-xs text-slate-500 font-medium">
-                  Sélectionne ton profil ci-dessous pour enregistrer tes choix
-                </p>
-              </div>
+      {!hasStarted ? (
+        /* ÉCRAN 0 : SÉLECTION DU JOUEUR */
+        <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-[#E7BEF8] text-center space-y-4 animate-in zoom-in-95">
+          <div className="space-y-1">
+            <h3 className="font-serif text-base font-black text-slate-800">
+              Prêt(e) à voter pour ce duel ?
+            </h3>
+            <p className="text-xs text-slate-500 font-medium">
+              Sélectionne ton profil ci-dessous pour enregistrer tes choix
+            </p>
+          </div>
 
-              {/* Sélection du joueur propre et élégante */}
-              <div className="text-left pt-1">
-                <ParticipantSelector
-                  selectedName={voterName}
-                  onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
-                  label="Qui participe au quiz ?"
-                />
+          {/* Sélection du joueur propre et élégante */}
+          <div className="text-left pt-1">
+            <ParticipantSelector
+              selectedName={voterName}
+              onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
+              label="Qui participe au quiz ?"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleStartQuiz}
+            className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-bold py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+          >
+            <span>Lancer le Duel</span>
+            <Sparkles className="w-4 h-4" />
+          </button>
+        </div>
+      ) : isFinished ? (
+        /* ÉCRAN FIN DU QUIZ */
+        <div className="bg-gradient-to-br from-[#FFE066]/30 via-white to-[#E7BEF8]/40 rounded-3xl p-6 shadow-md border-2 border-[#E7BEF8] text-center space-y-3.5 animate-in zoom-in-95">
+          <span className="text-4xl block">🎉</span>
+          <h3 className="font-serif text-lg font-black text-[#812348]">
+            Merci pour ton vote {voterName} !
+          </h3>
+          <p className="text-xs text-slate-600 font-medium">
+            Tes réponses ont été enregistrées et intégrées aux tendances ci-dessous.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => {
+              setHasStarted(false);
+              setIsFinished(false);
+              setCurrentIndex(0);
+            }}
+            className="w-full bg-gradient-to-r from-[#F2619C] via-[#e54b87] to-[#812348] text-white font-black py-4 rounded-2xl shadow-lg border-2 border-white flex items-center justify-center gap-2 text-sm uppercase tracking-wide cursor-pointer transition-all hover:scale-[1.02] active:scale-95"
+          >
+            <UserPlus className="w-5 h-5 text-white" />
+            <span>Faire voter un autre proche</span>
+          </button>
+        </div>
+      ) : (
+        /* QUESTION ACTIVE DU QUIZ */
+        currentQ ? (
+          <div key={`question-card-${currentQ.id || currentIndex}`} className="bg-white rounded-3xl p-6 shadow-lg border-2 border-blush-200 space-y-5 relative overflow-hidden animate-in fade-in zoom-in-95">
+            {/* Top Bar: Player identity with Photo & Change */}
+            <div className="flex items-center justify-between border-b border-rose-50 pb-2.5">
+              <div className="flex items-center gap-2">
+                {(() => {
+                  const currentParticipant = participants.find(p => p.name?.toLowerCase() === voterName?.toLowerCase());
+                  if (currentParticipant?.photo) {
+                    return <img src={currentParticipant.photo} alt={voterName} className="w-7 h-7 rounded-full object-cover border-2 border-[#F2619C] shadow-2xs" />;
+                  }
+                  return <div className="w-7 h-7 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-xs">{currentParticipant?.avatar || '🌸'}</div>;
+                })()}
+                <span className="text-xs font-bold text-slate-700">
+                  Joueur : <strong className="text-blush-600">{voterName}</strong>
+                </span>
               </div>
 
               <button
                 type="button"
-                onClick={handleStartQuiz}
-                className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-bold py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                onClick={() => setHasStarted(false)}
+                className="text-[10px] font-bold text-slate-400 hover:text-blush-600 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200 cursor-pointer"
               >
-                <span>Lancer le Duel</span>
-                <ArrowRight className="w-4 h-4" />
+                Changer
               </button>
             </div>
-          ) : (
-            /* ÉCRAN QUESTIONS EN COURS */
-            loading ? (
-              <div className="bg-white rounded-3xl p-8 text-center space-y-3 border border-rose-100 shadow-sm">
-                <div className="w-8 h-8 border-3 border-blush-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="text-xs font-bold text-slate-600">Chargement des 50 questions du duel...</p>
-              </div>
-            ) : currentQ ? (
-              <div key={`question-card-${currentQ.id || currentIndex}`} className="bg-white rounded-3xl p-6 shadow-lg border-2 border-blush-200 space-y-5 relative overflow-hidden animate-in fade-in zoom-in-95">
-                {/* Top Bar: Player identity with Photo & Change */}
-                <div className="flex items-center justify-between border-b border-rose-50 pb-2.5">
-                  <div className="flex items-center gap-2">
-                    {(() => {
-                      const currentParticipant = participants.find(p => p.name?.toLowerCase() === voterName?.toLowerCase());
-                      if (currentParticipant?.photo) {
-                        return <img src={currentParticipant.photo} alt={voterName} className="w-7 h-7 rounded-full object-cover border-2 border-[#F2619C] shadow-2xs" />;
-                      }
-                      return <div className="w-7 h-7 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-xs">{currentParticipant?.avatar || '🌸'}</div>;
-                    })()}
-                    <span className="text-xs font-bold text-slate-700">
-                      Joueur : <strong className="text-blush-600">{voterName}</strong>
-                    </span>
-                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setHasStarted(false)}
-                    className="text-[10px] font-bold text-slate-400 hover:text-blush-600 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200 cursor-pointer"
-                  >
-                    Changer
-                  </button>
-                </div>
+            {/* Category Badge & Question Counter */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-extrabold text-blush-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-100 flex items-center gap-1.5 shadow-2xs">
+                {getCategoryIcon(currentQ.category, "w-3.5 h-3.5")}
+                <span>{currentQ.category}</span>
+              </span>
 
-                {/* Category Badge & Question Counter */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-blush-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-100 flex items-center gap-1.5 shadow-2xs">
-                    {getCategoryIcon(currentQ.category, "w-3.5 h-3.5")}
-                    <span>{currentQ.category}</span>
-                  </span>
-
-                  <span className="text-xs font-extrabold text-slate-400">
-                    {currentIndex + 1} / {questions.length}
-                  </span>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-blush-400 via-rose-500 to-purple-500 rounded-full transition-all duration-300"
-                    style={{ width: `${progressPct}%` }}
-                  ></div>
-                </div>
-
-                {/* Big Question Title */}
-                <div className="text-center py-3 min-h-[85px] flex items-center justify-center">
-                  <h3 className="font-serif text-base font-extrabold text-slate-800 leading-snug">
-                    « {currentQ.question} »
-                  </h3>
-                </div>
-
-                {/* DUEL CHOICE BUTTONS (SANS EMOJIS & AVEC SÉLECTION PRÉCISE) */}
-                {(() => {
-                  const qId = currentQ.id || currentQ.questionId || (currentIndex + 1);
-                  const userChoice = myVotes[qId];
-
-                  return (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-3.5">
-                        <button
-                          key={`btn-liza-${qId}`}
-                          type="button"
-                          disabled={isVoting}
-                          onClick={() => handleVote(qId, 'Liza')}
-                          className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
-                            userChoice === 'Liza'
-                              ? 'bg-gradient-to-r from-blush-500 to-raspberry-600 text-white shadow-lg ring-4 ring-blush-200 scale-102 font-extrabold'
-                              : 'bg-blush-50/90 hover:bg-blush-100 text-blush-900 border-2 border-blush-200 shadow-xs'
-                          }`}
-                        >
-                          <span className="text-base tracking-wide font-extrabold">Plutôt Liza</span>
-                          {userChoice === 'Liza' ? (
-                            <CheckCircle2 className="w-5 h-5 stroke-[3px] text-white" />
-                          ) : (
-                            <span className="w-5 h-5 rounded-full border-2 border-blush-300"></span>
-                          )}
-                        </button>
-
-                        <button
-                          key={`btn-clement-${qId}`}
-                          type="button"
-                          disabled={isVoting}
-                          onClick={() => handleVote(qId, 'Clément')}
-                          className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
-                            userChoice === 'Clément'
-                              ? 'bg-gradient-to-r from-blueberry-400 to-blueberry-600 text-white shadow-lg ring-4 ring-blueberry-200 scale-102 font-extrabold'
-                              : 'bg-blueberry-50/90 hover:bg-blueberry-100 text-blueberry-900 border-2 border-blueberry-200 shadow-xs'
-                          }`}
-                        >
-                          <span className="text-base tracking-wide font-extrabold">Plutôt Clément</span>
-                          {userChoice === 'Clément' ? (
-                            <CheckCircle2 className="w-5 h-5 stroke-[3px] text-white" />
-                          ) : (
-                            <span className="w-5 h-5 rounded-full border-2 border-blueberry-300"></span>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                {/* Navigation Buttons: Previous / Next */}
-                <div className="flex items-center justify-between pt-2 border-t border-rose-50 text-xs font-bold">
-                  <button
-                    type="button"
-                    disabled={currentIndex === 0}
-                    onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-                    className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-30 flex items-center gap-1 cursor-pointer"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                    <span>Précédente</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    disabled={currentIndex + 1 >= questions.length}
-                    onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                    className="px-3 py-1.5 rounded-xl border border-blush-200 bg-blush-50 text-blush-800 hover:bg-blush-100 disabled:opacity-30 flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>Suivante</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ) : null
-          )}
-        </>
-      )}
-
-      {/* ======================================================== */}
-      {/* 2. ONGLET RÉSULTATS DÉTAILLÉS & BILAN PAR CATÉGORIE     */}
-      {/* ======================================================== */}
-      {activeTab === 'results' && (
-        <div className="space-y-4 animate-in zoom-in-95">
-          {loading ? (
-            <div className="bg-white rounded-3xl p-8 text-center space-y-3 border border-rose-100 shadow-sm">
-              <div className="w-8 h-8 border-3 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-              <p className="text-xs font-bold text-slate-600">Chargement des résultats par catégorie...</p>
+              <span className="text-xs font-extrabold text-slate-400">
+                {currentIndex + 1} / {questions.length}
+              </span>
             </div>
-          ) : (
-            <>
-              {/* LES 5 CATÉGORIES DÉTAILLÉES (PALMARÈS SANS TEXTE DE COURONNE) */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between px-1">
-                  <h3 className="font-serif text-sm font-black text-slate-800 flex items-center gap-1.5">
-                    <Award className="w-4 h-4 text-blush-500" />
-                    <span>Palmarès des Parents (Qui est le plus...) :</span>
-                  </h3>
-                  <span className="text-[10px] text-slate-400 font-bold">5 thématiques</span>
-                </div>
 
-                {(summary.byCategory && summary.byCategory.length > 0 ? summary.byCategory : [
-                  { category: "Le plus câlin", lizaPercent: 75, clementPercent: 25, questionsCount: 10 },
-                  { category: "Le plus dépensier", lizaPercent: 80, clementPercent: 20, questionsCount: 10 },
-                  { category: "Le plus joueur & complice", lizaPercent: 50, clementPercent: 50, questionsCount: 10 },
-                  { category: "Le plus aventurier & sportif", lizaPercent: 40, clementPercent: 60, questionsCount: 10 },
-                  { category: "Le plus nocturne & patient", lizaPercent: 45, clementPercent: 55, questionsCount: 10 }
-                ]).map((cat, i) => (
-                  <div
-                    key={cat.category || i}
-                    className="bg-white rounded-3xl p-4 shadow-sm border border-rose-100 space-y-3"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className={`w-9 h-9 rounded-2xl flex items-center justify-center border shadow-2xs flex-shrink-0 ${getCategoryBg(cat.category)}`}>
-                        {getCategoryIcon(cat.category, "w-4 h-4")}
-                      </div>
-                      <div>
-                        <h4 className="font-serif text-xs font-black text-slate-800 leading-tight">
-                          « {cat.category} »
-                        </h4>
-                        <span className="text-[10px] text-slate-400 font-medium">
-                          {cat.questionsCount || 10} questions votées
-                        </span>
-                      </div>
-                    </div>
+            {/* Progress Bar */}
+            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-blush-400 via-rose-500 to-purple-500 rounded-full transition-all duration-300"
+                style={{ width: `${progressPct}%` }}
+              ></div>
+            </div>
 
-                    {/* Category Gauge */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] font-bold">
-                        <span className="text-blush-700">Liza : {cat.lizaPercent}%</span>
-                        <span className="text-blueberry-700">{cat.clementPercent}% : Clément</span>
-                      </div>
-                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
-                        <div
-                          className="h-full bg-gradient-to-r from-blush-400 to-blush-500"
-                          style={{ width: `${cat.lizaPercent}%` }}
-                        ></div>
-                        <div
-                          className="h-full bg-gradient-to-r from-blueberry-300 to-blueberry-500"
-                          style={{ width: `${cat.clementPercent}%` }}
-                        ></div>
-                      </div>
-                    </div>
+            {/* Big Question Title */}
+            <div className="text-center py-3 min-h-[85px] flex items-center justify-center">
+              <h3 className="font-serif text-base font-extrabold text-slate-800 leading-snug">
+                « {currentQ.question} »
+              </h3>
+            </div>
+
+            {/* DUEL CHOICE BUTTONS */}
+            {(() => {
+              const qId = currentQ.id || currentQ.questionId || (currentIndex + 1);
+              const userChoice = myVotes[qId];
+
+              return (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3.5">
+                    <button
+                      key={`btn-liza-${qId}`}
+                      type="button"
+                      disabled={isVoting}
+                      onClick={() => handleVote(qId, 'Liza')}
+                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
+                        userChoice === 'Liza'
+                          ? 'bg-gradient-to-r from-blush-400 to-blush-500 text-white shadow-lg ring-4 ring-rose-200 scale-102 font-extrabold'
+                          : 'bg-rose-50/70 hover:bg-rose-100/70 text-blush-700 border-2 border-rose-200/80 shadow-xs'
+                      }`}
+                    >
+                      <span className="text-base tracking-wide font-extrabold">Plutôt Liza</span>
+                      {userChoice === 'Liza' ? (
+                        <CheckCircle2 className="w-5 h-5 stroke-[3px] text-white" />
+                      ) : (
+                        <span className="w-5 h-5 rounded-full border-2 border-rose-300"></span>
+                      )}
+                    </button>
+
+                    <button
+                      key={`btn-clement-${qId}`}
+                      type="button"
+                      disabled={isVoting}
+                      onClick={() => handleVote(qId, 'Clément')}
+                      className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 ${
+                        userChoice === 'Clément'
+                          ? 'bg-gradient-to-r from-blueberry-400 to-blueberry-500 text-white shadow-lg ring-4 ring-blue-200 scale-102 font-extrabold'
+                          : 'bg-blue-50/70 hover:bg-blue-100/70 text-blueberry-700 border-2 border-blue-200/80 shadow-xs'
+                      }`}
+                    >
+                      <span className="text-base tracking-wide font-extrabold">Plutôt Clément</span>
+                      {userChoice === 'Clément' ? (
+                        <CheckCircle2 className="w-5 h-5 stroke-[3px] text-white" />
+                      ) : (
+                        <span className="w-5 h-5 rounded-full border-2 border-blue-300"></span>
+                      )}
+                    </button>
                   </div>
-                ))}
-              </div>
+                </div>
+              );
+            })()}
 
-              {/* Bouton pour relancer le quizz - Très visible & Contrasté */}
-              <div className="pt-3 pb-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveTab('play');
-                    setHasStarted(false);
-                    setIsFinished(false);
-                    setCurrentIndex(0);
-                  }}
-                  className="w-full bg-gradient-to-r from-[#F2619C] via-[#e54b87] to-[#812348] hover:opacity-95 text-white font-black py-4 px-4 rounded-2xl shadow-lg border-2 border-white/40 text-sm tracking-wide transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
-                >
-                  <RotateCcw className="w-4 h-4 text-white" />
-                  <Users className="w-4 h-4 text-white" />
-                  <span>Faire voter un autre proche</span>
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-between pt-3 border-t border-rose-100 text-xs font-bold">
+              <button
+                type="button"
+                disabled={currentIndex === 0}
+                onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-30 flex items-center gap-1 cursor-pointer"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>Précédente</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={currentIndex + 1 >= questions.length}
+                onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
+                className="px-3 py-1.5 rounded-xl border border-rose-200 bg-rose-50 text-blush-700 hover:bg-rose-100 disabled:opacity-30 flex items-center gap-1 cursor-pointer"
+              >
+                <span>Suivante</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        ) : null
       )}
+
+      {/* ======================================================== */}
+      {/* 2. SECTION RÉSULTATS & TENDANCES EN DESSOUS              */}
+      {/* ======================================================== */}
+      <div className="space-y-4 pt-1">
+        {/* En-tête Palmarès sur une seule et même ligne */}
+        <div className="flex items-center justify-between px-1 gap-2">
+          <h3 className="font-serif text-[11px] sm:text-sm font-black text-slate-800 flex items-center gap-1.5 whitespace-nowrap min-w-0">
+            <Award className="w-4 h-4 text-blush-500 flex-shrink-0" />
+            <span className="truncate">Palmarès des parents : qui est le + ?</span>
+          </h3>
+          <span className="text-[10px] text-slate-400 font-bold whitespace-nowrap flex-shrink-0">5 thématiques</span>
+        </div>
+
+        {/* 5 Cartes de Catégories */}
+        {(summary.byCategory && summary.byCategory.length > 0 ? summary.byCategory : [
+          { category: "Le plus câlin", lizaPercent: 75, clementPercent: 25, questionsCount: 10 },
+          { category: "Le plus dépensier", lizaPercent: 80, clementPercent: 20, questionsCount: 10 },
+          { category: "Le plus joueur & complice", lizaPercent: 50, clementPercent: 50, questionsCount: 10 },
+          { category: "Le plus aventurier & sportif", lizaPercent: 40, clementPercent: 60, questionsCount: 10 },
+          { category: "Le plus nocturne & patient", lizaPercent: 45, clementPercent: 55, questionsCount: 10 }
+        ]).map((cat, i) => (
+          <div
+            key={cat.category || i}
+            className="bg-white rounded-3xl p-4 shadow-sm border border-rose-100 space-y-3"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className={`w-9 h-9 rounded-2xl flex items-center justify-center border shadow-2xs flex-shrink-0 ${getCategoryBg(cat.category)}`}>
+                {getCategoryIcon(cat.category, "w-4 h-4")}
+              </div>
+              <div>
+                <h4 className="font-serif text-xs font-black text-slate-800 leading-tight">
+                  « {cat.category} »
+                </h4>
+                <span className="text-[10px] text-slate-400 font-medium">
+                  {cat.questionsCount || 10} questions votées
+                </span>
+              </div>
+            </div>
+
+            {/* Category Gauge */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[11px] font-bold">
+                <span className="text-blush-700">Liza : {cat.lizaPercent}%</span>
+                <span className="text-blueberry-700">{cat.clementPercent}% : Clément</span>
+              </div>
+              <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
+                <div
+                  className="h-full bg-gradient-to-r from-blush-400 to-blush-500"
+                  style={{ width: `${cat.lizaPercent}%` }}
+                ></div>
+                <div
+                  className="h-full bg-gradient-to-r from-blueberry-300 to-blueberry-500"
+                  style={{ width: `${cat.clementPercent}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Modal Nouveau Joueur */}
       {showAddModal && (

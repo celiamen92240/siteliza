@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy, Mail, Puzzle, MessageSquareText, ShieldCheck, ChevronRight, Sprout, CalendarHeart } from 'lucide-react';
+import { Sparkles, Calendar, Heart, Gift, MessageCircle, HelpCircle, Target, ArrowRight, Lightbulb, Lock, Trophy, Mail, MailOpen, Puzzle, MessageSquareText, ShieldCheck, ChevronRight, Sprout, CalendarHeart, Camera } from 'lucide-react';
 import { fruitsData } from '../data/fruitsData';
 import { getTodayDailyFact } from '../data/dailyFacts';
+import { compressImage } from '../utils/imageCompressor';
 
 export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
   const [dailyFact, setDailyFact] = useState(() => getTodayDailyFact());
@@ -43,6 +44,25 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
 
   // Header Photo State (Synced with Top-Left Photo)
   const [headerPhoto, setHeaderPhoto] = useState(() => localStorage.getItem('app_custom_logo') || null);
+
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const compressed = await compressImage(file, 400, 400, 0.85);
+        setHeaderPhoto(compressed);
+        localStorage.setItem('app_custom_logo', compressed);
+        window.dispatchEvent(new CustomEvent('customHeaderPhotoChanged', { detail: compressed }));
+        await fetch('/api/config/logo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ photo: compressed })
+        });
+      } catch (err) {
+        console.error("Error uploading countdown photo", err);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchPhoto = () => {
@@ -162,7 +182,7 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           </button>
         </div>
       ) : (
-        /* COMPTE À REBOURS DU JOUR J (GROSSESSE EN COURS) */
+        /* COMPTE À REBOURS DU JOUR J AVEC BOUTON DE MODIFICATION DE PHOTO */
         <div
           onClick={() => navigate('predictions')}
           className="bg-gradient-to-br from-[#F2619C] via-[#f06ea5] to-[#E7BEF8] rounded-3xl p-5 shadow-lg border-2 border-[#F2619C]/30 relative overflow-hidden space-y-4 cursor-pointer hover:shadow-xl active:scale-[0.99] transition-all group text-white"
@@ -185,9 +205,26 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
               </p>
             </div>
 
-            <div className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-md border-2 border-white flex flex-col items-center justify-center text-center">
-              <span className="text-2xl leading-none">👶</span>
-              <span className="text-[9px] font-extrabold text-[#F2619C] mt-1 leading-tight">Princesse</span>
+            {/* Photo modifiable avec icône appareil photo */}
+            <div className="relative" onClick={e => e.stopPropagation()}>
+              <label className="cursor-pointer block group/photo" title="Changer la photo du compte à rebours">
+                <div className="w-16 h-16 rounded-2xl bg-white p-0.5 shadow-md border-2 border-white overflow-hidden">
+                  {headerPhoto ? (
+                    <img src={headerPhoto} alt="Photo" className="w-full h-full object-cover rounded-xl" />
+                  ) : (
+                    <img src="/logo.jpg" alt="Photo" className="w-full h-full object-cover rounded-xl" />
+                  )}
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-[#F2619C] text-white p-1 rounded-full shadow-md border border-white flex items-center justify-center group-hover/photo:scale-110 transition-transform">
+                  <Camera className="w-3 h-3 stroke-[2.5px]" />
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+              </label>
             </div>
           </div>
 
@@ -241,59 +278,48 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
         </div>
       )}
 
-      {/* 2. LE SAVIEZ-VOUS DU JOUR (DESIGN DU MOCKUP AVEC PHOTO DES PARENTS) */}
-      <div className="bg-[#FEFDF0] border border-[#F6ECC9] rounded-[32px] p-5 shadow-sm relative overflow-hidden flex items-center justify-between gap-3">
-        <div className="space-y-2 flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-2xl bg-[#FFE066]/60 text-[#78350f] flex items-center justify-center shadow-2xs">
-              <Sprout className="w-4 h-4 text-[#F2619C]" />
-            </div>
-            <span className="text-xs font-black text-[#F2619C]">Le saviez-vous ?</span>
+      {/* 2. LE SAVIEZ-VOUS DU JOUR (SANS LA PHOTO DES PARENTS) */}
+      <div className="bg-[#FEFDF0] border border-[#F6ECC9] rounded-[32px] p-5 shadow-sm relative overflow-hidden space-y-2">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-2xl bg-[#FFE066]/60 text-[#78350f] flex items-center justify-center shadow-2xs">
+            <Sprout className="w-4 h-4 text-[#F2619C]" />
           </div>
-          <h4 className="font-serif text-sm font-black text-slate-800 leading-snug">
-            {dailyFact?.title || "Le développement sensoriel"}
-          </h4>
-          <p className="text-[11px] text-slate-600 leading-relaxed line-clamp-3">
-            {dailyFact?.content || "À ce stade, bébé réagit déjà aux voix de ses parents et aux caresses sur le ventre !"}
-          </p>
-          <div className="flex items-center gap-1.5 pt-0.5">
-            <span className="w-2 h-2 rounded-full bg-[#F2619C]"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
-          </div>
+          <span className="text-xs font-black text-[#F2619C]">Le saviez-vous ?</span>
         </div>
-
-        {/* Photo des Parents / Logo dans un cadre doux */}
-        <div className="w-24 h-24 rounded-[26px] bg-gradient-to-br from-[#FFE4EE] to-[#E7BEF8]/60 p-1 shadow-inner border-2 border-white flex-shrink-0 overflow-hidden flex items-center justify-center">
-          {headerPhoto ? (
-            <img src={headerPhoto} alt="Liza & Clément" className="w-full h-full object-cover rounded-[22px]" />
-          ) : (
-            <img src="/logo.jpg" alt="Liza & Clément" className="w-full h-full object-cover rounded-[22px]" />
-          )}
+        <h4 className="font-serif text-sm font-black text-slate-800 leading-snug">
+          {dailyFact?.title || "Le développement sensoriel"}
+        </h4>
+        <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
+          {dailyFact?.content || "À ce stade, bébé réagit déjà aux voix de ses parents et aux caresses sur le ventre !"}
+        </p>
+        <div className="flex items-center gap-1.5 pt-0.5">
+          <span className="w-2 h-2 rounded-full bg-[#F2619C]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
         </div>
       </div>
 
-      {/* 2.5 ÉVOLUTION DU BÉBÉ (SEMAINE PAR SEMAINE) */}
-      <div className="bg-gradient-to-br from-[#FFE066]/30 via-white to-[#E7BEF8]/35 rounded-3xl p-4 shadow-sm border border-[#E7BEF8] flex items-center gap-3.5">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FFE066]/50 to-[#E7BEF8]/40 shadow-xs border border-[#E7BEF8] flex items-center justify-center text-3xl flex-shrink-0">
-          {fruitInfo.emoji}
+      {/* 2.5 ÉVOLUTION DU BÉBÉ (NAVET GOURMAND PLUS GRAND & PLUS DESIGN) */}
+      <div className="bg-gradient-to-br from-[#FFE066]/30 via-white to-[#E7BEF8]/35 rounded-3xl p-4.5 shadow-sm border border-[#E7BEF8] flex items-center gap-4">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FFE066]/60 via-white to-[#E7BEF8]/50 shadow-xs border-2 border-[#E7BEF8] flex items-center justify-center text-4xl flex-shrink-0 animate-bounce-subtle">
+          🌱
         </div>
-        <div className="space-y-1 min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-xs text-slate-800">
-              Comme {fruitInfo.fruit}
+        <div className="space-y-1.5 min-w-0 flex-1">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-extrabold text-sm text-slate-800">
+              Comme un navet gourmand
             </span>
-            <span className="text-[9px] bg-[#FFE066] text-[#78350f] px-2 py-0.5 rounded-full font-extrabold">
+            <span className="text-[10px] bg-[#FFE066] text-[#78350f] px-2.5 py-0.5 rounded-full font-black">
               Sem. {currentWeek}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-[#93ABD9] font-bold">
-            <span>📏 {fruitInfo.sizeCm} cm</span>
+          <div className="flex items-center gap-2.5 text-xs text-[#93ABD9] font-black">
+            <span>📏 ~35.6 cm</span>
             <span>•</span>
-            <span>⚖️ ~{fruitInfo.weightG} g</span>
+            <span>⚖️ ~900 g</span>
           </div>
-          <p className="text-[10px] text-slate-500 italic truncate">
-            « {fruitInfo.desc || fruitInfo.funFact} »
+          <p className="text-[10.5px] text-slate-500 italic leading-snug">
+            « Bébé s'étire et perçoit les caresses et les voix douces de Liza et Clément ! »
           </p>
         </div>
       </div>
@@ -423,8 +449,8 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
         >
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-12 rounded-full bg-white shadow-2xs flex items-center justify-center flex-shrink-0 relative border border-pink-100">
-              <Mail className="w-5 h-5 text-[#F2619C] stroke-[2.2px]" />
-              <Heart className="w-2.5 h-2.5 text-[#F2619C] fill-[#F2619C] absolute top-2 right-2 drop-shadow-2xs animate-pulse" />
+              <MailOpen className="w-5 h-5 text-[#F2619C] stroke-[2.2px]" />
+              <Heart className="w-2.5 h-2.5 text-[#F2619C] fill-[#F2619C] absolute -top-1 right-2 drop-shadow-2xs animate-pulse" />
             </div>
             <div className="text-left">
               <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Capsule d'Amour & Mots Doux</p>
