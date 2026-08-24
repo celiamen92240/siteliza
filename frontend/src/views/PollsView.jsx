@@ -218,9 +218,6 @@ export default function PollsView() {
                 <Lightbulb className="w-4 h-4 text-amber-500 fill-amber-300" />
               </div>
             </h2>
-            <p className="text-xs text-rose-500 font-medium">
-              Votez pour aider Liza et Clément dans leurs choix et préparatifs !
-            </p>
           </div>
         </div>
       </div>
