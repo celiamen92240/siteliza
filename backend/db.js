@@ -1609,9 +1609,11 @@ export const db = {
     const speedBonus = Math.max(0, Math.round((240 - timeSec) * 1.5));
     const calculatedPoints = Math.max(50, wordPoints + (correctCount >= 6 ? speedBonus : 0));
 
+    const cleanPlayerName = (scoreData.playerName || "Un proche").trim();
+
     const newEntry = {
       id: "score-" + Date.now(),
-      playerName: scoreData.playerName || "Un proche",
+      playerName: cleanPlayerName,
       date: todayStr,
       theme: scoreData.theme || "Mots Fléchés",
       timeSeconds: timeSec,
@@ -1624,7 +1626,7 @@ export const db = {
 
     // Mettre à jour si le joueur a déjà un score enregistré pour aujourd'hui (enregistre systématiquement le dernier score)
     const existingIndex = data.dailyGameScores.findIndex(
-      s => s.date === todayStr && s.playerName.toLowerCase() === (scoreData.playerName || '').toLowerCase()
+      s => s.date === todayStr && (s.playerName || '').trim().toLowerCase() === cleanPlayerName.toLowerCase()
     );
 
     if (existingIndex >= 0) {

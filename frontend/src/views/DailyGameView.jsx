@@ -49,6 +49,8 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
 
   useEffect(() => {
     fetchDailyData();
+    const interval = setInterval(fetchDailyData, 8000);
+    return () => clearInterval(interval);
   }, []);
 
   // Chronometer Ticking

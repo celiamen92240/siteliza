@@ -161,7 +161,10 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
         <div ref={dropdownRef} className="relative flex-1">
           <button
             type="button"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => {
+              if (!isOpen) fetchParticipants();
+              setIsOpen(!isOpen);
+            }}
             className="w-full bg-white hover:bg-rose-50/40 border-2 border-[#E7BEF8] hover:border-blush-400 py-2 px-3 rounded-2xl flex items-center justify-between transition-all shadow-xs cursor-pointer text-left h-[44px]"
           >
             {currentSelectedParticipant ? (

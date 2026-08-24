@@ -82,11 +82,13 @@ export default function QuizView() {
 
   useEffect(() => {
     fetchQuizData();
+    const interval = setInterval(fetchQuizData, 8000);
     fetchParticipants();
     if (voterName) {
       const saved = JSON.parse(localStorage.getItem(`quiz_votes_${voterName}`) || '{}');
       setMyVotes(saved);
     }
+    return () => clearInterval(interval);
   }, []);
 
   const handleSelectVoter = (name, photoOrAvatar) => {
