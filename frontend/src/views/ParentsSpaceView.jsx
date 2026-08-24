@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Unlock, CheckCircle2, Circle, Plus, Trash2, ShoppingBag, Luggage, Trophy, Calendar, MapPin, Clock, AlertCircle, Key, ShieldCheck } from 'lucide-react';
+import { Lock, Unlock, CheckCircle2, Circle, Plus, Trash2, ShoppingBag, Luggage, Trophy, Calendar, MapPin, Clock, AlertCircle, Key, ShieldCheck, Baby, Sparkles, Briefcase, PlusCircle, ChevronLeft, ChevronRight, X, Camera } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, onResetBirth }) {
