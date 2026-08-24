@@ -608,39 +608,39 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               const catChecked = catItems.filter(i => i.checked).length;
 
               return (
-                <div key={cat} className="bg-white rounded-3xl p-4 shadow-sm border border-blush-200 space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <div key={cat} className="bg-white rounded-2xl p-3.5 shadow-2xs border border-blush-200/80 space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 px-0.5">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-blush-600">
-                        <ShoppingBag className="w-4 h-4" />
+                      <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center text-blush-600">
+                        <ShoppingBag className="w-3.5 h-3.5" />
                       </div>
-                      <h4 className="font-serif text-sm font-black text-slate-800">{cat}</h4>
+                      <h4 className="font-serif text-xs font-black text-slate-800">{cat}</h4>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleDeleteCategory(cat)}
-                      className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                      className="text-slate-300 hover:text-red-500 p-1 rounded-md cursor-pointer"
                       title="Supprimer cette catégorie"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     {catItems.length === 0 ? (
-                      <p className="text-xs text-slate-400 text-center py-2">Aucun article dans cette catégorie pour le moment.</p>
+                      <p className="text-[11px] text-slate-400 text-center py-1.5">Aucun article dans cette catégorie.</p>
                     ) : (
                       catItems.map(item => (
-                        <div key={item.id} className="p-2.5 rounded-2xl border border-rose-100 flex items-center justify-between hover:bg-rose-50/40">
+                        <div key={item.id} className="py-2 px-2.5 rounded-xl border border-rose-100/70 flex items-center justify-between hover:bg-rose-50/30 transition-colors">
                           <button
                             type="button"
                             onClick={() => togglePurchase(item.id)}
                             className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                           >
-                            <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                              item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300'
+                            <div className={`w-4.5 h-4.5 rounded-md border flex items-center justify-center ${
+                              item.checked ? 'bg-blush-500 border-blush-600 text-white' : 'border-slate-300 bg-white'
                             }`}>
-                              {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
+                              {item.checked && <CheckCircle2 className="w-3 h-3" />}
                             </div>
                             <span className={item.checked ? 'line-through text-slate-400 font-medium' : 'text-slate-800 font-bold'}>
                               {item.name}
@@ -655,18 +655,18 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   </div>
 
                   {/* Petit plus très discret avec écrit Achats */}
-                  <form onSubmit={(e) => handleInlineAddPurchase(e, cat)} className="flex items-center gap-2 pt-2 border-t border-slate-50">
+                  <form onSubmit={(e) => handleInlineAddPurchase(e, cat)} className="flex items-center gap-1.5 pt-1.5 border-t border-slate-50 px-0.5">
                     <input
                       type="text"
                       placeholder="+ Achats"
                       value={inlinePurchases[cat] || ''}
                       onChange={e => setInlinePurchases({ ...inlinePurchases, [cat]: e.target.value })}
-                      className="flex-1 px-3 py-1.5 rounded-xl border border-dashed border-rose-200 text-xs bg-rose-50/10 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-solid focus:border-blush-400 font-medium"
+                      className="flex-1 px-2.5 py-1.5 rounded-lg border border-dashed border-rose-200 text-xs bg-rose-50/10 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-solid focus:border-blush-400 font-medium"
                       style={{ width: '100%', boxSizing: 'border-box' }}
                     />
                     <button
                       type="submit"
-                      className="w-7 h-7 rounded-xl bg-rose-50 hover:bg-blush-500 text-blush-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-xs font-bold flex-shrink-0"
+                      className="w-6.5 h-6.5 rounded-lg bg-rose-50 hover:bg-blush-500 text-blush-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-xs font-bold flex-shrink-0"
                       title="Ajouter"
                     >
                       <Plus className="w-3.5 h-3.5 stroke-[3px]" />
@@ -714,17 +714,17 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             </div>
 
             {/* Section 1 : Pour Bébé (Pastel Bleu Ciel Très Clair) */}
-            <div className="bg-[#F0F7FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#BAE6FD] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#BAE6FD]/60 pb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center text-[#0284C7]">
+            <div className="bg-[#F0F7FF] rounded-3xl p-5 sm:p-6 shadow-xs border-2 border-[#BAE6FD] space-y-3.5">
+              <div className="flex items-center justify-between border-b border-[#BAE6FD]/60 pb-2.5 px-1 pt-0.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center text-[#0284C7] shadow-2xs">
                     <Baby className="w-4 h-4" />
                   </div>
                   <h4 className="font-serif text-sm font-black text-[#0369A1]">Pour Bébé</h4>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 px-0.5">
                 {babyItems.length === 0 ? (
                   <p className="text-xs text-[#0284C7]/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
                 ) : (
@@ -753,7 +753,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </div>
 
               {/* Inline Add Bébé */}
-              <form onSubmit={(e) => handleAddPersonItem(e, 'Séjour Maternité (Bébé)', inlineNewBaby, setInlineNewBaby)} className="flex items-center gap-2 pt-1">
+              <form onSubmit={(e) => handleAddPersonItem(e, 'Séjour Maternité (Bébé)', inlineNewBaby, setInlineNewBaby)} className="flex items-center gap-2 pt-1 px-0.5">
                 <input
                   type="text"
                   placeholder="Ajouter un article pour bébé..."
@@ -772,17 +772,17 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             </div>
 
             {/* Section 2 : Pour Liza (Pastel Rose Poudré Doux) */}
-            <div className="bg-[#FFF5F7] rounded-3xl p-4.5 shadow-xs border-2 border-[#FECDD3] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#FECDD3]/60 pb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-rose-100/70 flex items-center justify-center text-rose-700">
+            <div className="bg-[#FFF5F7] rounded-3xl p-5 sm:p-6 shadow-xs border-2 border-[#FECDD3] space-y-3.5">
+              <div className="flex items-center justify-between border-b border-[#FECDD3]/60 pb-2.5 px-1 pt-0.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-rose-100/70 flex items-center justify-center text-rose-700 shadow-2xs">
                     <ShoppingBag className="w-4 h-4" />
                   </div>
                   <h4 className="font-serif text-sm font-black text-rose-950">Pour Liza</h4>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 px-0.5">
                 {lizaItems.length === 0 ? (
                   <p className="text-xs text-rose-700/60 text-center py-2">Aucun article pour Liza pour le moment.</p>
                 ) : (
@@ -811,7 +811,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </div>
 
               {/* Inline Add Liza */}
-              <form onSubmit={(e) => handleAddPersonItem(e, 'Séjour Maternité (Maman)', inlineNewLiza, setInlineNewLiza)} className="flex items-center gap-2 pt-1">
+              <form onSubmit={(e) => handleAddPersonItem(e, 'Séjour Maternité (Maman)', inlineNewLiza, setInlineNewLiza)} className="flex items-center gap-2 pt-1 px-0.5">
                 <input
                   type="text"
                   placeholder="Ajouter un article pour Liza..."
@@ -830,17 +830,17 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             </div>
 
             {/* Section 3 : Pour Clément (Pastel Lilas / Lavande Doux) */}
-            <div className="bg-[#FAF5FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#E9D5FF] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#E9D5FF]/60 pb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-purple-100/80 flex items-center justify-center text-[#7E22CE]">
+            <div className="bg-[#FAF5FF] rounded-3xl p-5 sm:p-6 shadow-xs border-2 border-[#E9D5FF] space-y-3.5">
+              <div className="flex items-center justify-between border-b border-[#E9D5FF]/60 pb-2.5 px-1 pt-0.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-purple-100/80 flex items-center justify-center text-[#7E22CE] shadow-2xs">
                     <Luggage className="w-4 h-4" />
                   </div>
                   <h4 className="font-serif text-sm font-black text-[#581C87]">Pour Clément</h4>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 px-0.5">
                 {clementItems.length === 0 ? (
                   <p className="text-xs text-[#7E22CE]/60 text-center py-2">Aucun article pour Clément pour le moment.</p>
                 ) : (
