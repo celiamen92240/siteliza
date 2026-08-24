@@ -16,6 +16,17 @@
     font-family: 'Fraunces', 'DM Serif Display', 'Playfair Display', serif;
     letter-spacing: -0.01em;
   }
+
+  input[type="date"],
+  input[type="time"],
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  select {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
 }
 
 /* Custom Glassmorphism & Glow styles - Raspberry, Lilac, Blueberry Milk & Lemon Cream */

@@ -932,8 +932,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvTitle}
                   onChange={e => setNewRdvTitle(e.target.value)}
                   placeholder="Ex: Échographie T3, Consultation 8ème mois..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
+                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -944,8 +944,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   required
                   value={newRdvDate}
                   onChange={e => setNewRdvDate(e.target.value)}
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
+                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -955,8 +955,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   type="time"
                   value={newRdvTime}
                   onChange={e => setNewRdvTime(e.target.value)}
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
+                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -967,8 +967,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvLocation}
                   onChange={e => setNewRdvLocation(e.target.value)}
                   placeholder="Ex: Maternité, Cabinet médical..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
+                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -979,8 +979,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvNotes}
                   onChange={e => setNewRdvNotes(e.target.value)}
                   placeholder="Ex: Apporter les bilans sanguins..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
+                  className="w-full block px-3.5 text-xs font-medium rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', minWidth: '0', height: '42px', boxSizing: 'border-box' }}
                 />
               </div>
 
