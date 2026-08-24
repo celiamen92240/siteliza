@@ -713,30 +713,30 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </div>
             </div>
 
-            {/* Section 1 : Pour Bébé (Pastel Vert Froid / Céladon Doux) */}
-            <div className="bg-[#F0FDF9] rounded-3xl p-4.5 shadow-xs border-2 border-[#99F6E4] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#99F6E4]/60 pb-2">
+            {/* Section 1 : Pour Bébé (Pastel Bleu Ciel Très Clair) */}
+            <div className="bg-[#F0F7FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#BAE6FD] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#BAE6FD]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#CCFBF1] flex items-center justify-center text-[#0F766E]">
+                  <div className="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center text-[#0284C7]">
                     <Baby className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-[#115E59]">Pour Bébé</h4>
+                  <h4 className="font-serif text-sm font-black text-[#0369A1]">Pour Bébé</h4>
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 {babyItems.length === 0 ? (
-                  <p className="text-xs text-[#0F766E]/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
+                  <p className="text-xs text-[#0284C7]/60 text-center py-2">Aucun article pour bébé pour le moment.</p>
                 ) : (
                   babyItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-[#99F6E4]/70 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-[#BAE6FD]/70 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-[#0D9488] border-[#0F766E] text-white' : 'border-slate-300 bg-white'
+                          item.checked ? 'bg-[#0284C7] border-[#0369A1] text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
@@ -759,11 +759,11 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   placeholder="Ajouter un article pour bébé..."
                   value={inlineNewBaby}
                   onChange={e => setInlineNewBaby(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl border border-[#99F6E4] text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                  className="flex-1 px-3 py-2 rounded-xl border border-[#BAE6FD] text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400"
                 />
                 <button
                   type="submit"
-                  className="w-8 h-8 rounded-xl bg-[#0D9488] text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                  className="w-8 h-8 rounded-xl bg-[#0284C7] text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
                   title="Ajouter"
                 >
                   <Plus className="w-4 h-4 stroke-[3px]" />
@@ -829,30 +829,30 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </form>
             </div>
 
-            {/* Section 3 : Pour Clément (Pastel Lilas / Ciel Doux) */}
-            <div className="bg-[#F5F8FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#BFDBFE] space-y-3">
-              <div className="flex items-center justify-between border-b border-[#BFDBFE]/60 pb-2">
+            {/* Section 3 : Pour Clément (Pastel Lilas / Lavande Doux) */}
+            <div className="bg-[#FAF5FF] rounded-3xl p-4.5 shadow-xs border-2 border-[#E9D5FF] space-y-3">
+              <div className="flex items-center justify-between border-b border-[#E9D5FF]/60 pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-blue-100/70 flex items-center justify-center text-blue-700">
+                  <div className="w-8 h-8 rounded-xl bg-purple-100/80 flex items-center justify-center text-[#7E22CE]">
                     <Luggage className="w-4 h-4" />
                   </div>
-                  <h4 className="font-serif text-sm font-black text-blue-950">Pour Clément</h4>
+                  <h4 className="font-serif text-sm font-black text-[#581C87]">Pour Clément</h4>
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 {clementItems.length === 0 ? (
-                  <p className="text-xs text-blue-700/60 text-center py-2">Aucun article pour Clément pour le moment.</p>
+                  <p className="text-xs text-[#7E22CE]/60 text-center py-2">Aucun article pour Clément pour le moment.</p>
                 ) : (
                   clementItems.map(item => (
-                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-blue-200/60 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
+                    <div key={item.id} className="p-2.5 rounded-2xl bg-white/90 border border-[#E9D5FF]/70 flex items-center justify-between shadow-2xs hover:bg-white transition-all">
                       <button
                         type="button"
                         onClick={() => toggleMaternityItem(item.id)}
                         className="flex items-center gap-2 text-xs text-left cursor-pointer flex-1"
                       >
                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
-                          item.checked ? 'bg-blue-500 border-blue-600 text-white' : 'border-slate-300 bg-white'
+                          item.checked ? 'bg-[#9333EA] border-[#7E22CE] text-white' : 'border-slate-300 bg-white'
                         }`}>
                           {item.checked && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </div>
