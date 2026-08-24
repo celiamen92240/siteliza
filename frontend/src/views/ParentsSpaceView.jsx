@@ -515,12 +515,9 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
               Espace Privé Parents
             </span>
-            <h2 className="font-serif text-xl font-extrabold text-slate-800">
-              Organisation Liza & Clément
+            <h2 className="font-serif text-xl font-extrabold text-[#812348]">
+              Organisation
             </h2>
-            <p className="text-xs text-rose-500 font-medium">
-              Listes d'achats, valise, calendrier des RDV & réglages.
-            </p>
           </div>
           <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-2xl object-cover shadow-2xs border border-[#E7BEF8]" />
         </div>
