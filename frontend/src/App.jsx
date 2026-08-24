@@ -13,6 +13,7 @@ import GuestbookView from './views/GuestbookView';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('home');
+  const [isGameActive, setIsGameActive] = useState(false);
   const [isBorn, setIsBorn] = useState(false);
   const [actualBirth, setActualBirth] = useState(null);
 
@@ -63,7 +64,10 @@ export default function App() {
         )}
 
         {currentTab === 'games' && (
-          <DailyGameView onBack={() => setCurrentTab('home')} />
+          <DailyGameView
+            onBack={() => setCurrentTab('home')}
+            onGameActiveChange={setIsGameActive}
+          />
         )}
 
         {currentTab === 'polls' && (
@@ -102,8 +106,8 @@ export default function App() {
         </p>
       </footer>
 
-      {/* Bottom Navigation (Cachée dans l'onglet Jeux) */}
-      {currentTab !== 'games' && (
+      {/* Bottom Navigation (Cachée UNIQUEMENT pendant le chrono du jeu, visible dès que terminé ou avant de démarrer) */}
+      {(!isGameActive || currentTab !== 'games') && (
         <BottomNav
           currentTab={currentTab}
           setTab={setCurrentTab}

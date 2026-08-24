@@ -3,7 +3,7 @@ import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame,
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
-export default function DailyGameView({ onBack }) {
+export default function DailyGameView({ onBack, onGameActiveChange }) {
   const [gridData, setGridData] = useState(null);
   const [todayScores, setTodayScores] = useState([]);
   const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
@@ -21,6 +21,12 @@ export default function DailyGameView({ onBack }) {
   const [loading, setLoading] = useState(true);
 
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (onGameActiveChange) {
+      onGameActiveChange(isPlaying && !isSubmitted);
+    }
+  }, [isPlaying, isSubmitted, onGameActiveChange]);
 
   const fetchDailyData = () => {
     fetch('/api/crosswords/daily')
