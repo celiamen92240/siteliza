@@ -174,18 +174,6 @@ const defaultState = {
       createdAt: "2026-08-24T15:20:00.000Z"
     },
     {
-      id: "score-1787519258744",
-      playerName: "Liza",
-      date: "2026-08-24",
-      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
-      timeSeconds: 106.3,
-      timeFormatted: "01:46.3",
-      correctCount: 10,
-      totalWords: 12,
-      points: 801,
-      createdAt: "2026-08-24T15:30:00.000Z"
-    },
-    {
       id: "score-1787518674957",
       playerName: "Léa",
       date: "2026-08-24",
@@ -198,16 +186,28 @@ const defaultState = {
       createdAt: "2026-08-24T15:40:00.000Z"
     },
     {
+      id: "score-1787519258744",
+      playerName: "Liza",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 106.3,
+      timeFormatted: "01:46.3",
+      correctCount: 10,
+      totalWords: 12,
+      points: 801,
+      createdAt: "2026-08-23T21:07:38.744Z"
+    },
+    {
       id: "score-1787518287220",
       playerName: "Maman",
-      date: "2026-08-24",
-      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
       timeSeconds: 176.7,
       timeFormatted: "02:56.7",
       correctCount: 7,
       totalWords: 12,
       points: 515,
-      createdAt: "2026-08-24T15:50:00.000Z"
+      createdAt: "2026-08-23T20:51:27.220Z"
     }
   ],
   justePrixScores: [],
