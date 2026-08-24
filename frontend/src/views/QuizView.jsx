@@ -138,12 +138,9 @@ export default function QuizView() {
   };
 
   const handleStartQuiz = (readOnlyMode = false) => {
-    if (!voterName) {
-      if (participants.length > 0) {
-        handleSelectVoter(participants[0].name, participants[0].avatar);
-      } else {
-        handleSelectVoter('Liza', '🌸');
-      }
+    if (!voterName || !voterName.trim()) {
+      alert("Veuillez d'abord sélectionner votre prénom dans la liste déroulante avant de lancer le Quiz !");
+      return;
     }
     setHasStarted(true);
     setIsFinished(false);

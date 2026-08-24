@@ -11,7 +11,7 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
   const [showAllToday, setShowAllToday] = useState(false);
   const [showAllGlobal, setShowAllGlobal] = useState(false);
   
-  const [playerName, setPlayerName] = useState(localStorage.getItem('crosswords_player') || 'Célia');
+  const [playerName, setPlayerName] = useState(localStorage.getItem('crosswords_player') || '');
   const [playerPhoto, setPlayerPhoto] = useState(null);
   
   // Game state
@@ -83,12 +83,15 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
   };
 
   // Check if player has already completed today's official challenge
-  const todayPlayerScore = todayScores.find(
+  const todayPlayerScore = playerName ? todayScores.find(
     s => s.playerName.toLowerCase() === playerName.toLowerCase()
-  );
+  ) : null;
 
   const handleStartGame = () => {
-    if (!playerName.trim()) return;
+    if (!playerName || !playerName.trim()) {
+      alert("Veuillez d'abord sélectionner votre prénom dans la liste déroulante avant de démarrer !");
+      return;
+    }
     setIsPlaying(true);
     setIsSubmitted(false);
     setResultDetails(null);
