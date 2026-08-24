@@ -128,6 +128,10 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
     }
   };
 
+  const currentSelectedParticipant = participants.find(
+    p => p.name?.toLowerCase() === selectedName?.toLowerCase()
+  );
+
   return (
     <div className="space-y-1.5" ref={dropdownRef}>
       {/* Label */}
