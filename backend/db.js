@@ -1295,7 +1295,7 @@ export const db = {
       },
       {
         dayIndex: 10,
-        theme: "Jouets d'Éveil, Puzzles & Peluches 🧸🧩",
+        theme: "Jouets d'Éveil 🧸",
         description: "Les 12 divertissements préférés pour s'amuser et grandir",
         words: [
           { id: 1, word: "PELUCHE", clue: "1. Animal en tissu ultra doux qu'on serre fort contre soi", length: 7 },
@@ -1314,7 +1314,7 @@ export const db = {
       },
       {
         dayIndex: 11,
-        theme: "Pâtisserie, Goûters & Douceurs 🧁🍓",
+        theme: "Pâtisserie, goûters et douceurs 🧁",
         description: "Les 12 gourmandises préparées avec amour pour le goûter",
         words: [
           { id: 1, word: "GATEAU", clue: "1. Pâtisserie moelleuse au yaourt ou au chocolat", length: 6 },
@@ -1333,7 +1333,7 @@ export const db = {
       },
       {
         dayIndex: 12,
-        theme: "Papi, Mamie & Les Trésors de Famille 👵👴",
+        theme: "Papi, Mamie & Trésors de Famille 👵",
         description: "Les 12 marques d'amour des grands-parents chéris",
         words: [
           { id: 1, word: "MAMIE", clue: "1. La grand-mère attentionnée qui prépare les meilleurs plats", length: 5 },
@@ -1352,7 +1352,7 @@ export const db = {
       },
       {
         dayIndex: 13,
-        theme: "Premiers Pas & Grandir Jour après Jour 👣💫",
+        theme: "Premiers Pas & Éveil 👣",
         description: "Les 12 étapes magiques de la première année de vie",
         words: [
           { id: 1, word: "SOURIRE", clue: "1. La première mimique radieuse offerte à papa et maman", length: 7 },
@@ -1471,23 +1471,6 @@ export const db = {
     const correctCount = Number(scoreData.correctCount) || 0;
     const totalWords = Number(scoreData.totalWords) || 12;
 
-    // Strict Anti-Cheat Rule: 1 single official attempt per player per day!
-    const existingIndex = data.dailyGameScores.findIndex(
-      s => s.date === todayStr && s.playerName.toLowerCase() === (scoreData.playerName || '').toLowerCase()
-    );
-
-    if (existingIndex >= 0) {
-      // Score already locked for today! Return existing score without overwriting
-      const existing = data.dailyGameScores[existingIndex];
-      return {
-        alreadySubmitted: true,
-        awardedPoints: existing.points,
-        correctCount: existing.correctCount,
-        totalWords: existing.totalWords,
-        ...this.getCrosswordLeaderboards(todayStr)
-      };
-    }
-
     // Scoring: 60 pts per correct word (up to 720 pts) + speed bonus (up to 300 pts)
     const wordPoints = correctCount * 60;
     const speedBonus = Math.max(0, Math.round((240 - timeSec) * 1.5));
@@ -1497,7 +1480,7 @@ export const db = {
       id: "score-" + Date.now(),
       playerName: scoreData.playerName || "Un proche",
       date: todayStr,
-      theme: scoreData.theme || "Mots Fléchés (12 Mots)",
+      theme: scoreData.theme || "Mots Fléchés",
       timeSeconds: timeSec,
       timeFormatted: scoreData.timeFormatted || "01:00",
       correctCount,
@@ -1506,11 +1489,20 @@ export const db = {
       createdAt: new Date().toISOString()
     };
 
-    data.dailyGameScores.push(newEntry);
+    // Mettre à jour si le joueur a déjà un score enregistré pour aujourd'hui (enregistre systématiquement le dernier score)
+    const existingIndex = data.dailyGameScores.findIndex(
+      s => s.date === todayStr && s.playerName.toLowerCase() === (scoreData.playerName || '').toLowerCase()
+    );
+
+    if (existingIndex >= 0) {
+      data.dailyGameScores[existingIndex] = newEntry;
+    } else {
+      data.dailyGameScores.push(newEntry);
+    }
+
     writeDb(data);
 
     return {
-      alreadySubmitted: false,
       awardedPoints: calculatedPoints,
       correctCount,
       totalWords,

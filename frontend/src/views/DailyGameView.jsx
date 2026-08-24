@@ -176,41 +176,34 @@ export default function DailyGameView() {
 
   return (
     <div className="px-5 space-y-5 pb-8">
-      {/* Header Banner */}
-      <div className="glass-card-pink rounded-3xl p-5 border border-blush-200/90 shadow-md relative overflow-hidden space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <h2 className="font-serif text-xl font-extrabold text-slate-800">
-              Mots Fléchés Quotidiens
-            </h2>
-            <p className="text-xs text-rose-500 font-medium">
-              12 mots chaque jour pour faire briller votre culture bébé & famille !
-            </p>
-          </div>
-          <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-2xl object-cover shadow-2xs border border-[#E7BEF8]" />
-        </div>
-        {/* Today's Theme & Tomorrow's Theme sur une seule ligne épurée */}
-        {gridData && (
-          <div className="bg-white/95 rounded-2xl p-3 border border-rose-100 space-y-1.5 shadow-2xs text-xs">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-slate-500">Thème du jour :</span>
-                <strong className="text-blush-600 font-black">{gridData.theme}</strong>
-              </div>
-              <span className="text-[10px] font-bold text-slate-500 bg-rose-50 px-2 py-0.5 rounded-md whitespace-nowrap flex-shrink-0 border border-rose-100">
-                12 mots
-              </span>
-            </div>
-
-            {gridData.tomorrowTheme && (
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1 border-t border-rose-50">
-                <span className="font-bold text-slate-400">🔮 Thème de demain :</span>
-                <strong className="text-slate-700 font-extrabold">{gridData.tomorrowTheme}</strong>
-              </div>
-            )}
-          </div>
-        )}
+      {/* Titre et Sous-titre en violet au-dessus du rectangle */}
+      <div className="space-y-0.5 px-1">
+        <h2 className="font-serif text-lg font-black text-[#812348] tracking-tight leading-tight">
+          Mots fléchés du quotidien
+        </h2>
+        <p className="text-[11px] sm:text-xs text-[#812348]/85 font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+          12 mots chaque jour pour faire briller votre culture bébé et famille
+        </p>
       </div>
+
+      {/* Rectangle Thème du jour & Thème de demain */}
+      {gridData && (
+        <div className="glass-card-pink rounded-3xl p-4 border border-blush-200/90 shadow-sm space-y-2">
+          {/* Thème du jour sur la même ligne */}
+          <div className="flex items-center gap-1.5 text-xs text-slate-700">
+            <span className="font-bold text-slate-500 flex-shrink-0">Thème du jour :</span>
+            <strong className="text-blush-700 font-black truncate">{gridData.theme}</strong>
+          </div>
+
+          {/* Thème de demain en beaucoup plus petit et en italique */}
+          {gridData.tomorrowTheme && (
+            <div className="pt-1.5 border-t border-rose-100/70 flex items-center gap-1.5 text-[10px] text-slate-400 italic">
+              <span>🔮 Thème de demain :</span>
+              <span className="text-slate-600 font-bold not-italic">{gridData.tomorrowTheme}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* CHRONOMETER BAR (Visible pendant la partie) */}
       {isPlaying && !isSubmitted && (
@@ -226,7 +219,7 @@ export default function DailyGameView() {
         </div>
       )}
 
-      {/* 1. ÉCRAN INTRO : DÉMARRER OU VOIR SON SCORE DÉJÀ ENREGISTRÉ */}
+      {/* 1. ÉCRAN INTRO : DÉMARRER OU REJOUER POUR ENREGISTRER SON DERNIER SCORE */}
       {!isPlaying && !isSubmitted && (
         <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-blush-200 text-center space-y-4 animate-in zoom-in-95">
           <div className="w-14 h-14 mx-auto rounded-3xl bg-gradient-to-tr from-[#F2619C]/20 via-[#FFE066]/40 to-[#E7BEF8]/50 border border-[#F2619C]/30 flex items-center justify-center text-[#F2619C] shadow-2xs">
@@ -242,37 +235,36 @@ export default function DailyGameView() {
             </p>
           </div>
 
-          {/* If player already played today -> Lock message (Anti-Cheat!) */}
-          {todayPlayerScore ? (
-            <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-200 text-left space-y-2">
-              <div className="flex items-center gap-2 text-emerald-800 font-extrabold text-xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Score officiel du jour enregistré !</span>
+          {/* Participant Selection */}
+          <div className="text-left pt-1">
+            <ParticipantSelector
+              selectedName={playerName}
+              onSelect={(name) => setPlayerName(name)}
+              label="Qui relève le défi ?"
+            />
+          </div>
+
+          {/* If player already played today -> Show his latest recorded score and allow replay */}
+          {todayPlayerScore && (
+            <div className="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200 text-left space-y-1 text-xs">
+              <div className="flex items-center gap-1.5 text-emerald-800 font-extrabold text-xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span>Dernier score enregistré aujourd'hui : <strong>+{todayPlayerScore.score} pts</strong> ({todayPlayerScore.timeFormatted})</span>
               </div>
               <p className="text-[11px] text-emerald-700">
-                Tu as déjà complété la grille aujourd'hui avec <strong>{todayPlayerScore.score} pts</strong> en <strong>{todayPlayerScore.timeFormatted}</strong>.
+                Tu peux rejouer pour tenter de battre ton record ou améliorer ton chrono !
               </p>
             </div>
-          ) : (
-            <div className="space-y-3 pt-2">
-              <div className="text-left">
-                <ParticipantSelector
-                  selectedName={playerName}
-                  onSelect={(name) => setPlayerName(name)}
-                  label="Qui relève le défi du jour ?"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={handleStartGame}
-                className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
-              >
-                <Play className="w-5 h-5 fill-white" />
-                <span>Démarrer le Chrono</span>
-              </button>
-            </div>
           )}
+
+          <button
+            type="button"
+            onClick={handleStartGame}
+            className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
+          >
+            <Play className="w-5 h-5 fill-white" />
+            <span>{todayPlayerScore ? "Rejouer & Améliorer mon score 🚀" : "Démarrer le Chrono 🚀"}</span>
+          </button>
         </div>
       )}
 
