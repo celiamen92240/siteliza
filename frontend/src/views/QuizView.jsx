@@ -231,7 +231,7 @@ export default function QuizView() {
             Qui de Liza ou de Clément ?
           </h2>
           <p className="text-xs text-[#812348]/80 font-medium">
-            Votez et découvrez qui remportera les 5 grands titres de super parents ! (1 participation par proche)
+            Votez et découvrez qui remportera les 5 grands titres de super parents !
           </p>
         </div>
       </div>
