@@ -78,6 +78,7 @@ const defaultState = {
   ],
   actualBirth: null,
   quizVotes: [],
+  quizCompletedVoters: ["léa", "clément"],
   polls: [],
   purchasesCategories: [],
   purchasesList: [],
@@ -583,6 +584,7 @@ export const db = {
     );
 
     if (existingIndex >= 0) {
+      // Si la question a déjà été répondue, on bloque si le joueur a terminé
       data.quizVotes[existingIndex] = { ...vote, timestamp: new Date().toISOString() };
     } else {
       data.quizVotes.push({ ...vote, timestamp: new Date().toISOString() });
@@ -612,7 +614,11 @@ export const db = {
   getQuizAggregates() {
     const data = readDb();
     const votes = data.quizVotes || [];
-    const completedVoters = data.quizCompletedVoters || [];
+    const uniqueVoters = Array.from(new Set(votes.map(v => (v.voter || '').trim().toLowerCase()).filter(Boolean)));
+    const completedVoters = Array.from(new Set([
+      ...(data.quizCompletedVoters || []),
+      ...uniqueVoters
+    ].filter(Boolean)));
 
     const stats = {};
     quizQuestions.forEach(q => {
@@ -687,7 +693,6 @@ export const db = {
       };
     });
 
-    const uniqueVoters = Array.from(new Set((data.quizVotes || []).map(v => (v.voter || '').trim().toLowerCase()).filter(Boolean)));
     const uniqueVotersCount = uniqueVoters.length;
 
     return {

@@ -136,25 +136,21 @@ export default function QuizView() {
     setActiveTab(readOnlyMode ? 'play' : 'play');
   };
 
-  const hasAlreadyCompleted = Boolean(
+  const allVotedNames = Array.from(new Set([
+    ...(summary?.votedVoters || []),
+    ...(summary?.completedVoters || [])
+  ].filter(Boolean)));
+
+  const hasAlreadyVoted = Boolean(
     voterName && (
-      (summary?.completedVoters || []).some(v => (v || '').toLowerCase() === voterName.toLowerCase()) ||
-      localStorage.getItem(`quiz_completed_${voterName.toLowerCase()}`) === 'true' ||
-      (Object.keys(myVotes).length >= (questions.length || 50) && questions.length > 0)
+      allVotedNames.some(v => (v || '').trim().toLowerCase() === voterName.trim().toLowerCase()) ||
+      localStorage.getItem(`quiz_completed_${voterName.trim().toLowerCase()}`) === 'true' ||
+      localStorage.getItem(`quiz_voted_${voterName.trim().toLowerCase()}`) === 'true'
     )
   );
 
   const handleVote = async (questionId, choice) => {
-    if (isVoting) return;
-    if (hasAlreadyCompleted) {
-      // Déjà voté : mode lecture seule
-      if (currentIndex + 1 < questions.length) {
-        setCurrentIndex(prev => prev + 1);
-      } else {
-        setActiveTab('results');
-      }
-      return;
-    }
+    if (isVoting || hasAlreadyVoted) return;
 
     setIsVoting(true);
     const voter = voterName.trim() || 'Un proche';
@@ -190,6 +186,7 @@ export default function QuizView() {
       } else {
         // FIN DU QUIZZ -> Clôture officielle pour ce joueur (1 seule participation)
         localStorage.setItem(`quiz_completed_${voter.toLowerCase()}`, 'true');
+        localStorage.setItem(`quiz_voted_${voter.toLowerCase()}`, 'true');
         try {
           await fetch('/api/quiz/finish', {
             method: 'POST',
@@ -257,20 +254,26 @@ export default function QuizView() {
             <ParticipantSelector
               selectedName={voterName}
               onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
+              highlightBlueNames={allVotedNames}
+              highlightLabel="A déjà voté"
               label="Qui participe au quiz ?"
             />
           </div>
 
           {/* Message si ce joueur a déjà complété le quiz */}
-          {hasAlreadyCompleted ? (
-            <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-200 text-center space-y-3">
-              <div className="flex items-center justify-center gap-1.5 text-emerald-800 font-extrabold text-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>{voterName}, vous avez déjà répondu à ce Quiz !</span>
+          {hasAlreadyVoted ? (
+            <div className="bg-blue-50/90 rounded-2xl p-5 border-2 border-blue-200 text-center space-y-3 shadow-xs animate-in fade-in">
+              <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto shadow-2xs">
+                <Lock className="w-5 h-5 stroke-[2.5]" />
               </div>
-              <p className="text-[11px] text-emerald-700 font-medium">
-                Vos votes ont été définitivement comptabilisés dans le duel.
-              </p>
+              <div className="space-y-1">
+                <h4 className="text-sm font-black text-blue-900">
+                  {voterName} a déjà répondu à ce Quiz !
+                </h4>
+                <p className="text-xs text-blue-700 font-medium">
+                  Chaque proche ne peut voter qu'une seule fois. Vos choix ont été définitivement enregistrés.
+                </p>
+              </div>
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <button
                   type="button"
@@ -278,14 +281,14 @@ export default function QuizView() {
                     setHasStarted(true);
                     setActiveTab('results');
                   }}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-xs cursor-pointer transition-all"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 px-3 rounded-xl text-xs shadow-xs cursor-pointer transition-all"
                 >
                   Voir les résultats
                 </button>
                 <button
                   type="button"
                   onClick={() => handleStartQuiz(true)}
-                  className="bg-white text-emerald-800 border border-emerald-300 font-bold py-2.5 px-3 rounded-xl text-xs hover:bg-emerald-50 cursor-pointer transition-all"
+                  className="bg-white text-blue-800 border-2 border-blue-300 font-bold py-2.5 px-3 rounded-xl text-xs hover:bg-blue-50 cursor-pointer transition-all"
                 >
                   Revoir mes choix 👀
                 </button>
@@ -295,7 +298,7 @@ export default function QuizView() {
             <button
               type="button"
               onClick={() => handleStartQuiz(false)}
-              className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-bold py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-black py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <span>Lancer le Duel</span>
               <Sparkles className="w-4 h-4" />
@@ -388,10 +391,10 @@ export default function QuizView() {
 
               return (
                 <div className="space-y-4">
-                  {hasAlreadyCompleted && (
-                    <div className="bg-amber-50 rounded-xl p-2.5 border border-amber-200 text-center text-[11px] font-bold text-amber-800 flex items-center justify-center gap-1.5 animate-in fade-in">
-                      <Lock className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                      <span>Mode consultation : Votre vote pour ce duel a déjà été enregistré.</span>
+                  {hasAlreadyVoted && (
+                    <div className="bg-blue-50 rounded-xl p-2.5 border border-blue-200 text-center text-[11px] font-bold text-blue-800 flex items-center justify-center gap-1.5 animate-in fade-in">
+                      <Lock className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
+                      <span>Mode consultation : Le vote de {voterName} a déjà été définitivement validé.</span>
                     </div>
                   )}
 
@@ -399,10 +402,10 @@ export default function QuizView() {
                     <button
                       key={`btn-liza-${qId}`}
                       type="button"
-                      disabled={isVoting || hasAlreadyCompleted}
+                      disabled={isVoting || hasAlreadyVoted}
                       onClick={() => handleVote(qId, 'Liza')}
                       className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all ${
-                        hasAlreadyCompleted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
+                        hasAlreadyVoted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
                       } ${
                         userChoice === 'Liza'
                           ? 'bg-gradient-to-r from-blush-400 to-blush-500 text-white shadow-lg ring-4 ring-rose-200 scale-102 font-extrabold'
@@ -420,10 +423,10 @@ export default function QuizView() {
                     <button
                       key={`btn-clement-${qId}`}
                       type="button"
-                      disabled={isVoting || hasAlreadyCompleted}
+                      disabled={isVoting || hasAlreadyVoted}
                       onClick={() => handleVote(qId, 'Clément')}
                       className={`py-6 px-3 rounded-2xl font-black text-sm flex flex-col items-center justify-center gap-2 transition-all ${
-                        hasAlreadyCompleted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
+                        hasAlreadyVoted ? 'cursor-default opacity-90' : 'cursor-pointer active:scale-95'
                       } ${
                         userChoice === 'Clément'
                           ? 'bg-gradient-to-r from-blueberry-400 to-blueberry-500 text-white shadow-lg ring-4 ring-blue-200 scale-102 font-extrabold'

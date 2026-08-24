@@ -18,7 +18,7 @@ const RELATION_PRESETS = [
   'Autre proche'
 ];
 
-export default function ParticipantSelector({ selectedName, onSelect, label = "Qui participe ?" }) {
+export default function ParticipantSelector({ selectedName, onSelect, label = "Qui participe ?", highlightBlueNames = [], highlightLabel = "A voté" }) {
   const [participants, setParticipants] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -27,6 +27,11 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
   const [customRole, setCustomRole] = useState('');
   const [newPhoto, setNewPhoto] = useState(null);
   const dropdownRef = useRef(null);
+
+  const isNameHighlighted = (name) => {
+    if (!name || !highlightBlueNames || highlightBlueNames.length === 0) return false;
+    return highlightBlueNames.some(n => (n || '').trim().toLowerCase() === (name || '').trim().toLowerCase());
+  };
 
   const fetchParticipants = () => {
     fetch('/api/participants')
@@ -99,28 +104,35 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
         setShowAddModal(false);
         setIsOpen(false);
         setNewName('');
-        setNewRole('Tatie');
         setCustomRole('');
         setNewPhoto(null);
-        confetti({ particleCount: 35, spread: 60, origin: { y: 0.6 } });
+        confetti({ particleCount: 30, spread: 50 });
       }
     } catch (err) {
       console.error("Error adding participant", err);
     }
   };
 
-  const handleDeleteParticipant = async (e, p) => {
+  const handleDeleteParticipant = async (e, participant) => {
     e.stopPropagation();
-    if (!window.confirm(`Supprimer le profil de joueur « ${p.name} » ?`)) return;
+    if (!window.confirm(`Supprimer ${participant.name} de la liste des participants ?`)) {
+      return;
+    }
+
     try {
-      const res = await fetch(`/api/participants/${encodeURIComponent(p.id || p.name)}`, {
+      const res = await fetch(`/api/participants/${participant.id}`, {
         method: 'DELETE'
       });
       const data = await res.json();
       if (data.success) {
-        setParticipants(data.participants || []);
-        if (selectedName?.toLowerCase() === p.name?.toLowerCase() && onSelect) {
-          onSelect('', null);
+        const updated = data.participants || [];
+        setParticipants(updated);
+        if (selectedName?.toLowerCase() === participant.name?.toLowerCase()) {
+          if (updated.length > 0 && onSelect) {
+            onSelect(updated[0].name, updated[0].photo || updated[0].avatar);
+          } else if (onSelect) {
+            onSelect('', null);
+          }
         }
       }
     } catch (err) {
@@ -133,28 +145,26 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
   );
 
   return (
-    <div className="space-y-1.5" ref={dropdownRef}>
-      {/* Label */}
+    <div className="space-y-1.5 text-left">
       {label && (
-        <label className="text-[11px] font-black text-slate-700 flex items-center gap-1.5 px-0.5">
-          <User className="w-3.5 h-3.5 text-blush-500" />
-          <span>{label}</span>
+        <label className="text-[11px] font-bold text-slate-500 block px-1">
+          {label}
         </label>
       )}
 
-      {/* Trigger Bar : Custom Dropdown Card + Button "+ Nouveau" */}
+      {/* Main Container with Dropdown Trigger and Add Button */}
       <div className="flex items-center gap-2">
-        {/* Custom Dropdown Trigger */}
-        <div className="relative flex-1">
+        {/* Dropdown Container */}
+        <div ref={dropdownRef} className="relative flex-1">
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full bg-white hover:bg-rose-50/40 border border-blush-200 hover:border-blush-300 rounded-2xl py-2 px-3 flex items-center justify-between shadow-2xs transition-all cursor-pointer text-left group"
+            className="w-full bg-white hover:bg-rose-50/40 border-2 border-[#E7BEF8] hover:border-blush-400 py-2 px-3 rounded-2xl flex items-center justify-between transition-all shadow-xs cursor-pointer text-left h-[44px]"
           >
             {currentSelectedParticipant ? (
               <div className="flex items-center gap-2.5 min-w-0">
-                {/* Miniature Photo */}
-                <div className="w-8 h-8 rounded-full bg-rose-50 border-2 border-blush-300 overflow-hidden flex items-center justify-center flex-shrink-0 shadow-2xs">
+                {/* Photo or Avatar Icon */}
+                <div className="w-8 h-8 rounded-full bg-white border border-blush-200 overflow-hidden flex items-center justify-center flex-shrink-0 shadow-2xs">
                   {currentSelectedParticipant.photo ? (
                     <img
                       src={currentSelectedParticipant.photo}
@@ -169,10 +179,15 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
                 {/* Name & Role Badge */}
                 <div className="truncate">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-black text-slate-800 truncate">
+                    <span className={`text-xs font-black truncate ${isNameHighlighted(currentSelectedParticipant.name) ? 'text-blue-600' : 'text-slate-800'}`}>
                       {currentSelectedParticipant.name}
                     </span>
-                    {currentSelectedParticipant.role && (
+                    {isNameHighlighted(currentSelectedParticipant.name) && (
+                      <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded-md border border-blue-200 flex-shrink-0">
+                        ✓ {highlightLabel}
+                      </span>
+                    )}
+                    {currentSelectedParticipant.role && !isNameHighlighted(currentSelectedParticipant.name) && (
                       <span className="text-[9px] font-bold text-blush-600 bg-rose-50 px-1.5 py-0.2 rounded-md border border-rose-100/80 flex-shrink-0">
                         {currentSelectedParticipant.role}
                       </span>
@@ -202,12 +217,15 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
               ) : (
                 participants.map((p) => {
                   const isSelected = p.name?.toLowerCase() === selectedName?.toLowerCase();
+                  const isHighlighted = isNameHighlighted(p.name);
                   return (
                     <div
                       key={p.id || p.name}
                       className={`w-full flex items-center justify-between p-2 rounded-xl transition-all ${
                         isSelected
-                          ? 'bg-rose-50 text-blush-700 font-bold border border-rose-200 shadow-2xs'
+                          ? isHighlighted 
+                            ? 'bg-blue-50 text-blue-700 font-bold border border-blue-200 shadow-2xs'
+                            : 'bg-rose-50 text-blush-700 font-bold border border-rose-200 shadow-2xs'
                           : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
@@ -227,7 +245,16 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
                           )}
                         </div>
                         <div className="truncate">
-                          <span className="text-xs font-bold block truncate">{p.name}</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className={`text-xs font-bold block truncate ${isHighlighted ? 'text-blue-600 font-black' : 'text-slate-800'}`}>
+                              {p.name}
+                            </span>
+                            {isHighlighted && (
+                              <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded-md border border-blue-200 flex-shrink-0">
+                                ✓ {highlightLabel}
+                              </span>
+                            )}
+                          </div>
                           {p.role && (
                             <span className="text-[9px] text-slate-400 font-medium block">
                               {p.role}
@@ -238,7 +265,7 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
 
                       <div className="flex items-center gap-1.5 flex-shrink-0 ml-1.5">
                         {isSelected && (
-                          <Check className="w-3.5 h-3.5 text-blush-600 stroke-[3px]" />
+                          <Check className={`w-3.5 h-3.5 stroke-[3px] ${isHighlighted ? 'text-blue-600' : 'text-blush-600'}`} />
                         )}
                         <button
                           type="button"
