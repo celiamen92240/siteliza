@@ -1570,5 +1570,9 @@ export const db = {
       totalWords,
       ...this.getCrosswordLeaderboards(todayStr)
     };
+  },
+
+  getDatabaseDump() {
+    return readDb();
   }
 };

@@ -20,6 +20,15 @@ app.get('/api/config', (req, res) => {
   }
 });
 
+app.get('/api/database/dump', (req, res) => {
+  try {
+    const raw = db.getDatabaseDump();
+    res.json({ success: true, data: raw });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.post('/api/config/verify-pin', (req, res) => {
   try {
     const { pin } = req.body;
