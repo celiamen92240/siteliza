@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import BabyVectorLogo from '../components/BabyVectorLogo';
 import FruitIllustration from '../components/FruitIllustration';
+import LoveEnvelopeIcon from '../components/LoveEnvelopeIcon';
 import { fruitsData } from '../data/fruitsData';
 import { getTodayDailyFact } from '../data/dailyFacts';
 import { compressImage } from '../utils/imageCompressor';
@@ -348,89 +349,77 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           </button>
         </div>
 
-        {/* 4 Bento Cubes Grid 2x2 */}
+        {/* 4 Bento Cubes Grid 2x2 - Centrage Parfait & Harmonieux */}
         <div className="grid grid-cols-2 gap-3.5">
           {/* CUBE 1 : GRAND PRONO (Rose Framboise) */}
           <button
             type="button"
             onClick={() => navigate('predictions')}
-            className="bg-gradient-to-br from-[#F57BAA] to-[#E95B91] text-white p-4 rounded-[28px] shadow-sm hover:shadow-md active:scale-95 text-left transition-all group flex flex-col justify-between h-[145px] relative overflow-hidden cursor-pointer"
+            className="bg-gradient-to-br from-[#F57BAA] to-[#E95B91] text-white p-3.5 rounded-[26px] shadow-sm hover:shadow-md active:scale-95 text-center transition-all group flex flex-col items-center justify-center h-[145px] relative overflow-hidden cursor-pointer space-y-1.5"
           >
-            {/* Top-left Icon */}
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center flex-shrink-0">
+            {/* Centered Icon */}
+            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center flex-shrink-0 shadow-2xs">
               <CalendarHeart className="w-5 h-5 text-white" />
             </div>
 
-            {/* Bottom-right Discreet Arrow */}
-            <ArrowRight className="w-4 h-4 text-white/80 absolute bottom-3.5 right-3.5 group-hover:translate-x-1 transition-transform" />
-
-            {/* Bottom-left Content */}
-            <div className="pr-6">
+            {/* Centered Content */}
+            <div className="space-y-0.5 px-1">
               <p className="font-serif font-black text-sm text-white leading-tight">Grand Prono</p>
               <p className="text-[10px] text-white/90 font-medium">Paris sur le jour J & prénom</p>
             </div>
           </button>
 
-          {/* CUBE 2 : QUI DE LIZA OU DE CLÉMENT ? (Pastel Lilas) */}
+          {/* CUBE 2 : DUEL DES PARENTS (Pastel Lilas) */}
           <button
             type="button"
             onClick={() => navigate('quiz')}
-            className="bg-gradient-to-br from-[#E7BEF8] to-[#D59EED] text-[#4A154B] p-4 rounded-[28px] shadow-sm hover:shadow-md active:scale-95 text-left transition-all group flex flex-col justify-between h-[145px] relative overflow-hidden cursor-pointer"
+            className="bg-gradient-to-br from-[#E7BEF8] to-[#D59EED] text-[#4A154B] p-3.5 rounded-[26px] shadow-sm hover:shadow-md active:scale-95 text-center transition-all group flex flex-col items-center justify-center h-[145px] relative overflow-hidden cursor-pointer space-y-1.5"
           >
-            {/* Top-left Icon */}
-            <div className="w-10 h-10 rounded-2xl bg-white/30 backdrop-blur-xs flex items-center justify-center flex-shrink-0">
+            {/* Centered Icon */}
+            <div className="w-10 h-10 rounded-2xl bg-white/35 backdrop-blur-xs flex items-center justify-center flex-shrink-0 shadow-2xs">
               <MessageSquareText className="w-5 h-5 text-[#4A154B]" />
             </div>
 
-            {/* Bottom-right Discreet Arrow */}
-            <ArrowRight className="w-4 h-4 text-[#4A154B]/80 absolute bottom-3.5 right-3.5 group-hover:translate-x-1 transition-transform" />
-
-            {/* Bottom-left Content */}
-            <div className="pr-6">
-              <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Qui de Liza<br />ou de Clément ?</p>
-              <p className="text-[10px] text-[#4A154B]/85 font-medium">Duel des futurs parents</p>
+            {/* Centered Content */}
+            <div className="space-y-0.5 px-1">
+              <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Duel des Parents</p>
+              <p className="text-[10px] text-[#4A154B]/85 font-medium">Qui de Liza ou Clément ?</p>
             </div>
           </button>
 
-          {/* CUBE 3 : JEUX DU JOUR / MOTS FLÉCHÉS (Bleu Ciel) */}
+          {/* CUBE 3 : MOTS FLÉCHÉS (Bleu Ciel) */}
           <button
             type="button"
             onClick={() => navigate('games')}
-            className="bg-gradient-to-br from-[#A5C2F8] to-[#88ADF4] text-white p-4 rounded-[28px] shadow-sm hover:shadow-md active:scale-95 text-left transition-all group flex flex-col justify-between h-[145px] relative overflow-hidden cursor-pointer"
+            className="bg-gradient-to-br from-[#A5C2F8] to-[#88ADF4] text-white p-3.5 rounded-[26px] shadow-sm hover:shadow-md active:scale-95 text-center transition-all group flex flex-col items-center justify-center h-[145px] relative overflow-hidden cursor-pointer space-y-1.5"
           >
-            {/* Top-left Icon */}
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center flex-shrink-0">
+            {/* Centered Icon */}
+            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center flex-shrink-0 shadow-2xs">
               <Puzzle className="w-5 h-5 text-white" />
             </div>
 
-            {/* Bottom-right Discreet Arrow */}
-            <ArrowRight className="w-4 h-4 text-white/80 absolute bottom-3.5 right-3.5 group-hover:translate-x-1 transition-transform" />
-
-            {/* Bottom-left Content */}
-            <div className="pr-6">
+            {/* Centered Content */}
+            <div className="space-y-0.5 px-1">
               <p className="font-serif font-black text-sm text-white leading-tight">Mots Fléchés</p>
               <p className="text-[10px] text-white/90 font-medium">12 mots & chrono ⏱️</p>
             </div>
           </button>
 
-          {/* CUBE 4 : PETITS DOUTES, GRANDES RÉPONSES (Jaune Pêche) */}
+          {/* CUBE 4 : HÉSITATIONS (Jaune Pêche) */}
           <button
             type="button"
             onClick={() => navigate('polls')}
-            className="bg-gradient-to-br from-[#FEE58A] to-[#FCD468] text-[#6B4D1B] p-4 rounded-[28px] shadow-sm hover:shadow-md active:scale-95 text-left transition-all group flex flex-col justify-between h-[145px] relative overflow-hidden cursor-pointer"
+            className="bg-gradient-to-br from-[#FEE58A] to-[#FCD468] text-[#6B4D1B] p-3.5 rounded-[26px] shadow-sm hover:shadow-md active:scale-95 text-center transition-all group flex flex-col items-center justify-center h-[145px] relative overflow-hidden cursor-pointer space-y-1.5"
           >
-            {/* Top-left Icon */}
-            <div className="w-10 h-10 rounded-2xl bg-white/35 backdrop-blur-xs flex items-center justify-center flex-shrink-0">
+            {/* Centered Icon */}
+            <div className="w-10 h-10 rounded-2xl bg-white/40 backdrop-blur-xs flex items-center justify-center flex-shrink-0 shadow-2xs">
               <Lightbulb className="w-5 h-5 text-[#6B4D1B]" />
             </div>
 
-            {/* Bottom-right Discreet Arrow */}
-            <ArrowRight className="w-4 h-4 text-[#6B4D1B]/80 absolute bottom-3.5 right-3.5 group-hover:translate-x-1 transition-transform" />
-
-            {/* Bottom-left Content */}
-            <div className="pr-6">
-              <p className="font-serif font-black text-xs font-black text-[#6B4D1B] leading-tight">Petits Doutes,<br />grandes réponses</p>
-              <p className="text-[10px] text-[#6B4D1B]/85 font-medium">On vous aide, à deux</p>
+            {/* Centered Content */}
+            <div className="space-y-0.5 px-1">
+              <p className="font-serif font-black text-sm text-[#6B4D1B] leading-tight">Hésitations</p>
+              <p className="text-[10px] text-[#6B4D1B]/85 font-medium">Aidez-les à choisir ✨</p>
             </div>
           </button>
         </div>
@@ -439,12 +428,11 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
         <button
           type="button"
           onClick={() => navigate('guestbook')}
-          className="w-full bg-[#FEEFF4] border border-[#FCD8E6] rounded-[24px] p-4 flex items-center justify-between shadow-2xs relative overflow-hidden group cursor-pointer active:scale-[0.99] transition-all"
+          className="w-full bg-[#FEEFF4] border border-[#FCD8E6] rounded-[24px] p-3.5 flex items-center justify-between shadow-2xs relative overflow-hidden group cursor-pointer active:scale-[0.99] transition-all"
         >
           <div className="flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-2xl bg-white shadow-2xs flex items-center justify-center flex-shrink-0 relative border border-pink-100">
-              <MailOpen className="w-5 h-5 text-[#F2619C] stroke-[2.2px]" />
-              <Heart className="w-2.5 h-2.5 text-[#F2619C] fill-[#F2619C] absolute -top-1 right-1.5 drop-shadow-2xs animate-pulse" />
+              <LoveEnvelopeIcon size={26} />
             </div>
             <div className="text-left">
               <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Capsule d'Amour & Mots Doux</p>
