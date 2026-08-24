@@ -146,19 +146,19 @@ export default function HomeView({ setTab, onTabChange }) {
 
       {/* 2. TAILLE DE BÉBÉ EN FRUITS / LÉGUMES */}
       <div className="bg-gradient-to-br from-[#E7BEF8]/35 via-white to-[#93ABD9]/20 rounded-3xl p-5 shadow-md border-2 border-[#E7BEF8] space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="text-2xl p-1.5 bg-[#FFE066]/50 rounded-xl">🌱</span>
-            <div>
-              <h3 className="font-serif text-sm font-bold text-slate-800">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="text-2xl p-1.5 bg-[#FFE066]/50 rounded-xl flex-shrink-0">🌱</span>
+            <div className="min-w-0">
+              <h3 className="font-serif text-sm font-bold text-slate-800 truncate">
                 Taille de notre petite fille
               </h3>
               <p className="text-[10px] text-slate-400">Évolution semaine après semaine</p>
             </div>
           </div>
 
-          {/* Automatic Live Week Badge */}
-          <span className="text-[11px] font-black text-white bg-[#F2619C] border border-white/60 rounded-xl px-3 py-1 flex items-center gap-1 shadow-sm">
+          {/* Automatic Live Week Badge (Toujours sur une seule ligne) */}
+          <span className="text-[11px] font-black text-white bg-[#F2619C] border border-white/60 rounded-xl px-3 py-1.5 flex items-center gap-1 shadow-sm whitespace-nowrap flex-shrink-0">
             <span>✨ Semaine {currentWeek}</span>
           </span>
         </div>
@@ -169,17 +169,17 @@ export default function HomeView({ setTab, onTabChange }) {
             {fruitInfo.emoji}
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
+          <div className="space-y-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-extrabold text-sm text-slate-800">
                 Comme {fruitInfo.fruit}
               </span>
-              <span className="text-[10px] bg-[#FFE066] text-[#78350f] px-2 py-0.5 rounded-full font-bold">
-                Sem. {currentWeek}
+              <span className="text-[10px] bg-[#FFE066] text-[#78350f] px-2.5 py-0.5 rounded-full font-extrabold whitespace-nowrap flex-shrink-0">
+                Semaine {currentWeek}
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-[#93ABD9] font-bold">
+            <div className="flex items-center gap-3 text-xs text-[#93ABD9] font-bold whitespace-nowrap">
               <span>📏 {fruitInfo.sizeCm} cm</span>
               <span>•</span>
               <span>⚖️ ~{fruitInfo.weightG} g</span>
