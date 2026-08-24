@@ -189,12 +189,11 @@ export default function DailyGameView() {
           </div>
           <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-2xl object-cover shadow-2xs border border-[#E7BEF8]" />
         </div>
-
-        {/* Today's Theme & Tomorrow's Theme */}
+        {/* Today's Theme & Tomorrow's Theme sur une seule ligne épurée */}
         {gridData && (
-          <div className="bg-white/95 rounded-2xl p-3 border border-rose-100 space-y-1.5 shadow-2xs">
+          <div className="bg-white/95 rounded-2xl p-3 border border-rose-100 space-y-1.5 shadow-2xs text-xs">
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5 text-xs">
+              <div className="flex items-center gap-1.5">
                 <span className="font-bold text-slate-500">Thème du jour :</span>
                 <strong className="text-blush-600 font-black">{gridData.theme}</strong>
               </div>
@@ -204,10 +203,10 @@ export default function DailyGameView() {
             </div>
 
             {gridData.tomorrowTheme && (
-              <p className="text-[10px] text-slate-400 font-medium flex items-center gap-1 pt-0.5 border-t border-slate-50">
-                <span>🔮 Thème de demain :</span>
-                <span className="font-bold text-slate-600">{gridData.tomorrowTheme}</span>
-              </p>
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1 border-t border-rose-50">
+                <span className="font-bold text-slate-400">🔮 Thème de demain :</span>
+                <strong className="text-slate-700 font-extrabold">{gridData.tomorrowTheme}</strong>
+              </div>
             )}
           </div>
         )}
@@ -248,100 +247,88 @@ export default function DailyGameView() {
             <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-200 text-left space-y-2">
               <div className="flex items-center gap-2 text-emerald-800 font-extrabold text-xs">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Score officiel déjà enregistré aujourd'hui !</span>
+                <span>Score officiel du jour enregistré !</span>
               </div>
-              <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-emerald-100 text-xs">
-                <span className="text-slate-600 font-medium">
-                  {playerName} • {todayPlayerScore.correctCount !== undefined ? `${todayPlayerScore.correctCount}/12 trouvés` : '12 mots'}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-slate-700 font-bold">⏱️ {todayPlayerScore.timeFormatted}</span>
-                  <span className="font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">+{todayPlayerScore.points} pts</span>
-                </div>
-              </div>
-              <p className="text-[10px] text-slate-400 italic">
-                Anti-triche actif : 1 tentative par jour pour préserver l'équité du podium ! Rendez-vous demain pour la nouvelle grille.
+              <p className="text-[11px] text-emerald-700">
+                Tu as déjà complété la grille aujourd'hui avec <strong>{todayPlayerScore.score} pts</strong> en <strong>{todayPlayerScore.timeFormatted}</strong>.
               </p>
             </div>
           ) : (
-            <div className="bg-rose-50/50 rounded-2xl p-3.5 border border-rose-100 text-left text-xs space-y-1.5 text-slate-600">
-              <p className="font-bold text-slate-800 flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-                <span>Règles du Défi :</span>
-              </p>
-              <p className="text-[11px] leading-relaxed">
-                • <strong>Remplis ce que tu trouves</strong> et clique sur Valider (même si tu n'as pas tout mis).<br />
-                • <strong>Tes réponses restent secrètes</strong> jusqu'à la fin de la partie.<br />
-                • <strong>Score verrouillé</strong> dès validation pour un classement 100% honnête !<br />
-                • Ceux qui ne jouent pas un jour n'ont pas les points du jour.
-              </p>
+            <div className="space-y-3 pt-2">
+              <div className="text-left">
+                <ParticipantSelector
+                  selectedName={playerName}
+                  onSelect={(name) => setPlayerName(name)}
+                  label="Qui relève le défi du jour ?"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleStartGame}
+                className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
+              >
+                <Play className="w-5 h-5 fill-white" />
+                <span>Démarrer le Chrono</span>
+              </button>
             </div>
-          )}
-
-          {/* Participant Selection */}
-          <div className="text-left bg-rose-50/40 rounded-2xl p-3 border border-rose-100">
-            <ParticipantSelector
-              selectedName={playerName}
-              onSelect={handleSelectPlayer}
-              label="Sélectionne ton profil :"
-            />
-          </div>
-
-          {!todayPlayerScore && (
-            <button
-              type="button"
-              onClick={handleStartGame}
-              className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-bold py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
-            >
-              <Play className="w-4 h-4 fill-white" />
-              <span>Démarrer ma Tentative Officielle 🚀</span>
-            </button>
           )}
         </div>
       )}
 
-      {/* 2. ÉCRAN EN JEU : GRILLE DE 12 MOTS EN COURS DE SAISIE */}
+      {/* 2. GRILLE ACTIVE DE JEU (12 MOTS À REMPLIR) */}
       {isPlaying && !isSubmitted && gridData && (
         <div className="space-y-4 animate-in zoom-in-95">
-          <div className="bg-white rounded-3xl p-5 shadow-lg border-2 border-blush-200 space-y-4">
+          <div className="bg-white rounded-3xl p-5 shadow-md border-2 border-blush-200 space-y-4">
             <div className="flex items-center justify-between border-b border-rose-50 pb-2">
-              <span className="text-xs font-black text-slate-800">
-                12 Définitions à Compléter
+              <span className="text-xs font-extrabold text-slate-700">
+                Progression : <strong className="text-blush-600">{filledCount} / {totalWords}</strong> mots remplis
               </span>
-              <span className="text-[10px] font-extrabold text-blush-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100">
-                {filledCount} / {totalWords} renseignés
+              <span className="text-[10px] font-bold text-slate-400">
+                60 pts / mot exact
               </span>
             </div>
 
-            {/* List of 12 Crossword Definitions */}
-            <div className="space-y-3">
+            {/* List of 12 Clues with Integrated Character Inputs */}
+            <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
               {gridData.words.map((item, idx) => {
                 const currentVal = userInputs[item.id] || '';
-
                 return (
                   <div
                     key={item.id}
-                    className="p-3.5 rounded-2xl border border-rose-100 bg-rose-50/25 transition-all focus-within:border-blush-400 focus-within:bg-white focus-within:shadow-sm"
+                    className="p-3.5 rounded-2xl bg-rose-50/40 border border-rose-100/80 hover:border-blush-300 transition-all space-y-2"
                   >
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <p className="text-xs font-bold text-slate-800 leading-snug break-words flex-1">
-                        <span className="font-extrabold text-blush-600 mr-1">#{idx + 1}.</span>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-xs font-bold text-slate-800 leading-snug">
                         {item.clue}
                       </p>
-                      <span className="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-rose-200 flex-shrink-0 whitespace-nowrap shadow-2xs">
-                        {item.length} let.
+                      <span className="text-[10px] font-extrabold text-blush-600 bg-white px-2 py-0.5 rounded-full border border-rose-200 flex-shrink-0 shadow-2xs">
+                        {item.length} lettres
                       </span>
                     </div>
 
-                    {/* Letter Input Box */}
-                    <input
-                      type="text"
-                      maxLength={item.length}
-                      value={currentVal}
-                      onChange={(e) => handleWordInputChange(item.id, e.target.value)}
-                      placeholder={`Tape le mot (${item.length} lettres)...`}
-                      className="w-full text-xs font-mono font-bold tracking-wider px-3 py-2.5 rounded-xl border border-rose-200 bg-white text-slate-800 uppercase outline-none focus:ring-2 focus:ring-blush-400 shadow-2xs transition-all placeholder:text-slate-300 placeholder:tracking-normal placeholder:font-sans"
-                    />
+                    {/* Word Character Inputs */}
+                    <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                      {Array.from({ length: item.length }).map((_, charIdx) => {
+                        const char = currentVal[charIdx] || '';
+                        return (
+                          <input
+                            key={charIdx}
+                            type="text"
+                            maxLength={1}
+                            value={char}
+                            onChange={(e) => handleCharChange(item.id, charIdx, e.target.value, item.length)}
+                            onKeyDown={(e) => handleKeyDown(item.id, charIdx, e)}
+                            id={`cell-${item.id}-${charIdx}`}
+                            className={`w-8 h-9 text-center font-mono text-sm font-black uppercase rounded-lg border-2 transition-all outline-none ${
+                              char
+                                ? 'bg-white border-blush-500 text-blush-700 shadow-xs'
+                                : 'bg-white/80 border-slate-200 text-slate-800 focus:border-blush-400 focus:bg-white'
+                            }`}
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
                 );
               })}
@@ -365,13 +352,32 @@ export default function DailyGameView() {
         </div>
       )}
 
-      {/* 3. ÉCRAN RÉSULTATS DÉTAILLÉS & CORRIGÉ APRÈS VALIDATION */}
+      {/* 3. ÉCRAN RÉSULTATS DÉTAILLÉS AVEC LOGO VECTORIEL DESIGN */}
       {isSubmitted && resultDetails && (
         <div className="space-y-4 animate-in zoom-in-95">
           <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-blush-300 text-center space-y-4">
-            <span className="text-5xl">
-              {resultDetails.correctCount >= 10 ? '👑 🎉' : resultDetails.correctCount >= 6 ? '👏 ✨' : '💪 🌸'}
-            </span>
+            {resultDetails.correctCount >= 6 ? (
+              /* Case à cocher verte stylisée et design */
+              <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5 shadow-lg shadow-emerald-200/80 flex items-center justify-center animate-in zoom-in-75">
+                <div className="w-full h-full rounded-[22px] bg-gradient-to-b from-emerald-400 via-emerald-500 to-emerald-600 flex items-center justify-center text-white border border-white/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/35 to-transparent pointer-events-none"></div>
+                  <svg className="w-10 h-10 text-white relative z-10 drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+            ) : (
+              /* Croix rouge stylisée et design */
+              <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-rose-500 to-red-400 p-0.5 shadow-lg shadow-rose-200/80 flex items-center justify-center animate-in zoom-in-75">
+                <div className="w-full h-full rounded-[22px] bg-gradient-to-b from-rose-400 via-rose-500 to-rose-600 flex items-center justify-center text-white border border-white/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/35 to-transparent pointer-events-none"></div>
+                  <svg className="w-10 h-10 text-white relative z-10 drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-1">
               <h3 className="font-serif text-xl font-black text-slate-800">

@@ -350,14 +350,14 @@ app.get('/api/polls', (req, res) => {
 
 app.post('/api/polls', (req, res) => {
   try {
-    const { title, category, description, options, secretCode } = req.body;
+    const { title, category, description, options, multiple, secretCode } = req.body;
     if (!db.verifyParentPin(secretCode)) {
       return res.status(403).json({ success: false, error: "Code d'accès réservé aux parents." });
     }
     if (!title || !options || options.length < 2) {
       return res.status(400).json({ success: false, error: "Titre et au moins 2 options requis." });
     }
-    const polls = db.addPoll({ title, category, description, options });
+    const polls = db.addPoll({ title, category, description, multiple, options });
     res.json({ success: true, polls });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

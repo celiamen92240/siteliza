@@ -255,6 +255,7 @@ function readDb() {
     const parsed = JSON.parse(raw);
     if (!parsed.polls) parsed.polls = defaultState.polls;
     if (!parsed.purchasesList) parsed.purchasesList = defaultState.purchasesList;
+    if (parsed.purchasesCategories === undefined) parsed.purchasesCategories = defaultState.purchasesCategories;
     if (!parsed.maternityBag) parsed.maternityBag = defaultState.maternityBag;
     return parsed;
   } catch (err) {
@@ -924,10 +925,10 @@ export const db = {
       category: newPollData.category || "Hésitation 💡",
       description: newPollData.description || "",
       multiple: !!newPollData.multiple,
-      options: newPollData.options.map((opt, i) => ({
+      options: (newPollData.options || []).map((opt, i) => ({
         id: `opt-${Date.now()}-${i}`,
-        label: opt.label,
-        emoji: opt.emoji || "🌸",
+        label: typeof opt === 'string' ? opt : (opt.label || opt.text || ''),
+        photo: opt.photo || null,
         votes: 0,
         voters: []
       })),
@@ -948,7 +949,7 @@ export const db = {
   // LISTE D'ACHATS & CATÉGORIES
   getPurchases() {
     const data = readDb();
-    if (!data.purchasesCategories) data.purchasesCategories = defaultState.purchasesCategories;
+    if (!Array.isArray(data.purchasesCategories)) data.purchasesCategories = defaultState.purchasesCategories;
     const list = data.purchasesList || [];
     const total = list.length;
     const checkedCount = list.filter(i => i.checked).length;
@@ -962,7 +963,7 @@ export const db = {
 
   addPurchaseCategory(categoryName) {
     const data = readDb();
-    if (!data.purchasesCategories) data.purchasesCategories = defaultState.purchasesCategories;
+    if (!Array.isArray(data.purchasesCategories)) data.purchasesCategories = defaultState.purchasesCategories;
     const clean = categoryName.trim();
     if (clean && !data.purchasesCategories.includes(clean)) {
       data.purchasesCategories.push(clean);
@@ -973,8 +974,12 @@ export const db = {
 
   deletePurchaseCategory(categoryName) {
     const data = readDb();
-    if (!data.purchasesCategories) data.purchasesCategories = defaultState.purchasesCategories;
+    if (!Array.isArray(data.purchasesCategories)) data.purchasesCategories = defaultState.purchasesCategories;
     data.purchasesCategories = data.purchasesCategories.filter(c => c !== categoryName);
+    // Nettoyer définitivement les articles rattachés à cette catégorie pour empêcher tout retour
+    if (Array.isArray(data.purchasesList)) {
+      data.purchasesList = data.purchasesList.filter(i => i.category !== categoryName);
+    }
     writeDb(data);
     return this.getPurchases();
   },
@@ -1100,8 +1105,8 @@ export const db = {
     return [
       {
         dayIndex: 0,
-        theme: "Nuit, Dodo & Doux Rêves de Bébé 🌙",
-        description: "Les 12 indispensables pour bercer et endormir bébé paisiblement",
+        theme: "Nuit & Dodo 🌙",
+        description: "Les 12 indispensables pour bercer et endormir bébé",
         words: [
           { id: 1, word: "DOUDOU", clue: "1. Le compagnon tout doux en peluche pour faire dodo", length: 6 },
           { id: 2, word: "BERCEUSE", clue: "2. La douce mélodie chantée pour calmer et endormir bébé", length: 8 },
@@ -1119,7 +1124,7 @@ export const db = {
       },
       {
         dayIndex: 1,
-        theme: "Noël Magique & Hiver en Famille 🎄❄️",
+        theme: "Noël en Famille 🎄",
         description: "Les 12 merveilles des fêtes de fin d'année et des cadeaux",
         words: [
           { id: 1, word: "SAPIN", clue: "1. Le bel arbre vert décoré de boules et de guirlandes", length: 5 },
@@ -1138,7 +1143,7 @@ export const db = {
       },
       {
         dayIndex: 2,
-        theme: "Les Moments & Retrouvailles en Famille 🏡❤️",
+        theme: "Moments en Famille 🏡",
         description: "Les 12 bonheurs simples partagés avec ceux qu'on aime",
         words: [
           { id: 1, word: "DIMANCHE", clue: "1. Le jour parfait pour se réunir autour d'un grand déjeuner", length: 8 },
@@ -1157,8 +1162,8 @@ export const db = {
       },
       {
         dayIndex: 3,
-        theme: "Repas, Biberons & Gourmandises de Bébé 🍼",
-        description: "Les 12 essentiels de l'alimentation et de la diversification",
+        theme: "Pâtisseries & Goûter 🧁",
+        description: "Les 12 douceurs sucrées du goûter et de la diversification",
         words: [
           { id: 1, word: "BIBERON", clue: "1. Le récipient magique pour le lait chaud du matin", length: 7 },
           { id: 2, word: "BAVOIR", clue: "2. Le tissu protecteur indispensable contre les taches", length: 6 },
@@ -1176,7 +1181,7 @@ export const db = {
       },
       {
         dayIndex: 4,
-        theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+        theme: "Jeux d'Enfants 🎒",
         description: "Les 12 plaisirs de l'enfance, de l'école et des copains",
         words: [
           { id: 1, word: "RECREATION", clue: "1. Le moment préféré de la journée pour courir dans la cour", length: 10 },
@@ -1195,7 +1200,7 @@ export const db = {
       },
       {
         dayIndex: 5,
-        theme: "Le Bain & Les Soins Douceur de Bébé 🛁",
+        theme: "Bain & Soins Douceur 🛁",
         description: "Les 12 secrets pour un bain relaxant et une peau parfumée",
         words: [
           { id: 1, word: "BAIGNOIRE", clue: "1. Le petit bassin ergonomique pour barboter dans l'eau tiède", length: 9 },
@@ -1214,7 +1219,7 @@ export const db = {
       },
       {
         dayIndex: 6,
-        theme: "Contes de Fées, Magie & Féerie 👑✨",
+        theme: "Contes & Féerie ✨",
         description: "Les 12 mots magiques de l'univers imaginaire",
         words: [
           { id: 1, word: "PRINCESSE", clue: "1. Petite fille royale chérie et couronnée d'amour", length: 9 },
@@ -1233,7 +1238,7 @@ export const db = {
       },
       {
         dayIndex: 7,
-        theme: "Les Animaux Mignons & de la Forêt 🐰🦌",
+        theme: "Petits Animaux 🐰",
         description: "Les 12 petits animaux trop mignons que les bébés adorent",
         words: [
           { id: 1, word: "LAPIN", clue: "1. Petite boule de poils aux grandes oreilles qui grignote des carottes", length: 5 },
@@ -1252,7 +1257,7 @@ export const db = {
       },
       {
         dayIndex: 8,
-        theme: "Printemps Ensoleillé, Fleurs & Nature 🌸☀️",
+        theme: "Printemps Fleuri 🌸",
         description: "Les 12 beautés du renouveau printanier",
         words: [
           { id: 1, word: "TULIPE", clue: "1. Belle fleur colorée qui s'épanouit au jardin", length: 6 },
@@ -1271,7 +1276,7 @@ export const db = {
       },
       {
         dayIndex: 9,
-        theme: "Vacances d'Été & Bord de Mer 🏖️🌊",
+        theme: "Vacances & Plage 🏖️",
         description: "Les 12 plaisirs estivaux les pieds dans le sable",
         words: [
           { id: 1, word: "PLAGE", clue: "1. Grande étendue de sable doré face à l'océan", length: 5 },

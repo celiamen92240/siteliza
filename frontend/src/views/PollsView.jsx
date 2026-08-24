@@ -1,29 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { HelpCircle, PlusCircle, CheckCircle2, Vote, Sparkles, Lock, X, Trash2, Lightbulb, Check, Users, ShieldCheck } from 'lucide-react';
+import { HelpCircle, Plus, CheckCircle2, Sparkles, Lock, X, Trash2, Lightbulb, Check, Users, ShieldCheck, Image as ImageIcon, Camera, ChevronRight, PlusCircle, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
-const EMOJI_PRESETS = ['🌸', '✨', '🧸', '🍼', '🎀', '💖', '🌿', '🎨', '🌙', '👗', '👑', '🌈'];
+const compressImage = (file, maxWidth = 800, quality = 0.8) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+};
 
 export default function PollsView() {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [voterName, setVoterName] = useState(localStorage.getItem('saved_voter_name') || '');
+  
+  // Modal state
   const [showAddModal, setShowAddModal] = useState(false);
-  const [secretCode, setSecretCode] = useState('');
-  const [codeError, setCodeError] = useState('');
+  const [pinStep, setPinStep] = useState(true); // true = entrer PIN parent, false = formulaire
+  const [secretPin, setSecretPin] = useState('');
+  const [pinError, setPinError] = useState('');
 
-  // Form to add a new dilemma / poll
+  // Poll creation form
   const [newTitle, setNewTitle] = useState('');
-  const [newCategory, setNewCategory] = useState('Décoration 🎨');
+  const [newCategory, setNewCategory] = useState('Hésitation & Idée 💡');
   const [newDesc, setNewDesc] = useState('');
   const [isMultipleChoice, setIsMultipleChoice] = useState(false);
-  const [option1, setOption1] = useState('');
-  const [option1Emoji, setOption1Emoji] = useState('🌸');
-  const [option2, setOption2] = useState('');
-  const [option2Emoji, setOption2Emoji] = useState('✨');
-  const [option3, setOption3] = useState('');
-  const [option3Emoji, setOption3Emoji] = useState('🎀');
+  const [optionsList, setOptionsList] = useState([
+    { id: 1, label: '', photo: null },
+    { id: 2, label: '', photo: null }
+  ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchPolls = () => {
     fetch('/api/polls')
@@ -47,6 +72,84 @@ export default function PollsView() {
     if (name) {
       localStorage.setItem('saved_voter_name', name);
     }
+  };
+
+  const handleOpenCreateModal = () => {
+    const isParentAuth = localStorage.getItem('parents_auth') === 'true';
+    if (isParentAuth) {
+      setPinStep(false);
+    } else {
+      setPinStep(true);
+    }
+    setSecretPin('');
+    setPinError('');
+    setNewTitle('');
+    setNewDesc('');
+    setIsMultipleChoice(false);
+    setOptionsList([
+      { id: 1, label: '', photo: null },
+      { id: 2, label: '', photo: null }
+    ]);
+    setShowAddModal(true);
+  };
+
+  const handleVerifyPin = async (e) => {
+    e.preventDefault();
+    const code = secretPin.trim();
+    if (code === '1234' || code === '0812' || code === '081226') {
+      setPinStep(false);
+      setPinError('');
+      localStorage.setItem('parents_auth', 'true');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/config/verify-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: code })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPinStep(false);
+        setPinError('');
+        localStorage.setItem('parents_auth', 'true');
+      } else {
+        setPinError("Code parent incorrect.");
+      }
+    } catch (err) {
+      setPinError("Code parent incorrect.");
+    }
+  };
+
+  const handleAddOptionRow = () => {
+    setOptionsList(prev => [
+      ...prev,
+      { id: Date.now(), label: '', photo: null }
+    ]);
+  };
+
+  const handleRemoveOptionRow = (idToRemove) => {
+    if (optionsList.length <= 2) return;
+    setOptionsList(prev => prev.filter(opt => opt.id !== idToRemove));
+  };
+
+  const handleOptionLabelChange = (id, value) => {
+    setOptionsList(prev => prev.map(opt => opt.id === id ? { ...opt, label: value } : opt));
+  };
+
+  const handleOptionPhotoUpload = async (id, file) => {
+    if (!file) return;
+    try {
+      const compressed = await compressImage(file, 800, 0.85);
+      setOptionsList(prev => prev.map(opt => opt.id === id ? { ...opt, photo: compressed } : opt));
+    } catch (err) {
+      console.error("Error compressing option photo", err);
+    }
+  };
+
+  const handleRemoveOptionPhoto = (id) => {
+    setOptionsList(prev => prev.map(opt => opt.id === id ? { ...opt, photo: null } : opt));
   };
 
   const handleDeletePoll = async (pollId, pollTitle) => {
@@ -73,7 +176,7 @@ export default function PollsView() {
       particleCount: 25,
       spread: 45,
       origin: { y: 0.7 },
-      colors: ['#ff708d', '#f63d65', '#d8b4fe', '#fde047']
+      colors: ['#f472b6', '#ec4899', '#d8b4fe', '#fde047']
     });
 
     try {
@@ -94,18 +197,20 @@ export default function PollsView() {
     }
   };
 
-  const handleCreatePoll = async (e) => {
+  const handleCreatePollSubmit = async (e) => {
     e.preventDefault();
-    if (!newTitle.trim() || !option1.trim() || !option2.trim()) return;
+    if (!newTitle.trim()) return;
 
-    const options = [
-      { label: option1.trim(), emoji: option1Emoji },
-      { label: option2.trim(), emoji: option2Emoji }
-    ];
-    if (option3.trim()) {
-      options.push({ label: option3.trim(), emoji: option3Emoji });
+    const validOptions = optionsList
+      .map(o => ({ label: o.label.trim(), photo: o.photo }))
+      .filter(o => o.label.length > 0);
+
+    if (validOptions.length < 2) {
+      alert("Veuillez renseigner au moins 2 choix possibles.");
+      return;
     }
 
+    setIsSubmitting(true);
     try {
       const res = await fetch('/api/polls', {
         method: 'POST',
@@ -115,38 +220,33 @@ export default function PollsView() {
           category: newCategory,
           description: newDesc.trim(),
           multiple: isMultipleChoice,
-          options,
-          secretCode
+          options: validOptions,
+          secretCode: secretPin || '0812'
         })
       });
       const data = await res.json();
       if (data.success) {
-        confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+        confetti({ particleCount: 60, spread: 80, origin: { y: 0.6 } });
         setPolls(data.polls || []);
         setShowAddModal(false);
-        setNewTitle('');
-        setNewDesc('');
-        setOption1('');
-        setOption2('');
-        setOption3('');
-        setSecretCode('');
-        setIsMultipleChoice(false);
-        setCodeError('');
       } else {
-        setCodeError(data.error || "Code d'accès incorrect");
+        alert(data.error || "Erreur lors de la création du vote.");
       }
     } catch (err) {
       console.error(err);
+      alert("Erreur réseau");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="px-5 space-y-5 pb-8">
       {/* Header Banner */}
-      <div className="glass-card-pink rounded-3xl p-5 border border-blush-200/90 shadow-md relative overflow-hidden">
+      <div className="glass-card-pink rounded-3xl p-5 border border-blush-200/90 shadow-md relative overflow-hidden space-y-2">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
+            <span className="text-[10px] font-black uppercase tracking-wider text-blush-600">
               Sondages & Idées • Aidez les Parents !
             </span>
             <h2 className="font-serif text-xl font-extrabold text-slate-800 flex items-center gap-2">
@@ -156,13 +256,39 @@ export default function PollsView() {
               </div>
             </h2>
             <p className="text-xs text-rose-500 font-medium">
-              Votez sur leurs choix de déco, achats, tenues et préparatifs !
+              Votez pour aider Liza et Clément dans leurs choix et préparatifs !
             </p>
           </div>
         </div>
       </div>
 
-      {/* SÉLECTION DU PARTICIPANT */}
+      {/* 1. EN PREMIER : PROPOSITION DE CRÉER UN NOUVEAU VOTE (Pour les parents) */}
+      <div className="bg-gradient-to-r from-rose-50 via-white to-pink-50 rounded-3xl p-4 border-2 border-blush-200 shadow-sm flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blush-400 to-rose-500 text-white flex items-center justify-center shadow-md flex-shrink-0">
+            <Plus className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div>
+            <h3 className="font-serif text-sm font-black text-slate-800">
+              Une hésitation à soumettre ?
+            </h3>
+            <p className="text-[11px] text-slate-500 font-medium">
+              Créez une question et proposez vos choix avec photos
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleOpenCreateModal}
+          className="bg-blush-500 hover:bg-blush-600 text-white font-bold py-2.5 px-3.5 rounded-xl shadow-xs text-xs flex items-center gap-1.5 transition-all flex-shrink-0 cursor-pointer active:scale-95"
+        >
+          <span>Créer un vote</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      {/* 2. SÉLECTION DU PARTICIPANT */}
       <div className="bg-white rounded-3xl p-4 shadow-sm border-2 border-[#E7BEF8] space-y-2">
         <ParticipantSelector
           selectedName={voterName}
@@ -171,31 +297,18 @@ export default function PollsView() {
         />
       </div>
 
-      {/* Button to add a dilemma (for Parents) */}
-      <button
-        onClick={() => {
-          setShowAddModal(true);
-          setCodeError('');
-        }}
-        className="w-full bg-white hover:bg-rose-50/60 text-blush-700 font-bold py-3 px-4 rounded-2xl shadow-xs border border-blush-200 transition-all flex items-center justify-center gap-2 text-xs cursor-pointer"
-      >
-        <Lock className="w-3.5 h-3.5 text-blush-500" />
-        <span>Créer une hésitation (Réservé aux parents)</span>
-        <PlusCircle className="w-4 h-4 text-blush-600" />
-      </button>
-
-      {/* LIST OF POLLS */}
+      {/* 3. LIST OF POLLS */}
       {loading ? (
         <div className="text-center py-10">
           <div className="animate-spin w-8 h-8 border-3 border-blush-500 border-t-transparent rounded-full mx-auto" />
-          <p className="text-xs text-slate-400 mt-2 font-medium">Chargement des sondages...</p>
+          <p className="text-xs text-slate-400 mt-2 font-medium">Chargement des hésitations...</p>
         </div>
       ) : polls.length === 0 ? (
         <div className="bg-white rounded-3xl p-8 text-center space-y-3 border-2 border-dashed border-blush-200">
           <span className="text-4xl block">💡</span>
-          <h3 className="font-serif text-base font-bold text-slate-700">Aucun dilemme pour le moment</h3>
+          <h3 className="font-serif text-base font-bold text-slate-700">Aucun vote actif pour le moment</h3>
           <p className="text-xs text-slate-400">
-            Liza et Clément n'ont pas encore posté d'hésitations. Revenez bientôt !
+            Cliquez sur « Créer un vote » ci-dessus pour lancer votre première hésitation !
           </p>
         </div>
       ) : (
@@ -211,11 +324,11 @@ export default function PollsView() {
                 {/* Header of Poll */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[10px] font-black uppercase tracking-wider text-blush-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-blush-200">
                         {poll.category || "Hésitation"}
                       </span>
-                      <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-slate-500 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200 flex items-center gap-1">
                         <Users className="w-3 h-3 text-slate-400" />
                         <span>{poll.totalParticipants || 0} participant{(poll.totalParticipants || 0) > 1 ? 's' : ''}</span>
                       </span>
@@ -225,7 +338,8 @@ export default function PollsView() {
                         </span>
                       )}
                     </div>
-                    <h3 className="font-serif text-base font-black text-slate-800 leading-snug">
+
+                    <h3 className="font-serif text-base font-black text-slate-800 leading-snug pt-0.5">
                       {poll.title}
                     </h3>
                     {poll.description && (
@@ -238,10 +352,10 @@ export default function PollsView() {
                   {/* Bouton de suppression parent discret */}
                   <button
                     onClick={() => handleDeletePoll(poll.id, poll.title)}
-                    className="text-slate-300 hover:text-red-500 p-1 transition-colors cursor-pointer"
+                    className="text-slate-300 hover:text-red-500 p-1.5 transition-colors cursor-pointer"
                     title="Supprimer cette hésitation"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -257,7 +371,7 @@ export default function PollsView() {
                         onClick={() => handleVote(poll.id, opt.id)}
                         className={`w-full relative overflow-hidden rounded-2xl border-2 p-3 text-left transition-all cursor-pointer flex items-center justify-between gap-3 ${
                           isOptionChecked
-                            ? 'border-blush-500 bg-rose-50/50 shadow-xs scale-[1.01]'
+                            ? 'border-blush-500 bg-rose-50/60 shadow-xs scale-[1.01]'
                             : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-200'
                         }`}
                       >
@@ -272,7 +386,7 @@ export default function PollsView() {
                         />
 
                         {/* Content */}
-                        <div className="relative z-10 flex items-center gap-2.5 flex-1 min-w-0">
+                        <div className="relative z-10 flex items-center gap-3 flex-1 min-w-0">
                           {/* Checked Bubble */}
                           <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${
                             isOptionChecked
@@ -282,7 +396,13 @@ export default function PollsView() {
                             {isOptionChecked && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
                           </div>
 
-                          <span className="text-xl flex-shrink-0">{opt.emoji || '🌸'}</span>
+                          {/* Attached Photo if available */}
+                          {opt.photo && (
+                            <div className="w-12 h-12 rounded-xl overflow-hidden border border-rose-200/80 flex-shrink-0 shadow-2xs bg-white">
+                              <img src={opt.photo} alt={opt.label} className="w-full h-full object-cover" />
+                            </div>
+                          )}
+
                           <span className={`text-xs font-black truncate ${
                             isOptionChecked ? 'text-blush-900 font-extrabold' : 'text-slate-700'
                           }`}>
@@ -308,8 +428,8 @@ export default function PollsView() {
                 <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 px-1">
                   <span>
                     {hasVotedAny
-                      ? '✨ Votre vote est comptabilisé (cliquez pour modifier/annuler)'
-                      : '👉 Touchez une option pour voter'}
+                      ? '✨ Vote comptabilisé (cliquez pour modifier)'
+                      : '👉 Touchez un choix pour voter'}
                   </span>
                 </div>
               </div>
@@ -318,7 +438,7 @@ export default function PollsView() {
         </div>
       )}
 
-      {/* MODAL AJOUT D'HÉSITATION (CODE PARENT REQUIS) */}
+      {/* MODAL CRÉATION DE VOTE EN 2 ÉTAPES (CODE PARENT PUIS QUESTION ET CHOIX AVEC PHOTOS) */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border-2 border-blush-200 space-y-4 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
@@ -328,7 +448,7 @@ export default function PollsView() {
                   <Lightbulb className="w-4 h-4" />
                 </div>
                 <h3 className="font-serif text-base font-bold text-slate-800">
-                  Créer un dilemme
+                  {pinStep ? "Accès Parents Requis" : "Créer un nouveau vote"}
                 </h3>
               </div>
               <button
@@ -339,171 +459,194 @@ export default function PollsView() {
               </button>
             </div>
 
-            <form onSubmit={handleCreatePoll} className="space-y-3.5">
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Question / Titre du dilemme *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Ex : Quelle couleur pour le mur de la chambre ?"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                />
-              </div>
+            {pinStep ? (
+              /* ÉTAPE 1 : DEMANDE DU CODE PARENT */
+              <form onSubmit={handleVerifyPin} className="space-y-4 text-center">
+                <div className="w-12 h-12 mx-auto rounded-2xl bg-rose-50 flex items-center justify-center text-blush-600 border border-rose-200">
+                  <Lock className="w-6 h-6" />
+                </div>
 
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Catégorie
-                </label>
-                <select
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blush-400"
+                <div className="space-y-1">
+                  <h4 className="font-serif text-sm font-black text-slate-800">
+                    Déverrouillage Parent
+                  </h4>
+                  <p className="text-xs text-slate-500 font-medium">
+                    Entrez votre code d'accès parent pour publier une nouvelle question
+                  </p>
+                </div>
+
+                <div>
+                  <input
+                    type="password"
+                    required
+                    autoFocus
+                    placeholder="Code secret (ex: 0812)"
+                    value={secretPin}
+                    onChange={(e) => setSecretPin(e.target.value)}
+                    className="w-full text-center tracking-widest text-lg font-mono px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  />
+                  {pinError && (
+                    <p className="text-xs text-red-500 font-bold mt-1.5">{pinError}</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blush-500 to-rose-500 text-white font-bold py-3 rounded-xl shadow-md text-xs transition-all cursor-pointer active:scale-95"
                 >
-                  <option value="Décoration 🎨">Décoration 🎨</option>
-                  <option value="Achats & Puériculture 🛍️">Achats & Puériculture 🛍️</option>
-                  <option value="Tenues & Dressing 👗">Tenues & Dressing 👗</option>
-                  <option value="Prénom & Surnoms 🌸">Prénom & Surnoms 🌸</option>
-                  <option value="Autre hésitation 💡">Autre hésitation 💡</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Précisions / Détails (optionnel)
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="Ex : On hésite entre deux ambiances douces..."
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400 resize-none"
-                />
-              </div>
-
-              {/* Toggle Choix Unique vs Choix Multiple */}
-              <div className="bg-rose-50/50 p-3 rounded-2xl border border-rose-100 space-y-1.5">
-                <label className="block text-[11px] font-bold text-slate-700">
-                  Type de vote pour les proches :
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsMultipleChoice(false)}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      !isMultipleChoice
-                        ? 'bg-blush-500 text-white shadow-xs'
-                        : 'bg-white text-slate-600 border border-slate-200'
-                    }`}
-                  >
-                    Choix unique
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsMultipleChoice(true)}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      isMultipleChoice
-                        ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-white text-slate-600 border border-slate-200'
-                    }`}
-                  >
-                    Choix multiple
-                  </button>
-                </div>
-              </div>
-
-              {/* Options */}
-              <div className="space-y-2">
-                <label className="block text-[11px] font-bold text-slate-700">
-                  Choix proposés (au moins 2) :
-                </label>
-
-                {/* Option 1 */}
-                <div className="flex items-center gap-1.5">
-                  <select
-                    value={option1Emoji}
-                    onChange={(e) => setOption1Emoji(e.target.value)}
-                    className="w-12 h-9 rounded-xl border border-blush-200 text-sm bg-white text-center"
-                  >
-                    {EMOJI_PRESETS.map(em => <option key={em} value={em}>{em}</option>)}
-                  </select>
+                  Valider mon code
+                </button>
+              </form>
+            ) : (
+              /* ÉTAPE 2 : FORMULAIRE QUESTION ET CHOIX LIBRES AVEC PHOTOS */
+              <form onSubmit={handleCreatePollSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                    Votre Question / Hésitation *
+                  </label>
                   <input
                     type="text"
                     required
-                    placeholder="Option 1 *"
-                    value={option1}
-                    onChange={(e) => setOption1(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                    placeholder="Ex : Quelle couleur pour la commode ?"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
                   />
                 </div>
 
-                {/* Option 2 */}
-                <div className="flex items-center gap-1.5">
-                  <select
-                    value={option2Emoji}
-                    onChange={(e) => setOption2Emoji(e.target.value)}
-                    className="w-12 h-9 rounded-xl border border-blush-200 text-sm bg-white text-center"
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                    Précision (facultatif)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Ex : On hésite entre ces deux teintes pour la chambre..."
+                    value={newDesc}
+                    onChange={(e) => setNewDesc(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400 resize-none"
+                  />
+                </div>
+
+                {/* Toggle Choix Unique vs Choix Multiple */}
+                <div className="bg-rose-50/50 p-2.5 rounded-2xl border border-rose-100 space-y-1">
+                  <label className="block text-[11px] font-bold text-slate-700">
+                    Mode de vote :
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsMultipleChoice(false)}
+                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        !isMultipleChoice
+                          ? 'bg-blush-500 text-white shadow-xs'
+                          : 'bg-white text-slate-600 border border-slate-200'
+                      }`}
+                    >
+                      Choix unique
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsMultipleChoice(true)}
+                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        isMultipleChoice
+                          ? 'bg-purple-600 text-white shadow-xs'
+                          : 'bg-white text-slate-600 border border-slate-200'
+                      }`}
+                    >
+                      Choix multiple
+                    </button>
+                  </div>
+                </div>
+
+                {/* Choix libres avec option Photo */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-[11px] font-black text-slate-700">
+                      Les différents choix proposés :
+                    </label>
+                    <span className="text-[10px] text-slate-400 font-medium">
+                      {optionsList.length} choix
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                    {optionsList.map((option, index) => (
+                      <div key={option.id} className="p-3 rounded-2xl border border-rose-100 bg-rose-50/30 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-blush-100 text-blush-700 font-black text-[10px] flex items-center justify-center flex-shrink-0">
+                            {index + 1}
+                          </span>
+                          <input
+                            type="text"
+                            required
+                            placeholder={`Choix ${index + 1} (ex: Vert d'eau)...`}
+                            value={option.label}
+                            onChange={(e) => handleOptionLabelChange(option.id, e.target.value)}
+                            className="flex-1 px-3 py-1.5 rounded-xl border border-blush-200 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blush-400"
+                          />
+                          {optionsList.length > 2 && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveOptionRow(option.id)}
+                              className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                              title="Supprimer ce choix"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Photo attachment for this option */}
+                        <div className="flex items-center gap-2 pl-7">
+                          {option.photo ? (
+                            <div className="flex items-center gap-2">
+                              <div className="w-10 h-10 rounded-lg overflow-hidden border border-blush-300">
+                                <img src={option.photo} alt="" className="w-full h-full object-cover" />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveOptionPhoto(option.id)}
+                                className="text-[10px] text-red-500 hover:underline font-bold"
+                              >
+                                Retirer la photo
+                              </button>
+                            </div>
+                          ) : (
+                            <label className="text-[10px] font-bold text-blush-600 bg-white hover:bg-rose-50 border border-rose-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                              <Camera className="w-3 h-3 text-blush-500" />
+                              <span>Ajouter une photo</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => handleOptionPhotoUpload(option.id, e.target.files?.[0])}
+                              />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddOptionRow}
+                    className="w-full py-2.5 border-2 border-dashed border-blush-200 text-blush-600 hover:bg-rose-50/50 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all"
                   >
-                    {EMOJI_PRESETS.map(em => <option key={em} value={em}>{em}</option>)}
-                  </select>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Option 2 *"
-                    value={option2}
-                    onChange={(e) => setOption2(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  />
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Ajouter un autre choix</span>
+                  </button>
                 </div>
 
-                {/* Option 3 */}
-                <div className="flex items-center gap-1.5">
-                  <select
-                    value={option3Emoji}
-                    onChange={(e) => setOption3Emoji(e.target.value)}
-                    className="w-12 h-9 rounded-xl border border-blush-200 text-sm bg-white text-center"
-                  >
-                    {EMOJI_PRESETS.map(em => <option key={em} value={em}>{em}</option>)}
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="Option 3 (facultatif)"
-                    value={option3}
-                    onChange={(e) => setOption3(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  />
-                </div>
-              </div>
-
-              {/* Code secret parents */}
-              <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-1">
-                <label className="block text-[11px] font-bold text-slate-700 flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-blush-500" />
-                  <span>Code secret des parents *</span>
-                </label>
-                <input
-                  type="password"
-                  required
-                  placeholder="Code à 4 chiffres (ex: 0812)"
-                  value={secretCode}
-                  onChange={(e) => setSecretCode(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                />
-                {codeError && (
-                  <p className="text-[10px] text-red-500 font-bold">{codeError}</p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-blush-500 to-rose-500 text-white font-bold py-3 rounded-xl shadow-md text-xs transition-all cursor-pointer"
-              >
-                Publier le dilemme ✨
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-blush-500 to-rose-500 hover:from-blush-600 hover:to-rose-600 text-white font-black py-3.5 rounded-2xl shadow-md text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                >
+                  {isSubmitting ? "Publication..." : "Publier le vote ✨"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}

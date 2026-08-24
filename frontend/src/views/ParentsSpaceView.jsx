@@ -292,7 +292,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
   };
 
   const handleDeleteCategory = async (catName) => {
-    if (!window.confirm(`Supprimer la catégorie "${catName}" ?`)) return;
+    if (!window.confirm(`Supprimer la catégorie "${catName}" et tous ses articles ?`)) return;
     try {
       const res = await fetch(`/api/checklists/purchases/categories/${encodeURIComponent(catName)}`, {
         method: 'DELETE'
@@ -300,6 +300,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
       const data = await res.json();
       if (data.success) {
         setPurchasesCategories(data.categories || []);
+        setPurchases(data.items || []);
+        setPurchasesStats(data.stats || purchasesStats);
       }
     } catch (err) {
       console.error(err);
