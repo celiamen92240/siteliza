@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, PlusCircle, Trophy, Sparkles, Heart, Award, CheckCircle, HelpCircle, Trash2, Camera, ArrowRight } from 'lucide-react';
+import { Target, PlusCircle, Trophy, Sparkles, Heart, Award, CheckCircle, HelpCircle, Trash2, Camera, ArrowRight, ChevronDown } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
@@ -9,6 +9,11 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+  const [expandedIds, setExpandedIds] = useState({});
+
+  const toggleExpand = (id) => {
+    setExpandedIds(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   // Form State
   const [formData, setFormData] = useState({
@@ -428,16 +433,24 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
         </div>
       )}
 
-      {/* Wall of Predictions with Delete Option */}
+      {/* Wall of Predictions with Accordion Disclosure */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-serif text-base font-bold text-slate-800 flex items-center gap-2">
-            <span>Tous les Paris de la Famille</span>
+            <span>Tous les pronostics</span>
           </h3>
           <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
             {predictions.length} parieurs
           </span>
         </div>
+
+        {/* Phrase d'indication cool */}
+        {predictions.length > 0 && (
+          <p className="text-xs text-rose-500/90 font-semibold flex items-center gap-1.5 px-1 bg-rose-50/40 p-2 rounded-xl border border-rose-100/60">
+            <span className="text-sm animate-pulse">👉</span>
+            <span>Clique sur un proche pour découvrir son pronostic secret !</span>
+          </p>
+        )}
 
         {loading ? (
           <div className="text-center py-8 text-xs text-slate-400">Chargement des pronostics...</div>
@@ -446,156 +459,175 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
             <div className="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-[#F2619C]/20 via-[#FFE066]/40 to-[#E7BEF8]/50 border border-[#F2619C]/30 flex items-center justify-center text-[#F2619C] shadow-2xs">
               <Sparkles className="w-6 h-6" />
             </div>
-            <p className="text-xs font-bold text-slate-700">Aucun pari pour le moment</p>
+            <p className="text-xs font-bold text-slate-700">Aucun pronostic pour le moment</p>
             <p className="text-[11px] text-slate-400">Sois le premier de la famille à pronostiquer !</p>
           </div>
         ) : (
           <div className="space-y-2.5">
-            {predictions.map((p, idx) => (
-              <div
-                key={p.id || idx}
-                className={`bg-white rounded-2xl p-4 shadow-sm border transition-all relative group ${
-                  isBorn && idx === 0 
-                    ? 'border-blush-300 bg-gradient-to-r from-rose-50/80 to-purple-50/60 ring-2 ring-blush-300' 
-                    : 'border-rose-100 hover:border-blush-300'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2.5">
-                    {/* Photo or Avatar */}
-                    <div className="w-11 h-11 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-xl flex-shrink-0 shadow-xs overflow-hidden">
-                      {p.photo ? (
-                        <img src={p.photo} alt={p.author} className="w-full h-full object-cover" />
-                      ) : (
-                        <img src="/logo.jpg" alt={p.author} className="w-full h-full object-cover" />
-                      )}
-                    </div>
+            {predictions.map((p, idx) => {
+              const cardId = p.id || idx;
+              const isExpanded = !!expandedIds[cardId];
 
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <h4 className="font-bold text-xs text-slate-800">
-                          {p.author}
-                        </h4>
-                        {isBorn && (
-                          <span className="text-[10px] font-black text-blush-600 bg-rose-100 px-1.5 py-0.2 rounded-md">
-                            #{idx + 1}
-                          </span>
+              return (
+                <div
+                  key={cardId}
+                  className={`bg-white rounded-2xl shadow-sm border transition-all overflow-hidden ${
+                    isExpanded ? 'border-blush-300 ring-2 ring-blush-100' : 'border-rose-100/80 hover:border-blush-200'
+                  } ${
+                    isBorn && idx === 0 
+                      ? 'border-blush-300 bg-gradient-to-r from-rose-50/80 to-purple-50/60 ring-2 ring-blush-300' 
+                      : ''
+                  }`}
+                >
+                  {/* Entête cliquable du parieur (Toujours visible) */}
+                  <div
+                    onClick={() => toggleExpand(cardId)}
+                    className="p-3.5 flex items-center justify-between cursor-pointer select-none hover:bg-rose-50/30 transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {/* Photo or Avatar */}
+                      <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-lg flex-shrink-0 shadow-2xs overflow-hidden">
+                        {p.photo ? (
+                          <img src={p.photo} alt={p.author} className="w-full h-full object-cover" />
+                        ) : (
+                          <img src="/logo.jpg" alt={p.author} className="w-full h-full object-cover" />
                         )}
                       </div>
-                      <p className="text-[10px] text-slate-400 font-medium">
-                        Prédit le {new Date(p.date).toLocaleDateString('fr-FR')} {p.time ? `à ${p.time}` : ''}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-2">
-                    {isBorn ? (
-                      <span className="text-xs font-black text-blush-600 bg-blush-50 px-2 py-1 rounded-full border border-blush-200">
-                        {p.totalScore} pts
-                      </span>
-                    ) : (
-                      <span className="text-xs font-bold text-blush-600 bg-blush-50 px-2 py-0.5 rounded-full">
-                        Pari
-                      </span>
-                    )}
-
-                    {/* Delete button */}
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePrediction(p.id, p.author)}
-                      className="text-slate-300 hover:text-red-500 p-1 transition-colors"
-                      title="Supprimer ce pronostic"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bet Details Grid - COMPLET: Poids, Taille, Prénom, Yeux, Cheveux, Jour J */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3 pt-2.5 border-t border-slate-100 text-center">
-                  {/* Poids */}
-                  <div className="bg-[#fdf2f7] rounded-xl p-2 border border-[#F2619C]/20 shadow-2xs">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Poids</span>
-                    </p>
-                    <p className="text-xs font-black text-slate-800 mt-0.5">{p.weightG ? `${p.weightG} g` : `${p.weight || 3400} g`}</p>
-                  </div>
-
-                  {/* Taille */}
-                  <div className="bg-[#fcf5ff] rounded-xl p-2 border border-[#E7BEF8]/50 shadow-2xs">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Taille</span>
-                    </p>
-                    <p className="text-xs font-black text-slate-800 mt-0.5">{p.sizeCm || p.height || 50} cm</p>
-                  </div>
-
-                  {/* Prénom */}
-                  <div className="bg-[#f5f8fd] rounded-xl p-2 border border-[#93ABD9]/40 shadow-2xs col-span-2 sm:col-span-1">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Prénom</span>
-                    </p>
-                    <p className="text-xs font-black text-[#F2619C] truncate mt-0.5">{p.nameGuess || p.firstName || 'Non renseigné'}</p>
-                  </div>
-
-                  {/* Yeux */}
-                  <div className="bg-[#fffdf0] rounded-xl p-2 border border-[#FFE066]/60 shadow-2xs">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Yeux</span>
-                    </p>
-                    <p className="text-xs font-black text-slate-800 mt-0.5">{p.eyeColor || 'Marrons'}</p>
-                  </div>
-
-                  {/* Cheveux */}
-                  <div className="bg-[#fdf8fb] rounded-xl p-2 border border-rose-100 shadow-2xs">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Cheveux</span>
-                    </p>
-                    <p className="text-xs font-black text-slate-800 mt-0.5">{p.hairColor || 'Châtains'}</p>
-                  </div>
-
-                  {/* Date / Heure prédite */}
-                  <div className="bg-slate-50 rounded-xl p-2 border border-slate-200/70 shadow-2xs col-span-2 sm:col-span-1">
-                    <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>Jour J</span>
-                    </p>
-                    <p className="text-xs font-black text-slate-800 truncate mt-0.5">
-                      {new Date(p.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} {p.time ? `(${p.time})` : ''}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Score Breakdown if Born */}
-                {isBorn && p.scoreDetails && (
-                  <div className="mt-2.5 bg-rose-50/70 rounded-xl p-2 border border-rose-200 text-[10px] space-y-1 text-slate-600">
-                    <div className="flex justify-between font-medium">
-                      <span>Date : {p.scoreDetails.dateNote}</span>
-                      <span className="font-bold text-rose-800">+{p.scoreDetails.datePoints} pts</span>
-                    </div>
-                    <div className="flex justify-between font-medium">
-                      <span>Poids : {p.scoreDetails.weightNote}</span>
-                      <span className="font-bold text-rose-800">+{p.scoreDetails.weightPoints} pts</span>
-                    </div>
-                    <div className="flex justify-between font-medium">
-                      <span>Taille : {p.scoreDetails.sizeNote}</span>
-                      <span className="font-bold text-rose-800">+{p.scoreDetails.sizePoints} pts</span>
-                    </div>
-                    {p.scoreDetails.namePoints > 0 && (
-                      <div className="flex justify-between font-bold text-blush-600">
-                        <span>Prénom : {p.scoreDetails.nameNote}</span>
-                        <span>+{p.scoreDetails.namePoints} pts</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="font-bold text-xs text-slate-800 truncate">
+                            {p.author}
+                          </h4>
+                          {isBorn && (
+                            <span className="text-[10px] font-black text-blush-600 bg-rose-100 px-1.5 py-0.2 rounded-md flex-shrink-0">
+                              #{idx + 1}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-medium truncate">
+                          Prédit le {new Date(p.date || p.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} {p.time ? `à ${p.time}` : ''}
+                        </p>
                       </div>
-                    )}
-                  </div>
-                )}
+                    </div>
 
-                {/* Comment */}
-                {p.comment && (
-                  <p className="mt-2 text-[11px] text-slate-600 italic bg-slate-50 rounded-xl p-2 border border-slate-100">
-                    « {p.comment} »
-                  </p>
-                )}
-              </div>
-            ))}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {isBorn ? (
+                        <span className="text-xs font-black text-blush-600 bg-blush-50 px-2 py-1 rounded-full border border-blush-200">
+                          {p.totalScore} pts
+                        </span>
+                      ) : (
+                        <span className="text-[11px] font-bold text-blush-600 bg-rose-50 px-2.5 py-1 rounded-xl border border-rose-100 flex items-center gap-1">
+                          <span>{isExpanded ? 'Fermer' : 'Voir'}</span>
+                          <ChevronDown className={`w-3 h-3 text-blush-500 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+                        </span>
+                      )}
+
+                      {/* Delete button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeletePrediction(p.id, p.author);
+                        }}
+                        className="text-slate-300 hover:text-red-500 p-1 transition-colors cursor-pointer"
+                        title="Supprimer ce pronostic"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Bet Details Grid - S'affiche uniquement au clic */}
+                  {isExpanded && (
+                    <div className="p-3.5 pt-0 border-t border-slate-100 animate-in fade-in-50 duration-200 space-y-2.5">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2.5 text-center">
+                        {/* Poids */}
+                        <div className="bg-[#fdf2f7] rounded-xl p-2 border border-[#F2619C]/20 shadow-2xs">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Poids</span>
+                          </p>
+                          <p className="text-xs font-black text-slate-800 mt-0.5">{p.weightG ? `${p.weightG} g` : `${p.weight || 3400} g`}</p>
+                        </div>
+
+                        {/* Taille */}
+                        <div className="bg-[#fcf5ff] rounded-xl p-2 border border-[#E7BEF8]/50 shadow-2xs">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Taille</span>
+                          </p>
+                          <p className="text-xs font-black text-slate-800 mt-0.5">{p.sizeCm || p.height || 50} cm</p>
+                        </div>
+
+                        {/* Prénom */}
+                        <div className="bg-[#f5f8fd] rounded-xl p-2 border border-[#93ABD9]/40 shadow-2xs col-span-2 sm:col-span-1">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Prénom</span>
+                          </p>
+                          <p className="text-xs font-black text-[#F2619C] truncate mt-0.5">{p.nameGuess || p.firstName || 'Non renseigné'}</p>
+                        </div>
+
+                        {/* Yeux */}
+                        <div className="bg-[#fffdf0] rounded-xl p-2 border border-[#FFE066]/60 shadow-2xs">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Yeux</span>
+                          </p>
+                          <p className="text-xs font-black text-slate-800 mt-0.5">{p.eyeColor || 'Marrons'}</p>
+                        </div>
+
+                        {/* Cheveux */}
+                        <div className="bg-[#fdf8fb] rounded-xl p-2 border border-rose-100 shadow-2xs">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Cheveux</span>
+                          </p>
+                          <p className="text-xs font-black text-slate-800 mt-0.5">{p.hairColor || 'Châtains'}</p>
+                        </div>
+
+                        {/* Date / Heure prédite */}
+                        <div className="bg-slate-50 rounded-xl p-2 border border-slate-200/70 shadow-2xs col-span-2 sm:col-span-1">
+                          <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
+                            <span>Jour J</span>
+                          </p>
+                          <p className="text-xs font-black text-slate-800 truncate mt-0.5">
+                            {new Date(p.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} {p.time ? `(${p.time})` : ''}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Score Breakdown if Born */}
+                      {isBorn && p.scoreDetails && (
+                        <div className="mt-2.5 bg-rose-50/70 rounded-xl p-2.5 border border-rose-200 text-[10px] space-y-1 text-slate-600">
+                          <div className="flex justify-between font-medium">
+                            <span>Date : {p.scoreDetails.dateNote}</span>
+                            <span className="font-bold text-rose-800">+{p.scoreDetails.datePoints} pts</span>
+                          </div>
+                          <div className="flex justify-between font-medium">
+                            <span>Poids : {p.scoreDetails.weightNote}</span>
+                            <span className="font-bold text-rose-800">+{p.scoreDetails.weightPoints} pts</span>
+                          </div>
+                          <div className="flex justify-between font-medium">
+                            <span>Taille : {p.scoreDetails.sizeNote}</span>
+                            <span className="font-bold text-rose-800">+{p.scoreDetails.sizePoints} pts</span>
+                          </div>
+                          {p.scoreDetails.namePoints > 0 && (
+                            <div className="flex justify-between font-bold text-blush-600">
+                              <span>Prénom : {p.scoreDetails.nameNote}</span>
+                              <span>+{p.scoreDetails.namePoints} pts</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Comment */}
+                      {p.comment && (
+                        <p className="text-[11px] text-slate-600 italic bg-slate-50 rounded-xl p-2.5 border border-slate-100">
+                          « {p.comment} »
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
