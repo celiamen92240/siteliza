@@ -265,13 +265,13 @@ export default function QuizView() {
             <button
               type="button"
               onClick={() => {
-                setHasStarted(true);
-                setActiveTab('results');
+                setVoterName('');
+                localStorage.removeItem('quiz_voter');
               }}
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
-              <span>Voir les résultats du Duel</span>
-              <BarChart3 className="w-4 h-4" />
+              <Users className="w-4 h-4" />
+              <span>Sélectionner un autre participant</span>
             </button>
           ) : (
             <button
