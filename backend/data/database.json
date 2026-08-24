@@ -1222,6 +1222,18 @@
   ],
   "dailyGameScores": [
     {
+      "id": "score-celia-today",
+      "playerName": "Célia",
+      "date": "2026-08-24",
+      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
+      "timeSeconds": 45.0,
+      "timeFormatted": "00:45.0",
+      "correctCount": 12,
+      "totalWords": 12,
+      "points": 1013,
+      "createdAt": "2026-08-24T15:20:00.000Z"
+    },
+    {
       "id": "score-1787518287220",
       "playerName": "Maman",
       "date": "2026-08-23",

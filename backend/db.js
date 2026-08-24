@@ -159,7 +159,56 @@ const defaultState = {
       completed: false
     }
   ],
-  dailyGameScores: [],
+  dailyGameScores: [
+    {
+      id: "score-celia-today",
+      playerName: "Célia",
+      date: "2026-08-24",
+      theme: "Baignade, Soleil & Châteaux de Sable 🏖️",
+      timeSeconds: 45.0,
+      timeFormatted: "00:45.0",
+      correctCount: 12,
+      totalWords: 12,
+      points: 1013,
+      createdAt: "2026-08-24T15:20:00.000Z"
+    },
+    {
+      id: "score-1787518287220",
+      playerName: "Maman",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 176.7,
+      timeFormatted: "02:56.7",
+      correctCount: 7,
+      totalWords: 12,
+      points: 515,
+      createdAt: "2026-08-23T20:51:27.220Z"
+    },
+    {
+      id: "score-1787518674957",
+      playerName: "Léa",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 81.4,
+      timeFormatted: "01:21.4",
+      correctCount: 9,
+      totalWords: 12,
+      points: 778,
+      createdAt: "2026-08-23T20:57:54.957Z"
+    },
+    {
+      id: "score-1787519258744",
+      playerName: "Liza",
+      date: "2026-08-23",
+      theme: "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      timeSeconds: 106.3,
+      timeFormatted: "01:46.3",
+      correctCount: 10,
+      totalWords: 12,
+      points: 801,
+      createdAt: "2026-08-23T21:07:38.744Z"
+    }
+  ],
   justePrixScores: [],
   messages: []
 };
