@@ -1001,6 +1001,36 @@
       "voter": "Clément",
       "choice": "Liza",
       "timestamp": "2026-08-23T21:02:59.051Z"
+    },
+    {
+      "questionId": 2,
+      "voter": "Liza",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T20:00:00.000Z"
+    },
+    {
+      "questionId": 4,
+      "voter": "Liza",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T20:00:00.000Z"
+    },
+    {
+      "questionId": 6,
+      "voter": "Liza",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T20:00:00.000Z"
+    },
+    {
+      "questionId": 11,
+      "voter": "Clément",
+      "choice": "Liza",
+      "timestamp": "2026-08-24T20:00:00.000Z"
+    },
+    {
+      "questionId": 50,
+      "voter": "Clément",
+      "choice": "Clément",
+      "timestamp": "2026-08-24T20:00:00.000Z"
     }
   ],
   "quizCompletedVoters": [
