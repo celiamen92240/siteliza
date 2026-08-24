@@ -2161,6 +2161,30 @@
       "createdAt": "2026-08-24T15:20:00.000Z"
     },
     {
+      "id": "score-liza-today",
+      "playerName": "Liza",
+      "date": "2026-08-24",
+      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
+      "timeSeconds": 106.3,
+      "timeFormatted": "01:46.3",
+      "correctCount": 10,
+      "totalWords": 12,
+      "points": 801,
+      "createdAt": "2026-08-24T16:00:00.000Z"
+    },
+    {
+      "id": "score-mathieu-today",
+      "playerName": "Matthieu",
+      "date": "2026-08-24",
+      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
+      "timeSeconds": 95,
+      "timeFormatted": "01:35.0",
+      "correctCount": 9,
+      "totalWords": 12,
+      "points": 757,
+      "createdAt": "2026-08-24T17:45:00.000Z"
+    },
+    {
       "id": "score-lea-today",
       "playerName": "Léa",
       "date": "2026-08-24",
@@ -2185,19 +2209,7 @@
       "createdAt": "2026-08-24T17:05:00.000Z"
     },
     {
-      "id": "score-1787518674957",
-      "playerName": "Léa",
-      "date": "2026-08-23",
-      "theme": "La Vie d'Enfant & Jeux de Récré 🎒🎨",
-      "timeSeconds": 81.4,
-      "timeFormatted": "01:21.4",
-      "correctCount": 9,
-      "totalWords": 12,
-      "points": 778,
-      "createdAt": "2026-08-23T20:57:54.957Z"
-    },
-    {
-      "id": "score-1787519258744",
+      "id": "score-liza-yesterday",
       "playerName": "Liza",
       "date": "2026-08-23",
       "theme": "La Vie d'Enfant & Jeux de Récré 🎒🎨",
@@ -2209,7 +2221,19 @@
       "createdAt": "2026-08-23T21:07:38.744Z"
     },
     {
-      "id": "score-1787518287220",
+      "id": "score-lea-yesterday",
+      "playerName": "Léa",
+      "date": "2026-08-23",
+      "theme": "La Vie d'Enfant & Jeux de Récré 🎒🎨",
+      "timeSeconds": 81.4,
+      "timeFormatted": "01:21.4",
+      "correctCount": 9,
+      "totalWords": 12,
+      "points": 778,
+      "createdAt": "2026-08-23T20:57:54.957Z"
+    },
+    {
+      "id": "score-maman-yesterday",
       "playerName": "Maman",
       "date": "2026-08-23",
       "theme": "La Vie d'Enfant & Jeux de Récré 🎒🎨",
@@ -2219,18 +2243,6 @@
       "totalWords": 12,
       "points": 515,
       "createdAt": "2026-08-23T20:51:27.220Z"
-    },
-    {
-      "id": "score-mathieu-today",
-      "playerName": "Matthieu",
-      "date": "2026-08-24",
-      "theme": "Baignade, Soleil & Châteaux de Sable 🏖️",
-      "timeSeconds": 95,
-      "timeFormatted": "01:35.0",
-      "correctCount": 9,
-      "totalWords": 12,
-      "points": 757,
-      "createdAt": "2026-08-24T17:45:00.000Z"
     }
   ],
   "justePrixScores": [],
