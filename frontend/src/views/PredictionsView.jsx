@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, PlusCircle, Trophy, Sparkles, Heart, Award, CheckCircle, HelpCircle, Trash2, Camera, ArrowRight, ChevronDown } from 'lucide-react';
+import { Target, PlusCircle, Trophy, Sparkles, Heart, Award, CheckCircle, HelpCircle, Trash2, Camera, ArrowRight, ChevronDown, MousePointerClick } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
@@ -444,12 +444,14 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
           </span>
         </div>
 
-        {/* Phrase d'indication cool */}
+        {/* Phrase d'indication design sur une seule ligne */}
         {predictions.length > 0 && (
-          <p className="text-xs text-rose-500/90 font-semibold flex items-center gap-1.5 px-1 bg-rose-50/40 p-2 rounded-xl border border-rose-100/60">
-            <span className="text-sm animate-pulse">👉</span>
-            <span>Clique sur un proche pour découvrir son pronostic secret !</span>
-          </p>
+          <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-rose-50/50 rounded-xl border border-rose-100/70 shadow-2xs">
+            <MousePointerClick className="w-3.5 h-3.5 text-blush-500 flex-shrink-0" />
+            <span className="text-[11px] text-rose-500 font-medium italic truncate whitespace-nowrap">
+              Clique sur un proche pour découvrir son pronostic secret !
+            </span>
+          </div>
         )}
 
         {loading ? (
@@ -512,16 +514,15 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                     </div>
 
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      {isBorn ? (
+                      {isBorn && (
                         <span className="text-xs font-black text-blush-600 bg-blush-50 px-2 py-1 rounded-full border border-blush-200">
                           {p.totalScore} pts
                         </span>
-                      ) : (
-                        <span className="text-[11px] font-bold text-blush-600 bg-rose-50 px-2.5 py-1 rounded-xl border border-rose-100 flex items-center gap-1">
-                          <span>{isExpanded ? 'Fermer' : 'Voir'}</span>
-                          <ChevronDown className={`w-3 h-3 text-blush-500 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
-                        </span>
                       )}
+
+                      <div className="w-7 h-7 rounded-xl bg-rose-50 border border-rose-100/80 flex items-center justify-center text-blush-500 transition-colors">
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-blush-600' : ''}`} />
+                      </div>
 
                       {/* Delete button */}
                       <button
