@@ -32,6 +32,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
   const [newRdvLocation, setNewRdvLocation] = useState('');
   const [newRdvNotes, setNewRdvNotes] = useState('');
   const [selectedRdvIndex, setSelectedRdvIndex] = useState(0);
+  const [showAllRdvs, setShowAllRdvs] = useState(false);
   const [touchStartY, setTouchStartY] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
 
@@ -1102,7 +1103,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   }}
                   className="space-y-3"
                 >
-                  {uncompletedRdvs.map((rdv, idx) => {
+                  {(showAllRdvs ? uncompletedRdvs : uncompletedRdvs.slice(0, 3)).map((rdv, idx) => {
                     const isCurrentActive = idx === selectedRdvIndex;
                     return (
                       <div
@@ -1195,6 +1196,28 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                       </div>
                     );
                   })}
+
+                  {/* Bouton centré + pour afficher tous les rendez-vous */}
+                  {uncompletedRdvs.length > 3 && (
+                    <div className="flex justify-center pt-2 pb-1">
+                      <button
+                        type="button"
+                        onClick={() => setShowAllRdvs(!showAllRdvs)}
+                        className="bg-white hover:bg-rose-50 border-2 border-blush-200 hover:border-blush-400 text-blush-700 font-extrabold py-2 px-5 rounded-2xl shadow-xs text-xs flex items-center gap-2 cursor-pointer transition-all active:scale-95 group"
+                      >
+                        <div className="w-5 h-5 rounded-full bg-rose-100 group-hover:bg-blush-500 group-hover:text-white flex items-center justify-center text-blush-600 transition-colors">
+                          {showAllRdvs ? (
+                            <ChevronUp className="w-3 h-3 stroke-[3px]" />
+                          ) : (
+                            <Plus className="w-3 h-3 stroke-[3px]" />
+                          )}
+                        </div>
+                        <span>
+                          {showAllRdvs ? "Afficher moins" : `+ ${uncompletedRdvs.length - 3} autre${uncompletedRdvs.length - 3 > 1 ? 's' : ''} rendez-vous`}
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
