@@ -441,7 +441,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600">
-              Espace Privé Parents 👑
+              Espace Privé Parents
             </span>
             <h2 className="font-serif text-xl font-extrabold text-slate-800">
               Organisation Liza & Clément
@@ -450,7 +450,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               Listes d'achats, valise, calendrier des RDV & réglages.
             </p>
           </div>
-          <span className="text-3xl">💖</span>
+          <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-2xl object-cover shadow-2xs border border-[#E7BEF8]" />
         </div>
 
         {/* 5 Sub-tabs Selector */}
@@ -488,7 +488,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
-            <span>RDV 📅</span>
+            <span>RDV</span>
           </button>
 
           <button
@@ -499,7 +499,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                 : 'text-slate-600 hover:bg-rose-50'
             }`}
           >
-            <Trophy className="w-3.5 h-3.5" />
+            <Baby className="w-3.5 h-3.5" />
             <span>Naissance</span>
           </button>
 
@@ -512,7 +512,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
             }`}
           >
             <Key className="w-3.5 h-3.5" />
-            <span>Code ⚙️</span>
+            <span>Code</span>
           </button>
         </div>
       </div>

@@ -112,7 +112,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
               Jeu Familial
             </span>
             <h2 className="font-serif text-xl font-extrabold text-slate-800 flex items-center gap-2">
-              <span>🎯 Le Grand Pronostic</span>
+              <span>Le Grand Pronostic</span>
             </h2>
             <p className="text-xs text-rose-500 font-medium">
               {isBorn 
@@ -120,7 +120,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                 : 'Fais tes paris sur le jour J, le poids, la taille et le prénom !'}
             </p>
           </div>
-          <span className="text-3xl animate-bounce-subtle">🏆</span>
+          <img src="/logo.jpg" alt="Logo" className="w-10 h-10 rounded-2xl object-cover shadow-2xs border border-[#E7BEF8]" />
         </div>
 
         {/* Family Summary Stats */}
@@ -148,8 +148,10 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
       {/* 1. ÉTAPE PRÉLIMINAIRE : SÉLECTION DU JOUEUR AVANT LE PRONOSTIC */}
       {!isBorn && !showForm && (
         <div className="bg-white rounded-3xl p-5 shadow-lg border-2 border-[#E7BEF8] space-y-4 animate-in zoom-in-95">
-          <div className="text-center space-y-1">
-            <span className="text-3xl">🎯</span>
+          <div className="text-center space-y-2">
+            <div className="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-[#F2619C]/20 via-[#FFE066]/40 to-[#E7BEF8]/50 border border-[#F2619C]/30 flex items-center justify-center text-[#F2619C] shadow-2xs">
+              <Sparkles className="w-6 h-6" />
+            </div>
             <h3 className="font-serif text-base font-black text-slate-800">
               Participer au Grand Pronostic
             </h3>
@@ -185,7 +187,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
             }}
             className="w-full bg-gradient-to-r from-[#F2619C] to-[#de3881] hover:from-[#d43f7d] hover:to-[#c52c6e] text-white font-bold py-3.5 rounded-2xl shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 glow-pink"
           >
-            <span>Commencer mon pronostic 🚀</span>
+            <span>Commencer mon pronostic</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -356,7 +358,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
             disabled={submitting}
             className="w-full bg-gradient-to-r from-[#F2619C] to-[#de3881] hover:from-[#d43f7d] hover:to-[#c52c6e] text-white font-bold py-3.5 rounded-2xl shadow-md text-xs transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-2"
           >
-            {submitting ? 'Enregistrement...' : 'Enregistrer mon pronostic 🎯'}
+            {submitting ? 'Enregistrement...' : 'Enregistrer mon pronostic'}
           </button>
         </form>
       )}
@@ -379,12 +381,12 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
             <div className="grid grid-cols-3 gap-2 items-end pt-6 pb-2 text-center">
               {/* 2nd Place */}
               <div className="bg-gradient-to-t from-slate-200 to-white rounded-2xl p-2.5 border border-slate-300 shadow-sm relative order-1">
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xl">🥈</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-black bg-slate-200 px-2 py-0.5 rounded-full shadow-2xs">#2</span>
                 <div className="w-10 h-10 rounded-full mx-auto overflow-hidden mt-1 border border-slate-300">
                   {predictions[1]?.photo ? (
                     <img src={predictions[1]?.photo} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-xl flex items-center justify-center h-full bg-white">{predictions[1]?.avatar || '🌸'}</span>
+                    <img src="/logo.jpg" alt="" className="w-full h-full object-cover" />
                   )}
                 </div>
                 <p className="font-extrabold text-xs text-slate-800 truncate mt-1">{predictions[1]?.author}</p>
@@ -393,12 +395,12 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
 
               {/* 1st Place (Grand Gagnant) */}
               <div className="bg-gradient-to-t from-rose-200 to-pink-50 rounded-3xl p-3 border-2 border-blush-400 shadow-lg relative order-2 transform -translate-y-2">
-                <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-2xl animate-bounce">👑 🥇</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-black bg-[#FFE066] text-[#78350f] px-2.5 py-0.5 rounded-full shadow-2xs">#1 Vainqueur</span>
                 <div className="w-12 h-12 rounded-full mx-auto overflow-hidden mt-1 border-2 border-blush-400 shadow">
                   {predictions[0]?.photo ? (
                     <img src={predictions[0]?.photo} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-2xl flex items-center justify-center h-full bg-white">{predictions[0]?.avatar || '👑'}</span>
+                    <img src="/logo.jpg" alt="" className="w-full h-full object-cover" />
                   )}
                 </div>
                 <p className="font-black text-sm text-rose-950 truncate mt-1">{predictions[0]?.author}</p>
@@ -410,12 +412,12 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
 
               {/* 3rd Place */}
               <div className="bg-gradient-to-t from-purple-100 to-white rounded-2xl p-2.5 border border-purple-200 shadow-sm relative order-3">
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xl">🥉</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-black bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full shadow-2xs">#3</span>
                 <div className="w-10 h-10 rounded-full mx-auto overflow-hidden mt-1 border border-purple-200">
                   {predictions[2]?.photo ? (
                     <img src={predictions[2]?.photo} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-xl flex items-center justify-center h-full bg-white">{predictions[2]?.avatar || '🌸'}</span>
+                    <img src="/logo.jpg" alt="" className="w-full h-full object-cover" />
                   )}
                 </div>
                 <p className="font-extrabold text-xs text-slate-800 truncate mt-1">{predictions[2]?.author}</p>
@@ -430,7 +432,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-serif text-base font-bold text-slate-800 flex items-center gap-2">
-            <span>📋 Tous les Paris de la Famille</span>
+            <span>Tous les Paris de la Famille</span>
           </h3>
           <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
             {predictions.length} parieurs
@@ -441,7 +443,9 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
           <div className="text-center py-8 text-xs text-slate-400">Chargement des pronostics...</div>
         ) : predictions.length === 0 ? (
           <div className="text-center py-8 bg-white rounded-3xl border border-rose-100 p-6 space-y-2">
-            <span className="text-3xl">🌸</span>
+            <div className="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-[#F2619C]/20 via-[#FFE066]/40 to-[#E7BEF8]/50 border border-[#F2619C]/30 flex items-center justify-center text-[#F2619C] shadow-2xs">
+              <Sparkles className="w-6 h-6" />
+            </div>
             <p className="text-xs font-bold text-slate-700">Aucun pari pour le moment</p>
             <p className="text-[11px] text-slate-400">Sois le premier de la famille à pronostiquer !</p>
           </div>
@@ -463,7 +467,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                       {p.photo ? (
                         <img src={p.photo} alt={p.author} className="w-full h-full object-cover" />
                       ) : (
-                        <span>{p.avatar || '🌸'}</span>
+                        <img src="/logo.jpg" alt={p.author} className="w-full h-full object-cover" />
                       )}
                     </div>
 
@@ -512,7 +516,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Poids */}
                   <div className="bg-[#fdf2f7] rounded-xl p-2 border border-[#F2619C]/20 shadow-2xs">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>⚖️ Poids</span>
+                      <span>Poids</span>
                     </p>
                     <p className="text-xs font-black text-slate-800 mt-0.5">{p.weightG ? `${p.weightG} g` : `${p.weight || 3400} g`}</p>
                   </div>
@@ -520,7 +524,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Taille */}
                   <div className="bg-[#fcf5ff] rounded-xl p-2 border border-[#E7BEF8]/50 shadow-2xs">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>📏 Taille</span>
+                      <span>Taille</span>
                     </p>
                     <p className="text-xs font-black text-slate-800 mt-0.5">{p.sizeCm || p.height || 50} cm</p>
                   </div>
@@ -528,7 +532,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Prénom */}
                   <div className="bg-[#f5f8fd] rounded-xl p-2 border border-[#93ABD9]/40 shadow-2xs col-span-2 sm:col-span-1">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>👶 Prénom</span>
+                      <span>Prénom</span>
                     </p>
                     <p className="text-xs font-black text-[#F2619C] truncate mt-0.5">{p.nameGuess || p.firstName || 'Non renseigné'}</p>
                   </div>
@@ -536,7 +540,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Yeux */}
                   <div className="bg-[#fffdf0] rounded-xl p-2 border border-[#FFE066]/60 shadow-2xs">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>👁️ Yeux</span>
+                      <span>Yeux</span>
                     </p>
                     <p className="text-xs font-black text-slate-800 mt-0.5">{p.eyeColor || 'Marrons'}</p>
                   </div>
@@ -544,7 +548,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Cheveux */}
                   <div className="bg-[#fdf8fb] rounded-xl p-2 border border-rose-100 shadow-2xs">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>💇 Cheveux</span>
+                      <span>Cheveux</span>
                     </p>
                     <p className="text-xs font-black text-slate-800 mt-0.5">{p.hairColor || 'Châtains'}</p>
                   </div>
@@ -552,7 +556,7 @@ export default function PredictionsView({ isBorn, actualBirth, onOpenAdmin }) {
                   {/* Date / Heure prédite */}
                   <div className="bg-slate-50 rounded-xl p-2 border border-slate-200/70 shadow-2xs col-span-2 sm:col-span-1">
                     <p className="text-[9px] uppercase tracking-wider text-slate-400 font-extrabold flex items-center justify-center gap-1">
-                      <span>📅 Jour J</span>
+                      <span>Jour J</span>
                     </p>
                     <p className="text-xs font-black text-slate-800 truncate mt-0.5">
                       {new Date(p.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} {p.time ? `(${p.time})` : ''}
