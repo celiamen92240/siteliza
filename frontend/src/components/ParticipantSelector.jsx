@@ -243,7 +243,7 @@ export default function ParticipantSelector({ selectedName, onSelect, label = "Q
                         <button
                           type="button"
                           onClick={(e) => handleDeleteParticipant(e, p)}
-                          className="p-1 text-red-400 hover:text-red-600 rounded-md hover:bg-red-50 cursor-pointer transition-colors"
+                          className="p-1 text-slate-300 hover:text-slate-600 rounded-md hover:bg-slate-100 cursor-pointer transition-colors"
                           title={`Supprimer ${p.name}`}
                         >
                           <X className="w-3.5 h-3.5 stroke-[2.5]" />
