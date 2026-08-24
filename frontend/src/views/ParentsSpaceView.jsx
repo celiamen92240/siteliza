@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Unlock, CheckCircle2, Circle, Plus, Trash2, ShoppingBag, Luggage, Trophy, Calendar, MapPin, Clock, AlertCircle, Key, ShieldCheck, Baby, Sparkles, Briefcase, PlusCircle, ChevronLeft, ChevronRight, X, Camera } from 'lucide-react';
+import { Lock, Unlock, CheckCircle2, Circle, Plus, Trash2, ShoppingBag, Luggage, Trophy, Calendar, MapPin, Clock, AlertCircle, Key, ShieldCheck, Baby, Sparkles, Briefcase, PlusCircle, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, Camera } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, onResetBirth }) {
@@ -532,7 +532,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
         </div>
       </div>
 
-      {/* SUB-TAB 1: LISTE DES ACHATS AVEC JAUGE GLOBALE ET CATÉGORIES EMPILÉES */}
+      {/* SUB-TAB 1: LISTE DES ACHATS AVEC JAUGE ÉPURÉE ET + ACHATS DISCRET */}
       {activeSubTab === 'purchases' && (() => {
         const totalItems = purchases.length;
         const totalChecked = purchases.filter(i => i.checked).length;
@@ -540,16 +540,13 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
 
         return (
           <div className="space-y-4">
-            {/* Jauge globale de progression en haut */}
+            {/* Jauge de progression épurée */}
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-2.5">
               <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Progression des Achats</span>
-                  <h3 className="font-serif text-base font-bold text-slate-800">
-                    {totalChecked} sur {totalItems} articles achetés
-                  </h3>
-                </div>
-                <span className="text-base font-black text-blush-600 bg-rose-50 px-3 py-1 rounded-2xl border border-blush-200">
+                <h3 className="font-serif text-sm font-bold text-slate-800">
+                  Progression des achats
+                </h3>
+                <span className="text-sm font-black text-blush-600 bg-rose-50 px-3 py-1 rounded-2xl border border-blush-200">
                   {percent}%
                 </span>
               </div>
@@ -590,6 +587,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                     value={newCategoryName}
                     onChange={e => setNewCategoryName(e.target.value)}
                     className="w-full box-border px-3 py-2.5 rounded-xl border border-rose-200 text-xs bg-rose-50/20 font-bold focus:outline-none focus:ring-2 focus:ring-blush-400"
+                    style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                   />
                   <button
                     type="submit"
@@ -658,21 +656,22 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                     )}
                   </div>
 
-                  {/* Inline Quick Add pour cette catégorie */}
-                  <form onSubmit={(e) => handleInlineAddPurchase(e, cat)} className="flex items-center gap-2 pt-1">
+                  {/* Petit plus très discret avec écrit Achats */}
+                  <form onSubmit={(e) => handleInlineAddPurchase(e, cat)} className="flex items-center gap-2 pt-2 border-t border-slate-50">
                     <input
                       type="text"
-                      placeholder={`Ajouter un article dans ${cat}...`}
+                      placeholder="+ Achats"
                       value={inlinePurchases[cat] || ''}
                       onChange={e => setInlinePurchases({ ...inlinePurchases, [cat]: e.target.value })}
-                      className="flex-1 px-3 py-2 rounded-xl border border-rose-200 text-xs bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                      className="flex-1 px-3 py-1.5 rounded-xl border border-dashed border-rose-200 text-xs bg-rose-50/10 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-solid focus:border-blush-400 font-medium"
+                      style={{ width: '100%', boxSizing: 'border-box' }}
                     />
                     <button
                       type="submit"
-                      className="w-8 h-8 rounded-xl bg-blush-500 text-white flex items-center justify-center shadow-xs cursor-pointer active:scale-95 flex-shrink-0"
+                      className="w-7 h-7 rounded-xl bg-rose-50 hover:bg-blush-500 text-blush-600 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-xs font-bold flex-shrink-0"
                       title="Ajouter"
                     >
-                      <Plus className="w-4 h-4 stroke-[3px]" />
+                      <Plus className="w-3.5 h-3.5 stroke-[3px]" />
                     </button>
                   </form>
                 </div>
@@ -916,8 +915,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
 
         return (
           <div className="space-y-4">
-            {/* Formulaire d'Ajout d'un Rendez-Vous */}
-            <form onSubmit={addRdvItem} className="bg-white rounded-3xl p-5 shadow-sm border border-blush-200 space-y-3">
+            {/* Formulaire d'Ajout de Rendez-Vous */}
+            <form onSubmit={addRdvItem} className="bg-white p-5 rounded-3xl border-2 border-blush-200 shadow-xs space-y-3 w-full box-border overflow-hidden">
               <h3 className="font-serif text-sm font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-100 pb-2">
                 <Calendar className="w-4 h-4 text-blush-500" />
                 <span>Ajouter un Rendez-Vous</span>
@@ -933,7 +932,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvTitle}
                   onChange={e => setNewRdvTitle(e.target.value)}
                   placeholder="Ex: Échographie T3, Consultation 8ème mois..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -944,7 +944,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   required
                   value={newRdvDate}
                   onChange={e => setNewRdvDate(e.target.value)}
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -954,18 +955,20 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   type="time"
                   value={newRdvTime}
                   onChange={e => setNewRdvTime(e.target.value)}
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">Lieu / Médecin</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Lieu</label>
                 <input
                   type="text"
                   value={newRdvLocation}
                   onChange={e => setNewRdvLocation(e.target.value)}
-                  placeholder="Ex: Maternité, Cabinet Sage-femme..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  placeholder="Ex: Maternité, Cabinet médical..."
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -976,7 +979,8 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                   value={newRdvNotes}
                   onChange={e => setNewRdvNotes(e.target.value)}
                   placeholder="Ex: Apporter les bilans sanguins..."
-                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  className="w-full box-border block text-xs font-medium px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50/20 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                  style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}
                 />
               </div>
 
@@ -988,133 +992,102 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
               </button>
             </form>
 
-            {/* 🌟 1. SECTION : PROCHAIN RENDEZ-VOUS (HERO CARD) */}
-            {nextRdv && (
-              <div className="bg-gradient-to-br from-rose-50 via-white to-purple-50 rounded-3xl p-5 shadow-sm border-2 border-blush-300 space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-blush-700 bg-rose-100 px-2.5 py-1 rounded-full border border-blush-200 flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-blush-600" />
-                    <span>Prochain Rendez-Vous</span>
+            {/* 🌟 RENDEZ-VOUS À VENIR (AVEC PROCHAIN RENDEZ-VOUS & SWIPE VERTICAL) */}
+            {uncompletedRdvs.length > 0 ? (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Rendez-vous à venir ({uncompletedRdvs.length})
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => deleteRdvItem(nextRdv.id)}
-                    className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
-                    title="Supprimer ce rendez-vous"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  {uncompletedRdvs.length > 1 && (
+                    <span className="text-[10px] text-blush-600 font-bold flex items-center gap-1">
+                      <span>↕ Swiper vers le bas</span>
+                    </span>
+                  )}
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <button
-                    type="button"
-                    onClick={() => toggleRdv(nextRdv.id)}
-                    className="mt-1 cursor-pointer flex-shrink-0"
-                  >
-                    <Circle className="w-6 h-6 text-blush-400 hover:text-blush-600" />
-                  </button>
-
-                  <div className="space-y-1.5 flex-1">
-                    <h4 className="font-serif text-base font-extrabold text-slate-800 leading-tight">
-                      {nextRdv.title}
-                    </h4>
-
-                    <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold text-blush-600">
-                      <span className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-rose-100 shadow-2xs">
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>{new Date(nextRdv.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-                      </span>
-                      {nextRdv.time && (
-                        <span className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-rose-100 shadow-2xs">
-                          <Clock className="w-3.5 h-3.5" />
-                          <span>{nextRdv.time}</span>
-                        </span>
-                      )}
-                    </div>
-
-                    {nextRdv.location && (
-                      <p className="text-xs text-slate-600 flex items-center gap-1 font-medium">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{nextRdv.location}</span>
-                      </p>
-                    )}
-
-                    {nextRdv.notes && (
-                      <p className="text-xs text-slate-600 italic bg-white/80 rounded-xl p-2 border border-rose-100/70">
-                        « {nextRdv.notes} »
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 📅 2. SECTION : AUTRES RENDEZ-VOUS À VENIR */}
-            {otherUpcomingRdvs.length > 0 && (
-              <div className="space-y-2.5">
-                <h4 className="font-serif text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between px-1">
-                  <span>Autres Rendez-Vous à Venir</span>
-                  <span className="text-[10px] font-semibold text-slate-400">{otherUpcomingRdvs.length}</span>
-                </h4>
-
-                {otherUpcomingRdvs.map((rdv) => (
-                  <div
-                    key={rdv.id}
-                    className="bg-white rounded-3xl p-4 shadow-2xs border border-rose-100 hover:border-blush-200 transition-all flex items-start justify-between"
-                  >
-                    <div className="flex items-start gap-3 flex-1">
-                      <button
-                        type="button"
-                        onClick={() => toggleRdv(rdv.id)}
-                        className="mt-0.5 cursor-pointer flex-shrink-0"
-                      >
-                        <Circle className="w-5 h-5 text-slate-300 hover:text-blush-400" />
-                      </button>
-
-                      <div className="space-y-1 flex-1">
-                        <h5 className="text-xs font-bold text-slate-800">
-                          {rdv.title}
-                        </h5>
-
-                        <div className="flex items-center gap-3 text-[11px] font-semibold text-blush-600">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            <span>{new Date(rdv.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                {/* Conteneur Swipe / Scroll Snap Vertical */}
+                <div className="space-y-3 max-h-[420px] overflow-y-auto snap-y snap-mandatory scroll-smooth p-1 no-scrollbar">
+                  {uncompletedRdvs.map((rdv, idx) => (
+                    <div
+                      key={rdv.id}
+                      className={`snap-start rounded-3xl p-5 shadow-sm border-2 transition-all relative overflow-hidden ${
+                        idx === 0
+                          ? 'bg-gradient-to-br from-rose-50 via-white to-purple-50 border-blush-300'
+                          : 'bg-white border-rose-100 hover:border-blush-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        {idx === 0 ? (
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blush-700 bg-rose-100/90 px-2.5 py-0.5 rounded-full border border-blush-200 flex items-center gap-1">
+                            <Sparkles className="w-3 h-3 text-blush-600" />
+                            <span>Prochain rendez-vous</span>
                           </span>
-                          {rdv.time && (
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              <span>{rdv.time}</span>
+                        ) : (
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                            Rendez-vous suivant ({idx + 1}/{uncompletedRdvs.length})
+                          </span>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => deleteRdvItem(rdv.id)}
+                          className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                          title="Supprimer ce rendez-vous"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <button
+                          type="button"
+                          onClick={() => toggleRdv(rdv.id)}
+                          className="mt-1 cursor-pointer flex-shrink-0"
+                          title="Marquer comme effectué"
+                        >
+                          <Circle className="w-5 h-5 text-blush-400 hover:text-blush-600" />
+                        </button>
+
+                        <div className="space-y-1.5 flex-1">
+                          <h4 className="font-serif text-sm font-extrabold text-slate-800 leading-tight">
+                            {rdv.title}
+                          </h4>
+
+                          <div className="flex flex-wrap items-center gap-2 text-xs font-bold text-blush-600">
+                            <span className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-rose-100 shadow-2xs">
+                              <Calendar className="w-3.5 h-3.5" />
+                              <span>{new Date(rdv.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
                             </span>
+                            {rdv.time && (
+                              <span className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-rose-100 shadow-2xs">
+                                <Clock className="w-3.5 h-3.5" />
+                                <span>{rdv.time}</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {rdv.location && (
+                            <p className="text-xs text-slate-600 flex items-center gap-1 font-medium">
+                              <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                              <span>{rdv.location}</span>
+                            </p>
+                          )}
+
+                          {rdv.notes && (
+                            <p className="text-xs text-slate-600 italic bg-white/80 rounded-xl p-2 border border-rose-100/70">
+                              « {rdv.notes} »
+                            </p>
                           )}
                         </div>
-
-                        {rdv.location && (
-                          <p className="text-[10px] text-slate-500 flex items-center gap-1">
-                            <MapPin className="w-3 h-3 text-slate-400" />
-                            <span>{rdv.location}</span>
-                          </p>
-                        )}
-
-                        {rdv.notes && (
-                          <p className="text-[10px] text-slate-500 italic bg-rose-50/40 rounded-lg p-1.5 border border-rose-100/50">
-                            « {rdv.notes} »
-                          </p>
-                        )}
                       </div>
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={() => deleteRdvItem(rdv.id)}
-                      className="text-slate-300 hover:text-red-500 p-1 cursor-pointer flex-shrink-0"
-                      title="Supprimer ce rendez-vous"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl p-5 text-center border border-blush-200 text-xs text-slate-400">
+                Aucun rendez-vous prévu pour le moment.
               </div>
             )}
 
@@ -1136,6 +1109,7 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
                         type="button"
                         onClick={() => toggleRdv(rdv.id)}
                         className="mt-0.5 cursor-pointer flex-shrink-0"
+                        title="Remettre en rendez-vous prévu"
                       >
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 fill-emerald-100" />
                       </button>
