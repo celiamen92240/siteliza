@@ -222,8 +222,9 @@ export default function QuizView() {
       <div className="bg-gradient-to-br from-[#FFE066]/35 via-white to-[#E7BEF8]/40 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-2">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-2.5 py-0.5 rounded-full border border-white/80 flex items-center gap-1 shadow-2xs">
-              <span>Duel des Parents • 50 Questions</span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-2.5 py-0.5 rounded-full border border-white/80 flex items-center gap-1.5 shadow-2xs">
+              <Users className="w-3 h-3 text-[#78350f]" />
+              <span>{(summary?.uniqueVotersCount || 0) <= 1 ? `${summary?.uniqueVotersCount || 0} participant` : `${summary?.uniqueVotersCount || 0} participants`}</span>
             </span>
           </div>
 

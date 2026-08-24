@@ -75,12 +75,7 @@ export default function PollsView() {
   };
 
   const handleOpenCreateModal = () => {
-    const isParentAuth = localStorage.getItem('parents_auth') === 'true';
-    if (isParentAuth) {
-      setPinStep(false);
-    } else {
-      setPinStep(true);
-    }
+    setPinStep(true);
     setSecretPin('');
     setPinError('');
     setNewTitle('');
@@ -93,40 +88,18 @@ export default function PollsView() {
     setShowAddModal(true);
   };
 
-  const handleVerifyPin = async (e) => {
+  const handleVerifyPin = (e) => {
     e.preventDefault();
-    const code = secretPin.trim();
-    if (code === '1234' || code === '0812' || code === '081226') {
+    if (secretPin === '0812' || secretPin === '1234') {
       setPinStep(false);
       setPinError('');
-      localStorage.setItem('parents_auth', 'true');
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/config/verify-pin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin: code })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setPinStep(false);
-        setPinError('');
-        localStorage.setItem('parents_auth', 'true');
-      } else {
-        setPinError("Code parent incorrect.");
-      }
-    } catch (err) {
-      setPinError("Code parent incorrect.");
+    } else {
+      setPinError('Code d\'accès incorrect (ex: 0812)');
     }
   };
 
   const handleAddOptionRow = () => {
-    setOptionsList(prev => [
-      ...prev,
-      { id: Date.now(), label: '', photo: null }
-    ]);
+    setOptionsList(prev => [...prev, { id: Date.now(), label: '', photo: null }]);
   };
 
   const handleRemoveOptionRow = (idToRemove) => {
@@ -172,28 +145,18 @@ export default function PollsView() {
       return;
     }
 
-    confetti({
-      particleCount: 25,
-      spread: 45,
-      origin: { y: 0.7 },
-      colors: ['#f472b6', '#ec4899', '#d8b4fe', '#fde047']
-    });
-
     try {
       const res = await fetch(`/api/polls/${pollId}/vote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          optionId,
-          voter: voterName
-        })
+        body: JSON.stringify({ optionId, voter: voterName })
       });
       const data = await res.json();
       if (data.success) {
         setPolls(data.polls || []);
       }
     } catch (err) {
-      console.error("Error voting on poll", err);
+      console.error("Error voting", err);
     }
   };
 
@@ -440,14 +403,15 @@ export default function PollsView() {
 
       {/* MODAL CRÉATION DE VOTE EN 2 ÉTAPES (CODE PARENT PUIS QUESTION ET CHOIX AVEC PHOTOS) */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border-2 border-blush-200 space-y-4 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-4 sm:p-5 shadow-2xl border-2 border-blush-200 flex flex-col max-h-[88vh] animate-in zoom-in-95 overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 flex-shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-blush-50 flex items-center justify-center text-blush-600">
+                <div className="w-7 h-7 rounded-xl bg-blush-50 flex items-center justify-center text-blush-600">
                   <Lightbulb className="w-4 h-4" />
                 </div>
-                <h3 className="font-serif text-base font-bold text-slate-800">
+                <h3 className="font-serif text-sm font-bold text-slate-800">
                   {pinStep ? "Accès Parents Requis" : "Créer un nouveau vote"}
                 </h3>
               </div>
@@ -459,194 +423,200 @@ export default function PollsView() {
               </button>
             </div>
 
-            {pinStep ? (
-              /* ÉTAPE 1 : DEMANDE DU CODE PARENT */
-              <form onSubmit={handleVerifyPin} className="space-y-4 text-center">
-                <div className="w-12 h-12 mx-auto rounded-2xl bg-rose-50 flex items-center justify-center text-blush-600 border border-rose-200">
-                  <Lock className="w-6 h-6" />
-                </div>
-
-                <div className="space-y-1">
-                  <h4 className="font-serif text-sm font-black text-slate-800">
-                    Déverrouillage Parent
-                  </h4>
-                  <p className="text-xs text-slate-500 font-medium">
-                    Entrez votre code d'accès parent pour publier une nouvelle question
-                  </p>
-                </div>
-
-                <div>
-                  <input
-                    type="password"
-                    required
-                    autoFocus
-                    placeholder="Code secret (ex: 0812)"
-                    value={secretPin}
-                    onChange={(e) => setSecretPin(e.target.value)}
-                    className="w-full text-center tracking-widest text-lg font-mono px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  />
-                  {pinError && (
-                    <p className="text-xs text-red-500 font-bold mt-1.5">{pinError}</p>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blush-500 to-rose-500 text-white font-bold py-3 rounded-xl shadow-md text-xs transition-all cursor-pointer active:scale-95"
-                >
-                  Valider mon code
-                </button>
-              </form>
-            ) : (
-              /* ÉTAPE 2 : FORMULAIRE QUESTION ET CHOIX LIBRES AVEC PHOTOS */
-              <form onSubmit={handleCreatePollSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                    Votre Question / Hésitation *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Ex : Quelle couleur pour la commode ?"
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                    Précision (facultatif)
-                  </label>
-                  <textarea
-                    rows={2}
-                    placeholder="Ex : On hésite entre ces deux teintes pour la chambre..."
-                    value={newDesc}
-                    onChange={(e) => setNewDesc(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400 resize-none"
-                  />
-                </div>
-
-                {/* Toggle Choix Unique vs Choix Multiple */}
-                <div className="bg-rose-50/50 p-2.5 rounded-2xl border border-rose-100 space-y-1">
-                  <label className="block text-[11px] font-bold text-slate-700">
-                    Mode de vote :
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsMultipleChoice(false)}
-                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        !isMultipleChoice
-                          ? 'bg-blush-500 text-white shadow-xs'
-                          : 'bg-white text-slate-600 border border-slate-200'
-                      }`}
-                    >
-                      Choix unique
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsMultipleChoice(true)}
-                      className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        isMultipleChoice
-                          ? 'bg-purple-600 text-white shadow-xs'
-                          : 'bg-white text-slate-600 border border-slate-200'
-                      }`}
-                    >
-                      Choix multiple
-                    </button>
-                  </div>
-                </div>
-
-                {/* Choix libres avec option Photo */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="block text-[11px] font-black text-slate-700">
-                      Les différents choix proposés :
-                    </label>
-                    <span className="text-[10px] text-slate-400 font-medium">
-                      {optionsList.length} choix
-                    </span>
+            {/* Modal Content with smooth single scroll */}
+            <div className="overflow-y-auto flex-1 py-3 pr-1 space-y-3.5">
+              {pinStep ? (
+                /* ÉTAPE 1 : DEMANDE DU CODE PARENT */
+                <form onSubmit={handleVerifyPin} className="space-y-3.5 text-center pt-2">
+                  <div className="w-11 h-11 mx-auto rounded-2xl bg-rose-50 flex items-center justify-center text-blush-600 border border-rose-200">
+                    <Lock className="w-5 h-5" />
                   </div>
 
-                  <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                    {optionsList.map((option, index) => (
-                      <div key={option.id} className="p-3 rounded-2xl border border-rose-100 bg-rose-50/30 space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="w-5 h-5 rounded-full bg-blush-100 text-blush-700 font-black text-[10px] flex items-center justify-center flex-shrink-0">
-                            {index + 1}
-                          </span>
-                          <input
-                            type="text"
-                            required
-                            placeholder={`Choix ${index + 1} (ex: Vert d'eau)...`}
-                            value={option.label}
-                            onChange={(e) => handleOptionLabelChange(option.id, e.target.value)}
-                            className="flex-1 px-3 py-1.5 rounded-xl border border-blush-200 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blush-400"
-                          />
-                          {optionsList.length > 2 && (
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveOptionRow(option.id)}
-                              className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
-                              title="Supprimer ce choix"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-serif text-sm font-black text-slate-800">
+                      Déverrouillage Parent
+                    </h4>
+                    <p className="text-[11px] text-slate-500 font-medium">
+                      Entrez votre code d'accès parent pour publier
+                    </p>
+                  </div>
 
-                        {/* Photo attachment for this option */}
-                        <div className="flex items-center gap-2 pl-7">
-                          {option.photo ? (
-                            <div className="flex items-center gap-2">
-                              <div className="w-10 h-10 rounded-lg overflow-hidden border border-blush-300">
-                                <img src={option.photo} alt="" className="w-full h-full object-cover" />
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveOptionPhoto(option.id)}
-                                className="text-[10px] text-red-500 hover:underline font-bold"
-                              >
-                                Retirer la photo
-                              </button>
-                            </div>
-                          ) : (
-                            <label className="text-[10px] font-bold text-blush-600 bg-white hover:bg-rose-50 border border-rose-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 cursor-pointer shadow-2xs">
-                              <Camera className="w-3 h-3 text-blush-500" />
-                              <span>Ajouter une photo</span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => handleOptionPhotoUpload(option.id, e.target.files?.[0])}
-                              />
-                            </label>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                  <div>
+                    <input
+                      type="password"
+                      required
+                      autoFocus
+                      placeholder="Code secret (ex: 0812)"
+                      value={secretPin}
+                      onChange={(e) => setSecretPin(e.target.value)}
+                      className="w-full text-center tracking-widest text-base font-mono px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                    />
+                    {pinError && (
+                      <p className="text-xs text-red-500 font-bold mt-1">{pinError}</p>
+                    )}
                   </div>
 
                   <button
-                    type="button"
-                    onClick={handleAddOptionRow}
-                    className="w-full py-2.5 border-2 border-dashed border-blush-200 text-blush-600 hover:bg-rose-50/50 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all"
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-blush-500 to-rose-500 text-white font-bold py-2.5 rounded-xl shadow-md text-xs transition-all cursor-pointer active:scale-95"
                   >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Ajouter un autre choix</span>
+                    Valider mon code
                   </button>
-                </div>
+                </form>
+              ) : (
+                /* ÉTAPE 2 : FORMULAIRE QUESTION ET CHOIX LIBRES AVEC PHOTOS */
+                <form id="poll-create-form" onSubmit={handleCreatePollSubmit} className="space-y-3">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Votre Question / Hésitation *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex : Quelle couleur pour la chambre ?"
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400"
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blush-500 to-rose-500 hover:from-blush-600 hover:to-rose-600 text-white font-black py-3.5 rounded-2xl shadow-md text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
-                >
-                  {isSubmitting ? "Publication..." : "Publier le vote ✨"}
-                </button>
-              </form>
-            )}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Précision (facultatif)
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="Ex : On hésite entre ces options..."
+                      value={newDesc}
+                      onChange={(e) => setNewDesc(e.target.value)}
+                      className="w-full px-3 py-1.5 rounded-xl border border-blush-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blush-400 resize-none"
+                    />
+                  </div>
+
+                  {/* Toggle Choix Unique vs Choix Multiple */}
+                  <div className="bg-rose-50/50 p-2 rounded-xl border border-rose-100 space-y-1">
+                    <label className="block text-[10px] font-bold text-slate-700">
+                      Mode de vote :
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsMultipleChoice(false)}
+                        className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          !isMultipleChoice
+                            ? 'bg-blush-500 text-white shadow-2xs'
+                            : 'bg-white text-slate-600 border border-slate-200'
+                        }`}
+                      >
+                        Choix unique
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsMultipleChoice(true)}
+                        className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          isMultipleChoice
+                            ? 'bg-purple-600 text-white shadow-2xs'
+                            : 'bg-white text-slate-600 border border-slate-200'
+                        }`}
+                      >
+                        Choix multiple
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Choix libres avec option Photo */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-[11px] font-black text-slate-700">
+                        Choix proposés :
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-medium">
+                        {optionsList.length} choix
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      {optionsList.map((option, index) => (
+                        <div key={option.id} className="p-2.5 rounded-xl border border-rose-100 bg-rose-50/30 space-y-1.5">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-blush-100 text-blush-700 font-black text-[10px] flex items-center justify-center flex-shrink-0">
+                              {index + 1}
+                            </span>
+                            <input
+                              type="text"
+                              required
+                              placeholder={`Choix ${index + 1}...`}
+                              value={option.label}
+                              onChange={(e) => handleOptionLabelChange(option.id, e.target.value)}
+                              className="flex-1 px-2.5 py-1 rounded-lg border border-blush-200 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blush-400"
+                            />
+                            {optionsList.length > 2 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveOptionRow(option.id)}
+                                className="text-slate-300 hover:text-red-500 p-1 cursor-pointer"
+                                title="Supprimer ce choix"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </div>
+
+                          {/* Photo attachment for this option */}
+                          <div className="flex items-center gap-2 pl-6">
+                            {option.photo ? (
+                              <div className="flex items-center gap-2">
+                                <div className="w-9 h-9 rounded-lg overflow-hidden border border-blush-300">
+                                  <img src={option.photo} alt="" className="w-full h-full object-cover" />
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveOptionPhoto(option.id)}
+                                  className="text-[10px] text-red-500 hover:underline font-bold"
+                                >
+                                  Retirer
+                                </button>
+                              </div>
+                            ) : (
+                              <label className="text-[10px] font-bold text-blush-600 bg-white hover:bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer shadow-2xs">
+                                <Camera className="w-3 h-3 text-blush-500" />
+                                <span>+ Photo</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => handleOptionPhotoUpload(option.id, e.target.files?.[0])}
+                                />
+                              </label>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleAddOptionRow}
+                      className="w-full py-2 border-2 border-dashed border-blush-200 text-blush-600 hover:bg-rose-50/50 rounded-xl text-xs font-bold flex items-center justify-center gap-1 cursor-pointer transition-all"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Ajouter un choix</span>
+                    </button>
+                  </div>
+
+                  {/* Bouton Publier */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-blush-500 to-rose-500 hover:from-blush-600 hover:to-rose-600 text-white font-black py-3 rounded-xl shadow-md text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                    >
+                      {isSubmitting ? "Publication..." : "Publier le vote ✨"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       )}
