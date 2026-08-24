@@ -401,7 +401,46 @@ export const db = {
   deleteParticipant(id) {
     const data = readDb();
     const cleanId = (id || '').trim().toLowerCase();
+    
+    // Identifier le participant cible par ID ou par nom
+    const target = (data.participants || []).find(p => p.id === id || (p.name || '').toLowerCase() === cleanId);
+    const targetName = target ? (target.name || '').trim().toLowerCase() : cleanId;
+
+    // 1. Retirer de la liste des participants
     data.participants = (data.participants || []).filter(p => p.id !== id && (p.name || '').toLowerCase() !== cleanId);
+
+    // 2. Décomptabiliser et purger les votes du Quiz
+    if (Array.isArray(data.quizVotes)) {
+      data.quizVotes = data.quizVotes.filter(v => (v.voter || '').trim().toLowerCase() !== targetName);
+    }
+    if (Array.isArray(data.quizCompletedVoters)) {
+      data.quizCompletedVoters = data.quizCompletedVoters.filter(v => (v || '').trim().toLowerCase() !== targetName);
+    }
+
+    // 3. Décomptabiliser les votes des Sondages & Hésitations
+    if (Array.isArray(data.polls)) {
+      data.polls.forEach(poll => {
+        if (Array.isArray(poll.options)) {
+          poll.options.forEach(opt => {
+            if (Array.isArray(opt.voters)) {
+              opt.voters = opt.voters.filter(v => (v || '').trim().toLowerCase() !== targetName);
+              opt.votes = opt.voters.length;
+            }
+          });
+        }
+      });
+    }
+
+    // 4. Supprimer les scores des Mots Fléchés
+    if (Array.isArray(data.dailyGameScores)) {
+      data.dailyGameScores = data.dailyGameScores.filter(s => (s.playerName || '').trim().toLowerCase() !== targetName);
+    }
+
+    // 5. Supprimer les scores du Juste Prix
+    if (Array.isArray(data.justePrixScores)) {
+      data.justePrixScores = data.justePrixScores.filter(s => (s.playerName || '').trim().toLowerCase() !== targetName);
+    }
+
     writeDb(data);
     return data.participants;
   },
