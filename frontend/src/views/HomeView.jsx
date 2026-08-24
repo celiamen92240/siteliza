@@ -278,7 +278,7 @@ export default function HomeView({ setTab, onTabChange }) {
                 {headerPhoto ? (
                   <img src={headerPhoto} alt="Liza & Clément" className="w-full h-full object-cover rounded-xl" />
                 ) : (
-                  <span className="text-2xl">🌸</span>
+                  <img src="/logo.jpg" alt="Liza & Clément" className="w-full h-full object-cover rounded-xl" />
                 )}
               </div>
               <ArrowRight className="w-4 h-4 text-[#56206b]/80 group-hover:translate-x-0.5 transition-all" />
