@@ -285,8 +285,8 @@ export default function DailyGameView() {
               </span>
             </div>
 
-            {/* List of 12 Clues with Integrated Character Inputs */}
-            <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
+            {/* List of 12 Clues with Natural Full Page Scroll */}
+            <div className="space-y-3">
               {gridData.words.map((item, idx) => {
                 const currentVal = userInputs[item.id] || '';
                 return (
