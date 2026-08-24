@@ -186,20 +186,21 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           </button>
         </div>
       ) : (
-        /* COMPTE À REBOURS DU JOUR J AVEC BOUTON DE MODIFICATION DE PHOTO */
+        /* COMPTE À REBOURS DU JOUR J (HARMONIE ROSE & LILAS DOUX) */
         <div
           onClick={() => navigate('predictions')}
-          className="bg-gradient-to-br from-[#F2619C] via-[#f06ea5] to-[#E7BEF8] rounded-3xl p-5 shadow-lg border-2 border-[#F2619C]/30 relative overflow-hidden space-y-4 cursor-pointer hover:shadow-xl active:scale-[0.99] transition-all group text-white"
+          className="bg-gradient-to-br from-[#F2619C] via-[#E85D9E] to-[#C084FC] rounded-3xl p-5 shadow-lg border-2 border-white/60 relative overflow-hidden space-y-4 cursor-pointer hover:shadow-xl active:scale-[0.99] transition-all group text-white"
           title="Cliquer pour faire tes pronostics"
         >
           {/* Soft Decorative Glow */}
-          <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-2xl pointer-events-none"></div>
+          <div className="absolute -right-8 -bottom-8 w-36 h-36 bg-white/25 rounded-full blur-2xl pointer-events-none"></div>
 
           <div className="flex items-center justify-between relative z-10">
             <div className="space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-3 py-1 rounded-full border border-white/60 flex items-center gap-1.5 w-fit shadow-xs">
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#812348] bg-white/95 backdrop-blur-xs px-3 py-1 rounded-full border border-white/90 flex items-center gap-1.5 w-fit shadow-xs">
+                <Sparkles className="w-3 h-3 text-[#F2619C]" />
                 <span>Jour J • 08 Décembre 2026</span>
-                <ArrowRight className="w-3 h-3 text-[#812348] group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3 h-3 text-[#F2619C] group-hover:translate-x-0.5 transition-transform" />
               </span>
               <h2 className="font-serif text-2xl font-black text-white tracking-tight drop-shadow-xs">
                 Compte à Rebours Naissance
@@ -209,35 +210,35 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
               </p>
             </div>
 
-          <div className="flex items-center justify-center relative">
-            <BabyVectorLogo gender="girl" size={62} className="drop-shadow-md hover:scale-110 transition-transform" />
+            <div className="flex items-center justify-center relative">
+              <BabyVectorLogo gender="girl" size={68} className="drop-shadow-md hover:scale-110 transition-transform" />
+            </div>
           </div>
-        </div>
 
           {/* 4 CARTOUCHES DE TEMPS RÉEL */}
           <div className="grid grid-cols-4 gap-2 pt-1 relative z-10">
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FBCFE8]">
               <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none">
                 {timeLeft.days}
               </span>
               <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Jours</span>
             </div>
 
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-              <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FBCFE8]">
+              <span className="block font-serif text-2xl font-black text-[#A855F7] leading-none">
                 {String(timeLeft.hours).padStart(2, '0')}
               </span>
               <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Heures</span>
             </div>
 
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
-              <span className="block font-serif text-2xl font-black text-[#93ABD9] leading-none">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FBCFE8]">
+              <span className="block font-serif text-2xl font-black text-[#A855F7] leading-none">
                 {String(timeLeft.minutes).padStart(2, '0')}
               </span>
               <span className="text-[9px] uppercase font-black text-slate-400 mt-1 block">Min</span>
             </div>
 
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FFE066]">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 text-center shadow-md border border-[#FBCFE8]">
               <span className="block font-serif text-2xl font-black text-[#F2619C] leading-none animate-pulse">
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
@@ -249,14 +250,14 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           <div className="space-y-1.5 pt-1 relative z-10">
             <div className="flex justify-between text-[11px] font-extrabold text-white">
               <span>Début</span>
-              <span className="bg-[#FFE066] text-[#78350f] px-2 py-0.5 rounded-full text-[10px] shadow-2xs font-black">
+              <span className="bg-white text-[#812348] px-2.5 py-0.5 rounded-full text-[10px] shadow-2xs font-black">
                 {Math.round((currentWeek / 40) * 100)}% parcouru
               </span>
               <span>08/12</span>
             </div>
             <div className="w-full h-3 bg-black/15 rounded-full overflow-hidden p-0.5 shadow-inner backdrop-blur-xs">
               <div
-                className="h-full bg-gradient-to-r from-[#FFE066] to-[#93ABD9] rounded-full transition-all duration-700 shadow-sm"
+                className="h-full bg-gradient-to-r from-white via-[#FBCFE8] to-[#E879F9] rounded-full transition-all duration-700 shadow-sm"
                 style={{ width: `${(currentWeek / 40) * 100}%` }}
               ></div>
             </div>
