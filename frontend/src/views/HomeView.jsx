@@ -283,11 +283,11 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
           </div>
 
           <div className="space-y-1.5 min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-1.5 min-w-0">
-              <span className="font-extrabold text-xs sm:text-sm text-[#812348] truncate">
+            <div className="flex items-center justify-between gap-2 min-w-0">
+              <span className="font-extrabold text-[11px] sm:text-xs text-[#812348] leading-tight flex-1">
                 Comme {fruitInfo.fruit}
               </span>
-              <span className="text-[10px] bg-[#FCE7F3] text-[#812348] px-2.5 py-0.5 rounded-full font-extrabold whitespace-nowrap flex-shrink-0">
+              <span className="text-[9px] bg-[#FCE7F3] text-[#812348] px-2 py-0.5 rounded-full font-black whitespace-nowrap flex-shrink-0 border border-pink-200/60">
                 Sem. {currentWeek}
               </span>
             </div>
