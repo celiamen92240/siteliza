@@ -63,7 +63,7 @@ export default function App() {
         )}
 
         {currentTab === 'games' && (
-          <DailyGameView />
+          <DailyGameView onBack={() => setCurrentTab('home')} />
         )}
 
         {currentTab === 'polls' && (
@@ -102,11 +102,13 @@ export default function App() {
         </p>
       </footer>
 
-      {/* Bottom Navigation */}
-      <BottomNav
-        currentTab={currentTab}
-        setTab={setCurrentTab}
-      />
+      {/* Bottom Navigation (Cachée dans l'onglet Jeux) */}
+      {currentTab !== 'games' && (
+        <BottomNav
+          currentTab={currentTab}
+          setTab={setCurrentTab}
+        />
+      )}
     </MobileShell>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck, Rocket } from 'lucide-react';
+import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, ArrowLeft, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck, Rocket } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
-export default function DailyGameView() {
+export default function DailyGameView({ onBack }) {
   const [gridData, setGridData] = useState(null);
   const [todayScores, setTodayScores] = useState([]);
   const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
@@ -177,13 +177,25 @@ export default function DailyGameView() {
   return (
     <div className="px-5 space-y-5 pb-8">
       {/* Titre et Sous-titre en violet au-dessus du rectangle */}
-      <div className="space-y-0.5 px-1">
-        <h2 className="font-serif text-lg font-black text-[#812348] tracking-tight leading-tight">
-          Mots fléchés du quotidien
-        </h2>
-        <p className="text-[11px] sm:text-xs text-[#812348]/85 font-medium whitespace-nowrap overflow-hidden text-ellipsis">
-          12 mots chaque jour pour faire briller votre culture bébé et famille
-        </p>
+      <div className="flex items-center justify-between px-1 gap-2">
+        <div className="space-y-0.5 min-w-0">
+          <h2 className="font-serif text-lg font-black text-[#812348] tracking-tight leading-tight truncate">
+            Mots fléchés du quotidien
+          </h2>
+          <p className="text-[11px] sm:text-xs text-[#812348]/85 font-medium">
+            12 mots chaque jour pour faire briller votre culture
+          </p>
+        </div>
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-1.5 bg-white hover:bg-rose-50 text-[#812348] font-bold text-xs px-3 py-2 rounded-xl border border-rose-200 shadow-xs cursor-pointer transition-all active:scale-95 flex-shrink-0"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Retour</span>
+          </button>
+        )}
       </div>
 
       {/* Rectangle Thème du jour & Thème de demain */}
