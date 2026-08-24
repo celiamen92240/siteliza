@@ -160,146 +160,91 @@ export default function QuizView() {
 
   return (
     <div className="px-5 space-y-5 pb-8">
-      {/* Header Banner */}
-      <div className="glass-card-pink rounded-3xl p-5 border border-blush-200/90 shadow-md relative overflow-hidden">
+      {/* Header Banner - Design Professionnel & Épuré */}
+      <div className="bg-gradient-to-br from-[#FFE066]/30 via-white to-[#E7BEF8]/35 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-3">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-blush-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100 flex items-center gap-1 w-fit">
-                <Sparkles className="w-3 h-3 text-blush-500" />
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#78350f] bg-[#FFE066] px-2.5 py-0.5 rounded-full border border-white/80 flex items-center gap-1 shadow-2xs">
+                <Sparkles className="w-3 h-3 text-[#F2619C]" />
                 <span>Duel des Parents • 50 Questions</span>
               </span>
               
-              <span className="text-[10px] font-bold text-slate-500 bg-white/90 px-2.5 py-0.5 rounded-full border border-rose-100 flex items-center gap-1 shadow-2xs">
-                👥 {summary.uniqueVotersCount || 0} {(summary.uniqueVotersCount || 0) > 1 ? 'personnes ont répondu' : 'personne a répondu'}
+              <span className="text-[10px] font-bold text-slate-500 bg-white/90 px-2.5 py-0.5 rounded-full border border-[#E7BEF8] flex items-center gap-1 shadow-2xs">
+                👥 {summary.uniqueVotersCount || 0} {(summary.uniqueVotersCount || 0) > 1 ? 'participants' : 'participant'}
               </span>
             </div>
 
-            <h2 className="font-serif text-xl font-extrabold text-slate-800">
-              Qui de Liza ou Clément... ?
+            <h2 className="font-serif text-2xl font-black text-slate-800 tracking-tight">
+              Qui de Liza ou de Clément ?
             </h2>
-            <p className="text-xs text-rose-500 font-medium">
-              Votez et découvrez qui remportera les 5 grands titres de parents !
+            <p className="text-xs text-slate-600 font-medium">
+              Votez et découvrez qui remportera les 5 grands titres de super parents !
             </p>
           </div>
-          <span className="text-3xl">⚖️</span>
+          <span className="text-3xl p-2 bg-white/80 rounded-2xl shadow-xs border border-white">⚖️</span>
         </div>
 
-        {/* Clean Segmented Control: Quizz vs Résultats */}
-        <div className="grid grid-cols-2 p-1 bg-white/80 rounded-2xl border border-rose-200 mt-3.5 shadow-2xs text-xs font-bold">
+        {/* Segmented Control Professionnel : Quiz vs Résultats */}
+        <div className="grid grid-cols-2 p-1 bg-white/90 rounded-2xl border border-[#E7BEF8] shadow-2xs text-xs font-bold gap-1">
           <button
             type="button"
             onClick={() => { setActiveTab('play'); }}
-            className={`py-2 rounded-xl transition-all cursor-pointer text-center ${
+            className={`py-2.5 rounded-xl transition-all cursor-pointer text-center font-extrabold ${
               activeTab === 'play'
-                ? 'bg-blush-500 text-white shadow-xs font-extrabold'
+                ? 'bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Quizz
+            🎯 Répondre au Quiz
           </button>
 
           <button
             type="button"
             onClick={() => { setActiveTab('results'); fetchQuizData(); }}
-            className={`py-2 rounded-xl transition-all cursor-pointer text-center ${
+            className={`py-2.5 rounded-xl transition-all cursor-pointer text-center font-extrabold ${
               activeTab === 'results'
-                ? 'bg-purple-600 text-white shadow-xs font-extrabold'
+                ? 'bg-[#812348] text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            Résultats
+            📊 Résultats en Direct
           </button>
         </div>
       </div>
 
       {/* ======================================================== */}
-      {/* 1. ONGLET JOUER AU QUIZZ (ÉCRAN ACCUEIL OU QUESTIONS)   */}
+      {/* 1. ONGLET JOUER AU QUIZ (SÉLECTION JOUEUR OU QUESTIONS) */}
       {/* ======================================================== */}
       {activeTab === 'play' && (
         <>
           {!hasStarted ? (
-            /* ÉCRAN ACCUEIL / SELECTION JOUEUR */
-            <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-blush-200 text-center space-y-4 animate-in zoom-in-95">
-              <span className="text-4xl">👑</span>
-
+            /* ÉCRAN 0 : SÉLECTION DU JOUEUR SANS DOUBLON DE TITRE */
+            <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-[#E7BEF8] text-center space-y-4 animate-in zoom-in-95">
               <div className="space-y-1">
-                <h3 className="font-serif text-lg font-black text-slate-800">
-                  Qui de Liza ou Clément... ?
+                <h3 className="font-serif text-base font-black text-slate-800">
+                  Prêt(e) à voter pour ce duel ?
                 </h3>
-                <p className="text-xs text-rose-500 font-medium">
-                  50 questions réparties en 5 grandes catégories familiales !
+                <p className="text-xs text-slate-500 font-medium">
+                  Sélectionne ton profil ci-dessous pour enregistrer tes choix
                 </p>
               </div>
 
-              {/* Clean Player Selection */}
-              <div className="text-left space-y-2 pt-1">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-700">
-                    Sélectionner un joueur :
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowAddModal(true)}
-                    className="text-[11px] font-bold text-blush-600 hover:text-blush-700 cursor-pointer"
-                  >
-                    + Nouveau joueur
-                  </button>
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={voterName}
-                    onChange={(e) => {
-                      if (e.target.value === '__NEW__') {
-                        setShowAddModal(true);
-                      } else {
-                        const found = participants.find(p => p.name === e.target.value);
-                        handleSelectVoter(e.target.value, found?.photo || found?.avatar);
-                      }
-                    }}
-                    className="w-full bg-rose-50/50 border-2 border-rose-200 text-slate-800 text-xs font-bold py-3.5 px-4 rounded-2xl focus:outline-none focus:ring-4 focus:ring-rose-100 focus:border-blush-400 cursor-pointer appearance-none"
-                  >
-                    <option value="">-- Sélectionner un joueur --</option>
-                    {participants.map(p => (
-                      <option key={p.id || p.name} value={p.name}>
-                        {p.name === 'Maman' ? 'Maman' : (p.role && p.role !== p.name && p.role !== 'Famille' ? `${p.name} (${p.role})` : p.name)}
-                      </option>
-                    ))}
-                    <option value="__NEW__">➕ Créer un nouveau profil...</option>
-                  </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
-                    ▼
-                  </div>
-                </div>
-
-                {/* Profil Joueur avec Photo Réaffichée */}
-                {voterName && (() => {
-                  const currentParticipant = participants.find(p => p.name?.toLowerCase() === voterName?.toLowerCase());
-                  if (!currentParticipant) return null;
-                  return (
-                    <div className="flex items-center justify-center gap-2.5 p-2.5 bg-[#fdf8fb] rounded-2xl border border-[#E7BEF8] animate-in fade-in">
-                      {currentParticipant.photo ? (
-                        <img src={currentParticipant.photo} alt={voterName} className="w-8 h-8 rounded-full object-cover border-2 border-[#F2619C] shadow-2xs" />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-sm border border-[#E7BEF8]">
-                          {currentParticipant.avatar || '🌸'}
-                        </div>
-                      )}
-                      <span className="text-xs font-black text-slate-800">
-                        {currentParticipant.name === 'Maman' ? 'Maman' : `${currentParticipant.name} ${currentParticipant.role && currentParticipant.role !== currentParticipant.name ? `(${currentParticipant.role})` : ''}`}
-                      </span>
-                    </div>
-                  );
-                })()}
+              {/* Sélection du joueur propre et élégante */}
+              <div className="text-left pt-1">
+                <ParticipantSelector
+                  selectedName={voterName}
+                  onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
+                  label="Qui participe au quiz ?"
+                />
               </div>
 
               <button
                 type="button"
                 onClick={handleStartQuiz}
-                className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-bold py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
+                className="w-full bg-gradient-to-r from-[#F2619C] to-[#d6417f] text-white font-bold py-3.5 rounded-2xl shadow-md hover:shadow-lg text-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
-                <span>Commencer le Quizz 🚀</span>
+                <span>Lancer le Duel</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
