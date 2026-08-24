@@ -225,56 +225,28 @@ export default function QuizView() {
 
   return (
     <div className="px-5 space-y-5 pb-8">
-      {/* Header Banner - Titre unique sans onglets */}
-      <div className="bg-gradient-to-br from-[#FFE066]/35 via-white to-[#E7BEF8]/40 rounded-3xl p-5 border-2 border-[#E7BEF8] shadow-md relative overflow-hidden space-y-2">
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black tracking-widest text-[#d6417f] uppercase bg-pink-100/70 px-3 py-1 rounded-full border border-pink-200">
-              Quizz
-            </span>
-            <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-spin" />
-              <span className="text-[10px] font-black text-slate-700">50 Défis</span>
-            </div>
-          </div>
-          <h2 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <span>Qui de Liza ou Clément...?</span>
-            <span className="text-lg">👶⚖️</span>
-          </h2>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            À qui ressemblera le plus la petite ? Vote pour chaque trait et découvre les pronostics de tous les proches !
-          </p>
-        </div>
+      {/* Titre sobre & violet Calistoga */}
+      <div className="text-center space-y-1.5 py-1">
+        <h2 className="font-serif text-2xl sm:text-3xl font-black text-[#812348] tracking-tight">
+          Qui de Liza ou Clément...?
+        </h2>
+        <p className="text-xs text-slate-500 font-medium">
+          50 questions pour deviner les traits de personnalité des futurs parents
+        </p>
       </div>
 
-      {/* Vue 1: Écran de présentation avant de commencer */}
+      {/* Vue 1: Écran de sélection sobre et élégant */}
       {!hasStarted ? (
-        <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 border-2 border-pink-100 shadow-lg text-center space-y-5 relative overflow-hidden">
-          <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-pink-400 to-purple-400 flex items-center justify-center text-4xl shadow-md border-4 border-white animate-bounce">
-            ⚖️
-          </div>
+        <div className="bg-white rounded-3xl p-5 shadow-sm border-2 border-[#E7BEF8] space-y-4">
+          <ParticipantSelector
+            selectedName={voterName}
+            onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
+            highlightBlueNames={completedVotersList}
+            highlightLabel="A déjà voté"
+            label="Qui participe au quiz ?"
+          />
 
-          <div className="space-y-1.5 max-w-md mx-auto">
-            <h3 className="text-base font-black text-slate-800">
-              Prêt(e) à voter pour ce quiz ?
-            </h3>
-            <p className="text-xs text-slate-500 font-medium">
-              Sélectionne ton profil ci-dessous pour enregistrer tes choix
-            </p>
-          </div>
-
-          {/* Sélection du joueur propre et élégante */}
-          <div className="text-left pt-1">
-            <ParticipantSelector
-              selectedName={voterName}
-              onSelect={(name, photoOrAvatar) => handleSelectVoter(name, photoOrAvatar)}
-              highlightBlueNames={completedVotersList}
-              highlightLabel="A déjà voté"
-              label="Qui participe au quiz ?"
-            />
-          </div>
-
-          {/* Bouton d'action épuré */}
+          {/* Bouton d'action */}
           {hasAlreadyVoted ? (
             <button
               type="button"
