@@ -230,7 +230,7 @@ export default function QuizView() {
         <div className="space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black tracking-widest text-[#d6417f] uppercase bg-pink-100/70 px-3 py-1 rounded-full border border-pink-200">
-              Duel des Futurs Parents
+              Quizz
             </span>
             <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-full border border-pink-200 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-spin" />
@@ -238,7 +238,7 @@ export default function QuizView() {
             </div>
           </div>
           <h2 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <span>Le Grand Quiz Liza vs Clément</span>
+            <span>Qui de Liza ou Clément...?</span>
             <span className="text-lg">👶⚖️</span>
           </h2>
           <p className="text-xs text-slate-600 leading-relaxed font-medium">

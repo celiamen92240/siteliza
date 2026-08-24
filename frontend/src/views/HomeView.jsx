@@ -369,7 +369,7 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
             </div>
           </button>
 
-          {/* CUBE 2 : DUEL DES PARENTS (Pastel Lilas) */}
+          {/* CUBE 2 : QUIZZ (Pastel Lilas) */}
           <button
             type="button"
             onClick={() => navigate('quiz')}
@@ -382,7 +382,7 @@ export default function HomeView({ setTab, onTabChange, isBorn, actualBirth }) {
 
             {/* Centered Content */}
             <div className="space-y-0.5 px-1">
-              <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Duel des Parents</p>
+              <p className="font-serif font-black text-sm text-[#4A154B] leading-tight">Quizz</p>
               <p className="text-[10px] text-[#4A154B]/85 font-medium">Qui de Liza ou Clément ?</p>
             </div>
           </button>
