@@ -30,6 +30,7 @@ export default function Header({ onAdminClick, isBorn }) {
       const base64Photo = await compressImage(file, 500, 0.85);
       setLogoPhoto(base64Photo);
       localStorage.setItem('app_custom_logo', base64Photo);
+      window.dispatchEvent(new CustomEvent('customHeaderPhotoChanged', { detail: base64Photo }));
 
       confetti({
         particleCount: 50,

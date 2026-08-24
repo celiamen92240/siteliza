@@ -40,6 +40,36 @@ export default function HomeView({ setTab, onTabChange }) {
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  // Header Photo State (Synced with Top-Left Photo)
+  const [headerPhoto, setHeaderPhoto] = useState(() => localStorage.getItem('app_custom_logo') || null);
+
+  useEffect(() => {
+    const fetchPhoto = () => {
+      fetch('/api/config/logo')
+        .then(res => res.json())
+        .then(data => {
+          if (data.photo) {
+            setHeaderPhoto(data.photo);
+            localStorage.setItem('app_custom_logo', data.photo);
+          }
+        })
+        .catch(err => console.error("Error loading home photo", err));
+    };
+
+    fetchPhoto();
+
+    const handlePhotoChanged = (e) => {
+      if (e.detail) {
+        setHeaderPhoto(e.detail);
+      } else {
+        fetchPhoto();
+      }
+    };
+
+    window.addEventListener('customHeaderPhotoChanged', handlePhotoChanged);
+    return () => window.removeEventListener('customHeaderPhotoChanged', handlePhotoChanged);
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -237,19 +267,25 @@ export default function HomeView({ setTab, onTabChange }) {
             </div>
           </button>
 
-          {/* Raccourci 2: Quizz 50 Questions (Soft Lilac) */}
+          {/* Raccourci 2: Qui de Liza ou de Clément ? (Synchronisé avec la photo du haut) */}
           <button
             type="button"
             onClick={() => navigate('quiz')}
             className="bg-gradient-to-br from-[#E7BEF8] to-[#d79bf2] text-[#56206b] p-4 rounded-3xl shadow-md border-2 border-white hover:shadow-lg active:scale-95 text-left transition-all group flex flex-col justify-between h-30 cursor-pointer"
           >
             <div className="flex justify-between items-start">
-              <span className="text-3xl p-1 bg-white/40 rounded-2xl">⚖️</span>
+              <div className="w-10 h-10 rounded-2xl bg-white/80 p-0.5 shadow-2xs border border-white/90 overflow-hidden flex items-center justify-center flex-shrink-0">
+                {headerPhoto ? (
+                  <img src={headerPhoto} alt="Liza & Clément" className="w-full h-full object-cover rounded-xl" />
+                ) : (
+                  <span className="text-2xl">🌸</span>
+                )}
+              </div>
               <ArrowRight className="w-4 h-4 text-[#56206b]/80 group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
-              <p className="font-serif font-black text-sm text-[#56206b]">Quizz Parents</p>
-              <p className="text-[10px] text-[#56206b]/90 font-medium">50 questions 1 par 1</p>
+              <p className="font-serif font-black text-sm text-[#56206b] leading-tight">Qui de Liza ou de Clément ?</p>
+              <p className="text-[10px] text-[#56206b]/90 font-medium">Duel des futurs parents</p>
             </div>
           </button>
 
@@ -309,8 +345,12 @@ export default function HomeView({ setTab, onTabChange }) {
           className="w-full bg-gradient-to-r from-[#fdf2f7] via-white to-[#f4ebfc] p-4 rounded-3xl shadow-xs border-2 border-[#E7BEF8] hover:border-[#F2619C] active:scale-[0.99] flex items-center justify-between group transition-all cursor-pointer"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EDE986] to-[#E7BEF8] shadow-2xs border border-white flex items-center justify-center text-xl">
-              👑
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EDE986] to-[#E7BEF8] shadow-2xs border border-white flex items-center justify-center overflow-hidden">
+              {headerPhoto ? (
+                <img src={headerPhoto} alt="Photo Parents" className="w-full h-full object-cover rounded-xl" />
+              ) : (
+                <Lock className="w-5 h-5 text-[#F2619C]" />
+              )}
             </div>
             <div className="text-left">
               <p className="font-serif font-black text-sm text-slate-800 flex items-center gap-1.5">
