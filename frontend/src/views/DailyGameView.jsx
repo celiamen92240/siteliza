@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck } from 'lucide-react';
+import { Timer, Trophy, Play, CheckCircle2, XCircle, RotateCcw, Sparkles, Flame, ArrowRight, HelpCircle, Award, Calendar, Star, Zap, Eye, Check, ShieldCheck, Rocket } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import ParticipantSelector from '../components/ParticipantSelector';
 
@@ -260,10 +260,14 @@ export default function DailyGameView() {
           <button
             type="button"
             onClick={handleStartGame}
-            className="w-full bg-gradient-to-r from-blush-500 via-rose-500 to-purple-600 hover:from-blush-600 hover:to-purple-700 text-white font-black py-4 rounded-2xl shadow-lg text-sm transition-all flex items-center justify-center gap-2 glow-pink cursor-pointer active:scale-95"
+            className="w-full relative overflow-hidden group bg-gradient-to-r from-[#F2619C] via-[#fb7185] to-[#812348] hover:from-[#e11d48] hover:to-[#581c87] text-white font-black py-3.5 px-6 rounded-2xl shadow-xl hover:shadow-2xl text-sm transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer active:scale-95 border border-white/25"
           >
-            <Play className="w-5 h-5 fill-white" />
-            <span>{todayPlayerScore ? "Rejouer & Améliorer mon score 🚀" : "Démarrer le Chrono 🚀"}</span>
+            <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform">
+              <Rocket className="w-4.5 h-4.5 text-white stroke-[2.5]" />
+            </div>
+            <span className="text-sm font-black tracking-wide">
+              {todayPlayerScore ? "Rejouer" : "Démarrer"}
+            </span>
           </button>
         </div>
       )}
