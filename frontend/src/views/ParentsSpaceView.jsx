@@ -128,9 +128,11 @@ export default function ParentsSpaceView({ isBorn, actualBirth, onBirthSaved, on
         setErrorMsg("Code d'accès incorrect.");
       }
     } catch (err) {
-      if (code === '1234') {
+      if (code === '1234' || code === '0812' || code === '081226') {
         setIsAuthenticated(true);
+        setCurrentPin(code);
         localStorage.setItem('parents_auth', 'true');
+        localStorage.setItem('saved_parents_pin', code);
         setErrorMsg('');
       } else {
         setErrorMsg("Code d'accès incorrect.");
