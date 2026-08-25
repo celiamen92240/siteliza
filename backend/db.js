@@ -1690,6 +1690,53 @@ export const db = {
     };
   },
 
+  syncCrosswordScores(scores) {
+    const data = readDb();
+    if (!data.dailyGameScores) data.dailyGameScores = [];
+
+    let hasChanges = false;
+    if (Array.isArray(scores)) {
+      scores.forEach(s => {
+        if (!s || !s.playerName || !s.date) return;
+        const cleanName = (s.playerName || '').trim();
+        const dateStr = s.date;
+        const existingIdx = data.dailyGameScores.findIndex(
+          ex => ex.date === dateStr && (ex.playerName || '').trim().toLowerCase() === cleanName.toLowerCase()
+        );
+        if (existingIdx >= 0) {
+          if ((s.points || 0) > (data.dailyGameScores[existingIdx].points || 0)) {
+            data.dailyGameScores[existingIdx] = {
+              ...data.dailyGameScores[existingIdx],
+              ...s,
+              playerName: cleanName
+            };
+            hasChanges = true;
+          }
+        } else {
+          data.dailyGameScores.push({
+            id: s.id || ("score-" + Date.now() + "-" + Math.random().toString(36).substring(2, 6)),
+            playerName: cleanName,
+            date: dateStr,
+            theme: s.theme || "Mots Fléchés",
+            timeSeconds: Number(s.timeSeconds) || 60,
+            timeFormatted: s.timeFormatted || "01:00",
+            correctCount: Number(s.correctCount) || 0,
+            totalWords: Number(s.totalWords) || 12,
+            points: Number(s.points) || 100,
+            createdAt: s.createdAt || new Date().toISOString()
+          });
+          hasChanges = true;
+        }
+      });
+    }
+
+    if (hasChanges) {
+      writeDb(data);
+    }
+
+    return this.getCrosswordLeaderboards();
+  },
+
   getDatabaseDump() {
     return readDb();
   }

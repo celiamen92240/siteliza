@@ -318,6 +318,16 @@ app.post('/api/crosswords/submit', (req, res) => {
   }
 });
 
+app.post('/api/crosswords/sync', (req, res) => {
+  try {
+    const { scores } = req.body;
+    const leaderboards = db.syncCrosswordScores(scores || []);
+    res.json({ success: true, ...leaderboards });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.delete('/api/crosswords/scores/:id', (req, res) => {
   try {
     const leaderboards = db.deleteCrosswordScore(req.params.id);

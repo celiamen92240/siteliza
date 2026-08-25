@@ -30,21 +30,49 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
     }
   }, [isPlaying, isSubmitted, onGameActiveChange]);
 
-  const fetchDailyData = () => {
-    fetch('/api/crosswords/daily')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setGridData(data.grid);
-          setTodayScores(data.todayScores || []);
-          setGlobalLeaderboard(data.globalLeaderboard || []);
+  const fetchDailyData = async () => {
+    try {
+      // 1. Lire la sauvegarde locale de ce téléphone
+      let localMaster = [];
+      try {
+        localMaster = JSON.parse(localStorage.getItem('bebe_crossword_history_master') || '[]');
+      } catch (e) {
+        console.error("Error reading local master scores", e);
+      }
+
+      // 2. Synchroniser les scores locaux avec le serveur
+      if (localMaster.length > 0) {
+        const syncRes = await fetch('/api/crosswords/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ scores: localMaster })
+        });
+        const syncData = await syncRes.json();
+        if (syncData.success) {
+          setTodayScores(syncData.todayScores || []);
+          setGlobalLeaderboard(syncData.globalLeaderboard || []);
+          if (syncData.allScores) {
+            localStorage.setItem('bebe_crossword_history_master', JSON.stringify(syncData.allScores));
+          }
         }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error loading daily crosswords", err);
-        setLoading(false);
-      });
+      }
+
+      // 3. Récupérer la grille quotidienne
+      const res = await fetch('/api/crosswords/daily');
+      const data = await res.json();
+      if (data.success) {
+        setGridData(data.grid);
+        setTodayScores(data.todayScores || []);
+        setGlobalLeaderboard(data.globalLeaderboard || []);
+        if (data.allScores) {
+          localStorage.setItem('bebe_crossword_history_master', JSON.stringify(data.allScores));
+        }
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error loading daily crosswords", err);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -145,6 +173,7 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
       });
     }
 
+    try {
       const res = await fetch('/api/crosswords/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -173,10 +202,11 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
 
         // Sauvegarde de sécurité dans le téléphone de l'utilisateur
         try {
-          const localHistory = JSON.parse(localStorage.getItem('bebe_crossword_local_scores') || '[]');
+          const localHistory = JSON.parse(localStorage.getItem('bebe_crossword_history_master') || '[]');
           const cleanName = (playerName || 'Un proche').trim();
-          const filtered = localHistory.filter(s => !(s.date === (gridData.date || '') && s.playerName.toLowerCase() === cleanName.toLowerCase()));
+          const filtered = localHistory.filter(s => !(s.date === (gridData.date || '') && (s.playerName || '').toLowerCase() === cleanName.toLowerCase()));
           filtered.push({
+            id: "score-" + Date.now(),
             playerName: cleanName,
             timeSeconds,
             timeFormatted,
@@ -185,9 +215,9 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
             points: data.awardedPoints,
             theme: gridData.theme || 'Mots Fléchés',
             date: gridData.date,
-            timestamp: new Date().toISOString()
+            createdAt: new Date().toISOString()
           });
-          localStorage.setItem('bebe_crossword_local_scores', JSON.stringify(filtered));
+          localStorage.setItem('bebe_crossword_history_master', JSON.stringify(filtered));
         } catch (e) {
           console.error("Local backup error", e);
         }
