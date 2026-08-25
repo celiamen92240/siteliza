@@ -145,7 +145,6 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
       });
     }
 
-    try {
       const res = await fetch('/api/crosswords/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -171,6 +170,27 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
         });
         setTodayScores(data.todayScores || []);
         setGlobalLeaderboard(data.globalLeaderboard || []);
+
+        // Sauvegarde de sécurité dans le téléphone de l'utilisateur
+        try {
+          const localHistory = JSON.parse(localStorage.getItem('bebe_crossword_local_scores') || '[]');
+          const cleanName = (playerName || 'Un proche').trim();
+          const filtered = localHistory.filter(s => !(s.date === (gridData.date || '') && s.playerName.toLowerCase() === cleanName.toLowerCase()));
+          filtered.push({
+            playerName: cleanName,
+            timeSeconds,
+            timeFormatted,
+            correctCount,
+            totalWords,
+            points: data.awardedPoints,
+            theme: gridData.theme || 'Mots Fléchés',
+            date: gridData.date,
+            timestamp: new Date().toISOString()
+          });
+          localStorage.setItem('bebe_crossword_local_scores', JSON.stringify(filtered));
+        } catch (e) {
+          console.error("Local backup error", e);
+        }
       }
     } catch (err) {
       console.error("Error submitting crossword score", err);
@@ -520,12 +540,24 @@ export default function DailyGameView({ onBack, onGameActiveChange }) {
             </div>
 
             {todayScores.length === 0 ? (
-              <div className="text-center py-6 space-y-2">
+              <div className="text-center py-6 space-y-2.5">
                 <div className="w-12 h-12 mx-auto rounded-2xl bg-[#FFE066]/30 border border-[#FFE066]/60 flex items-center justify-center text-blush-600 shadow-2xs">
                   <Calendar className="w-5 h-5" />
                 </div>
-                <p className="text-xs font-bold text-slate-700">Aucun score enregistré aujourd'hui</p>
-                <p className="text-[10px] text-slate-400">Sois le premier à relever la grille de 12 mots !</p>
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-slate-700">Aucun score pour l'instant aujourd'hui ({gridData?.date ? new Date(gridData.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'short' }) : 'aujourd\'hui'})</p>
+                  <p className="text-[10px] text-slate-400">Sois le premier à relever la grille de 12 mots du jour !</p>
+                </div>
+                {globalLeaderboard.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setLeaderboardTab('global')}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-blush-600 text-xs font-bold border border-rose-200 shadow-2xs hover:bg-rose-100 transition-all cursor-pointer"
+                  >
+                    <Trophy className="w-3.5 h-3.5" />
+                    <span>Voir le Classement Général cumulé ({globalLeaderboard.length} joueurs)</span>
+                  </button>
+                )}
               </div>
             ) : (
               <div className="space-y-2">

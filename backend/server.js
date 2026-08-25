@@ -11,6 +11,18 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // API Info & Config
+app.get('/api/ping', (req, res) => {
+  res.status(200).json({ success: true, status: 'awake', timestamp: new Date().toISOString() });
+});
+
+// Self-ping toutes les 8 minutes pour garder Render 100% éveillé et éliminer le temps de chargement
+setInterval(() => {
+  fetch('https://bebe-liza-clement-m85i.onrender.com/api/ping')
+    .then(res => res.json())
+    .then(d => console.log('[KeepAlive] Server pinged successfully:', d.timestamp))
+    .catch(err => console.log('[KeepAlive] Ping info:', err.message));
+}, 8 * 60 * 1000);
+
 app.get('/api/config', (req, res) => {
   try {
     const config = db.getConfig();
