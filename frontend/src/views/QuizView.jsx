@@ -96,19 +96,9 @@ export default function QuizView() {
     setVoterPhoto(photoOrAvatar);
     localStorage.setItem('quiz_voter', name);
     
-    // Si le serveur indique que ce joueur n'a pas complété le quiz, nettoyer les vieux résidus de test
-    const cleanName = (name || '').trim().toLowerCase();
-    const isCompletedOnServer = (summary?.completedVoters || []).some(v => (v || '').trim().toLowerCase() === cleanName);
-    
-    if (!isCompletedOnServer) {
-      localStorage.removeItem(`quiz_completed_${cleanName}`);
-      localStorage.removeItem(`quiz_voted_${cleanName}`);
-      localStorage.removeItem(`quiz_votes_${name}`);
-      setMyVotes({});
-    } else {
-      const saved = JSON.parse(localStorage.getItem(`quiz_votes_${name}`) || '{}');
-      setMyVotes(saved);
-    }
+    // Conserver précieusement tous les votes enregistrés pour ce joueur
+    const saved = JSON.parse(localStorage.getItem(`quiz_votes_${name}`) || '{}');
+    setMyVotes(saved);
   };
 
   const handleCreatePlayer = async (e) => {
